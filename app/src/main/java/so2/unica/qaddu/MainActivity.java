@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     frg = new History();
                     break;
+                case 2:
+                    frg = new Settings();
+                    break;
                 default:
                     // Vida loca
                     frg = new Workout();
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Override
