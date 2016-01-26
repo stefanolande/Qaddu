@@ -23,28 +23,78 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/nameWorkout"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="300dp"
         android:background="#E0E0E0"
-        android:id="@+id/tableWorkout1"
+        android:id="@+id/tableWorkout"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginBottom="300dp"
+        android:layout_alignParentEnd="true">
 
         <TableRow
-            android:id="@+id/tableRow1"
+            android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:padding="5dip" >
+            android:gravity="center_horizontal">
 
             <TextView
-                android:id="@+id/textView1"
-                android:text="Column 1"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:id="@+id/TextView1"
+                android:text="TOTAL"
+                android:layout_weight="1"
+                android:textColor="#2196F3"
+                android:padding="17dp"
+                android:gravity="center"/>
 
             <TextView
-                android:id="@+id/textView2"
-                android:text="Column 1"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:id="@+id/TextView2"
+                android:text="PASSO"
+                android:layout_weight="1"
+                android:textColor="#2196F3"
+                android:padding="17dip"
+                android:gravity="center"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/TextView3"
+                android:text="7.35 KM/H"
+                android:layout_weight="1"
+                android:textColor="#000000"
+                android:padding="15dip"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/TextView4"
+                android:text="7.12 KM/H"
+                android:layout_weight="1"
+                android:textColor="#000000"
+                android:padding="15dip"
+                android:gravity="center"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/TextView5"
+                android:text="8:02 /KM"
+                android:layout_weight="1"
+                android:textColor="#000000"
+                android:padding="15dip"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/TextView6"
+                android:text="8:15 /KM"
+                android:layout_weight="1"
+                android:textColor="#000000"
+                android:padding="15dip"
+                android:gravity="center"/>
         </TableRow>
 
     </TableLayout>
