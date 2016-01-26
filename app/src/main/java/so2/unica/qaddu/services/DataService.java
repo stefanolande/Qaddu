@@ -41,12 +41,13 @@ public class DataService extends Service {
 
         //Initialize intent for the service
         serviceIntent = new Intent(this, GPSService.class);
+        connectLocalService();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //TODO: scollegarsi dal servizio GPS
+        disconnectLocalService();
     }
 
     @Override
@@ -63,6 +64,20 @@ public class DataService extends Service {
     private double msTokmh(double ms) {
         return ms * 3.6; //3.6 is the conversion factor from m/s to km/h
     }
+
+    public float calculateNewDistance(double newLat, double newLon) {
+        double earthRadius = 6371000; //meters
+        double dLat = Math.toRadians(newLat-this.lastLatitude);
+        double dLng = Math.toRadians(newLon-this.lastLongitude);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(this.lastLatitude)) * Math.cos(Math.toRadians(newLat)) *
+                        Math.sin(dLng/2) * Math.sin(dLng/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        float dist = (float) (earthRadius * c);
+
+        return dist;
+    }
+
 
     /**
      * Class and method for the gps service connection
@@ -82,8 +97,7 @@ public class DataService extends Service {
             mService = binder.getService();
             mIsBound = true;
 
-            // Istanzio il listener che verra' chiamato dal Service quando saranno
-            // disponibili nuovi punti GPS
+            //Instance the listener that will be called when new gps point are available
             GPSService.OnNewGPSPointsListener clientListener = new
                     GPSService.OnNewGPSPointsListener() {
                         @Override
@@ -91,7 +105,7 @@ public class DataService extends Service {
                             getGPSData();
                         }
                     };
-            //Registriamo il listener per ricevere gli aggiornamenti
+            //Register the listener
             mService.addOnNewGPSPointsListener(clientListener);
         }
 
@@ -116,6 +130,31 @@ public class DataService extends Service {
             unbindService(mConnection);
             mIsBound = false;
         }
+    }
+
+    private void getGPSData() {
+        double latitude = 0;
+        double longitude = 0;
+
+        // fetch the coordinates from the service
+        latitude = mService.getLatitude();
+        longitude = mService.getLongitude();
+
+        // check if the new data is valid
+        if(latitude != 0 && longitude != 0){
+            //check if it is the first point
+            if(this.lastLatitude == 0 && this.lastLongitude == 0){
+
+                //save the new coordinates
+                this.lastLatitude = latitude;
+                this.lastLongitude = longitude;
+            } else {
+                //if it is a new point calculate the distance
+                double deltaDistance = calculateNewDistance(latitude, longitude);
+                this.totalDistance += deltaDistance;
+            }
+        }
+
     }
 
     /**
