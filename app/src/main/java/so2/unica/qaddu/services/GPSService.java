@@ -61,7 +61,7 @@ public class GPSService extends Service
     }
 
     public void addOnNewGPSListener(OnNewGPSPointsListener
-                                                  listener) {
+                                            listener) {
         clientListener = listener;
     }
 
@@ -108,6 +108,10 @@ public class GPSService extends Service
                     Toast.LENGTH_LONG).show();
         }
         this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+    }
+
+    public void addOnNewGPSPointsListener(OnNewGPSPointsListener listener) {
+        clientListener = listener;
     }
 
     /**
