@@ -47,9 +47,22 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return "FRAG " + (position + 1);
+            String title;
+
+            switch (position){
+                case 0:
+                    title=getResources().getString(R.string.title_fragment_workout);
+                break;
+                case 1:
+                    title= getResources().getString(R.string.title_fragment_history);
+                break;
+                case 2:
+                    title= getResources().getString(R.string.title_fragment_settings);
+                break;
+            }
+
+            return title;
         }
-    }
 
 
     SamplePagerAdapter mSamplePagerAdapter;
