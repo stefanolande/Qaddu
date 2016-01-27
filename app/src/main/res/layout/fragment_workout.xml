@@ -93,7 +93,7 @@
                 android:text="8:02 /KM"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:textSize="20dp"
+                android:textSize="16dp"
                 android:padding="9dip"
                 android:gravity="center"/>
 
@@ -102,7 +102,7 @@
                 android:text="8:15 /KM"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:textSize="20dp"
+                android:textSize="16dp"
                 android:padding="9dip"
                 android:gravity="center"/>
         </TableRow>
@@ -147,7 +147,7 @@
     </TableLayout>
 
     <TextView
-        android:layout_width="338dp"
+        android:layout_width="300dp"
         android:layout_height="40dp"
         android:text="01:21:12      2.81 Km"
         android:textAlignment="center"
@@ -159,8 +159,32 @@
         android:gravity="center"
         android:textSize="20dp"
         android:layout_marginBottom="70dp"
-        android:layout_x="10dp"
-        android:layout_y="400dp" />
+        android:layout_x="30dp"
+        android:layout_y="401dp" />
+
+    <Button
+        android:layout_width="131dp"
+        android:layout_height="84dp"
+        android:text="PAUSA"
+        android:id="@+id/start_pause_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textView"
+        android:layout_x="189dp"
+        android:layout_y="466dp"
+        android:backgroundTint="#2196F3"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="STOP"
+        android:id="@+id/stop_button"
+        android:layout_below="@+id/textView"
+        android:layout_alignEnd="@+id/textView"
+        android:layout_x="47dp"
+        android:layout_y="487dp"
+        android:textColor="#ffffff"
+        android:background="#00D8F5" />
 
     <TextView
         android:layout_width="124dp"
@@ -168,9 +192,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="6.25 Km/h"
         android:id="@+id/diooooo"
-        android:layout_x="119dp"
-        android:layout_y="246dp"
-        android:textSize="25dp"
+        android:layout_x="116dp"
+        android:layout_y="237dp"
+        android:textSize="20dp"
         android:gravity="center"
         android:textColor="#2196F3" />
 
@@ -183,21 +207,4 @@
         android:layout_x="120dp"
         android:layout_y="298dp" />
 
-    <ImageView
-        android:layout_width="132dp"
-        android:layout_height="51dp"
-        android:id="@+id/imageView2"
-        android:layout_x="17dp"
-        android:src="@drawable/stop_button"
-
-        android:layout_y="481dp" />
-
-    <ImageView
-        android:layout_width="179dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageVsfwf"
-        android:layout_x="160dp"
-        android:src="@drawable/pause_button"
-
-        android:layout_y="454dp" />
 </AbsoluteLayout>
