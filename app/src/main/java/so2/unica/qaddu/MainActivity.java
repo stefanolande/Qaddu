@@ -14,6 +14,8 @@ import android.view.MenuItem;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import so2.unica.qaddu.Helpers.DatabaseHelper;
+import so2.unica.qaddu.Models.WorkoutItem;
 import so2.unica.qaddu.QuadduFragments.History;
 import so2.unica.qaddu.QuadduFragments.Workout;
 
@@ -98,9 +100,9 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSamplePagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
-
-
-        setTitle("gianni");
+        /*WorkoutItem gianni = new WorkoutItem();
+        gianni.setTotalTime(54545454l);
+        DatabaseHelper.getIstance(this).addData(gianni,WorkoutItem.class);*/
     }
 
     @Override
