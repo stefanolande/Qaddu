@@ -22,6 +22,7 @@ public class GPSService extends Service
     private double latitude;
     private double longitude;
     private double speed;
+    private double altitude;
 
     @Override
     public void onCreate() {
@@ -60,8 +61,16 @@ public class GPSService extends Service
         return longitude;
     }
 
+    public double getSpeed() {
+        return speed;
+    }
+
+    public double getAltitude() {
+        return altitude;
+    }
+
     public void addOnNewGPSListener(OnNewGPSPointsListener
-                                                  listener) {
+                                            listener) {
         clientListener = listener;
     }
 
@@ -75,6 +84,7 @@ public class GPSService extends Service
         latitude = location.getLatitude();
         longitude = location.getLongitude();
         speed = location.getSpeed();
+        altitude = location.getAltitude();
         //Avviso i client (uno in questo caso)
         if (clientListener != null)
 
@@ -108,6 +118,10 @@ public class GPSService extends Service
                     Toast.LENGTH_LONG).show();
         }
         this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+    }
+
+    public void addOnNewGPSPointsListener(OnNewGPSPointsListener listener) {
+        clientListener = listener;
     }
 
     /**
