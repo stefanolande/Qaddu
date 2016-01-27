@@ -7,7 +7,7 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:id="@+id/nameWorkout"
         android:layout_gravity="center_horizontal|top"
         android:text="Workout name"
@@ -28,7 +28,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="300dp"
+        android:layout_marginBottom="390dp"
         android:layout_alignParentEnd="true">
 
         <TableRow
@@ -37,19 +37,21 @@
             android:gravity="center_horizontal">
 
             <TextView
-                android:id="@+id/TextView1"
+                android:id="@+id/TextViewTitleTotal"
                 android:text="TOTAL"
                 android:layout_weight="1"
                 android:textColor="#2196F3"
-                android:padding="17dp"
+                android:textSize="20dp"
+                android:padding="9dp"
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/TextView2"
-                android:text="PASSO"
+                android:id="@+id/TextViewTitleStep"
+                android:text="STEP"
                 android:layout_weight="1"
                 android:textColor="#2196F3"
-                android:padding="17dip"
+                android:textSize="20dp"
+                android:padding="9dip"
                 android:gravity="center"/>
         </TableRow>
 
@@ -63,7 +65,8 @@
                 android:text="7.35 KM/H"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:padding="15dip"
+                android:textSize="16dp"
+                android:padding="9dip"
                 android:gravity="center"/>
 
             <TextView
@@ -71,7 +74,8 @@
                 android:text="7.12 KM/H"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:padding="15dip"
+                android:textSize="16dp"
+                android:padding="9dip"
                 android:gravity="center"/>
         </TableRow>
 
@@ -85,7 +89,8 @@
                 android:text="8:02 /KM"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:padding="15dip"
+                android:textSize="16dp"
+                android:padding="9dip"
                 android:gravity="center"/>
 
             <TextView
@@ -93,7 +98,8 @@
                 android:text="8:15 /KM"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:padding="15dip"
+                android:textSize="16dp"
+                android:padding="9dip"
                 android:gravity="center"/>
         </TableRow>
 
@@ -104,10 +110,11 @@
         android:layout_height="wrap_content"
         android:text="PAUSA"
         android:id="@+id/start_pause_button"
-        android:layout_marginBottom="51dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="37dp"
+        android:layout_marginEnd="33dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:padding="9dip"
+        android:layout_alignEnd="@+id/tableWorkout" />
 
     <Button
         android:layout_width="wrap_content"
@@ -116,7 +123,33 @@
         android:id="@+id/stop_button"
         android:layout_alignTop="@+id/start_pause_button"
         android:layout_alignParentStart="true"
+
         android:layout_marginStart="36dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/rombo"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="2.81 Km"
+        android:textAlignment="center"
+        android:id="@+id/textView"
+        android:layout_alignEnd="@+id/tableWorkout"
+        android:layout_alignStart="@+id/tableWorkout"
+        android:layout_above="@+id/start_pause_button"
+        android:background="#E0E0E0"
+
+
+        android:gravity="center"
+        android:textSize="20dp"
+        android:layout_marginBottom="25dp" />
 
 
 </RelativeLayout>
