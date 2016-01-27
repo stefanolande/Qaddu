@@ -28,7 +28,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="300dp"
+        android:layout_marginBottom="350dp"
         android:layout_alignParentEnd="true">
 
         <TableRow
@@ -37,18 +37,20 @@
             android:gravity="center_horizontal">
 
             <TextView
-                android:id="@+id/TextView1"
+                android:id="@+id/TextViewTitleTotal"
                 android:text="TOTAL"
                 android:layout_weight="1"
                 android:textColor="#2196F3"
+                android:textSize="20dp"
                 android:padding="17dp"
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/TextView2"
-                android:text="PASSO"
+                android:id="@+id/TextViewTitleStep"
+                android:text="STEP"
                 android:layout_weight="1"
                 android:textColor="#2196F3"
+                android:textSize="20dp"
                 android:padding="17dip"
                 android:gravity="center"/>
         </TableRow>
@@ -63,7 +65,8 @@
                 android:text="7.35 KM/H"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:padding="15dip"
+                android:textSize="16dp"
+                android:padding="10dip"
                 android:gravity="center"/>
 
             <TextView
@@ -71,7 +74,8 @@
                 android:text="7.12 KM/H"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:padding="15dip"
+                android:textSize="16dp"
+                android:padding="10dip"
                 android:gravity="center"/>
         </TableRow>
 
@@ -85,7 +89,8 @@
                 android:text="8:02 /KM"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:padding="15dip"
+                android:textSize="16dp"
+                android:padding="10dip"
                 android:gravity="center"/>
 
             <TextView
@@ -93,7 +98,8 @@
                 android:text="8:15 /KM"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:padding="15dip"
+                android:textSize="16dp"
+                android:padding="10dip"
                 android:gravity="center"/>
         </TableRow>
 
