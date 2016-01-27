@@ -1,36 +1,31 @@
 package so2.unica.qaddu;
 
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
-
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
-
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-
 public class WorkoutDetail extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_detail);
-        LineChart chart = (LineChart) findViewById(R.id.chart);
+
+        LineChart lineChart = (LineChart) findViewById(R.id.chart);
 
 
-        chart.setDescription("My Chart");
-        chart.animateXY(2000, 2000);
-        chart.invalidate();
-
-
-
-        // creating list of entry
-    /*    ArrayList<Entry> entries = new ArrayList<>();
+        ArrayList<Entry> entries = new ArrayList<>();
         entries.add(new Entry(4f, 0));
         entries.add(new Entry(8f, 1));
         entries.add(new Entry(6f, 2));
@@ -40,7 +35,6 @@ public class WorkoutDetail extends AppCompatActivity {
 
         LineDataSet dataset = new LineDataSet(entries, "# of Calls");
 
-        // creating labels
         ArrayList<String> labels = new ArrayList<String>();
         labels.add("January");
         labels.add("February");
@@ -50,9 +44,12 @@ public class WorkoutDetail extends AppCompatActivity {
         labels.add("June");
 
         LineData data = new LineData(labels, dataset);
-        LineChart.setData(data); // set the data and list of lables into chart
+        dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
+        dataset.setDrawCubic(true);
+        dataset.setDrawFilled(true);
 
-        LineChart.setDescription("Description");  // set the description*/
+        lineChart.setData(data);
+        lineChart.animateY(5000);
 
     }
 
