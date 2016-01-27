@@ -14,8 +14,7 @@ import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import so2.unica.qaddu.Workout;
-import so2.unica.qaddu.model.WorkoutPoint;
+import so2.unica.qaddu.Models.WorkoutPoint;
 
 /**
  * Created by stefano on 26/01/16.

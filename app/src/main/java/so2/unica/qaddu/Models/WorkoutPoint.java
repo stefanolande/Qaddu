@@ -1,4 +1,4 @@
-package so2.unica.qaddu.model;
+package so2.unica.qaddu.Models;
 
 import so2.unica.qaddu.Workout;
 
