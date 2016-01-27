@@ -1,9 +1,19 @@
-package so2.unica.qaddu.Models;
+package so2.unica.qaddu.models;
 
+import android.database.SQLException;
+
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+
+import so2.unica.qaddu.helpers.DatabaseHelper;
 
 /**
  * Created by Sergio.
@@ -15,6 +25,9 @@ public class WorkoutItem {
     int id;
 
     @DatabaseField
+    String name;
+
+    @DatabaseField
     Date start;
 
     @DatabaseField
@@ -22,6 +35,11 @@ public class WorkoutItem {
 
     @DatabaseField
     Double distance;
+
+    @ForeignCollectionField(eager = true)
+    ForeignCollection<WorkoutPoint> points;
+
+
 
     public Date getStart() {
         return start;
@@ -45,5 +63,33 @@ public class WorkoutItem {
 
     public void setDistance(Double distance) {
         this.distance = distance;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setPoints(List<WorkoutPoint> points) throws java.sql.SQLException {
+        if (this.points == null) {
+            Dao<WorkoutItem, Integer> dao = DatabaseHelper.getIstance().getDao();
+            this.points = dao.getEmptyForeignCollection("points");
+        }
+        this.points.addAll(points);
+    }
+
+    public List<WorkoutPoint> getPoints() {
+        List<WorkoutPoint> notesArray = new ArrayList<WorkoutPoint>();
+        for (WorkoutPoint note : points) {
+            notesArray.add(note);
+        }
+        return notesArray;
     }
 }

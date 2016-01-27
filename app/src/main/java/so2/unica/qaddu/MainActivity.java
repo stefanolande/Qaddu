@@ -1,23 +1,31 @@
 package so2.unica.qaddu;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.j256.ormlite.dao.ForeignCollection;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import so2.unica.qaddu.Helpers.DatabaseHelper;
-import so2.unica.qaddu.Models.WorkoutItem;
-import so2.unica.qaddu.QuadduFragments.History;
-import so2.unica.qaddu.QuadduFragments.Workout;
+import so2.unica.qaddu.helpers.DatabaseHelper;
+import so2.unica.qaddu.models.WorkoutItem;
+import so2.unica.qaddu.models.WorkoutPoint;
+import so2.unica.qaddu.quadduFragments.History;
+import so2.unica.qaddu.quadduFragments.Workout;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int i) {
             Fragment frg;
-            switch(i){
+            switch (i) {
                 case 0:
                     frg = Workout.newInstance("fdfgf", "fgdfgdfg");
                     break;
@@ -100,9 +108,65 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSamplePagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
-        /*WorkoutItem gianni = new WorkoutItem();
+        DatabaseHelper.initialize(this);
+
+        WorkoutItem gianni = new WorkoutItem();
         gianni.setTotalTime(54545454l);
+        gianni.setStart(new Date());
+        gianni.setDistance(2300.6);
+        gianni.setName("molentargius");
+
+        DatabaseHelper.getIstance().addData(gianni, WorkoutItem.class);
+
+        List<WorkoutPoint> entries = new ArrayList<>();
+        entries.add(new WorkoutPoint(gianni, 3.2, 3.6, 22.0, 26.0, 398473897l, 23.6));
+        entries.add(new WorkoutPoint(gianni, 2.2, 1.6, 22.0, 26.0, 398473897l, 23.6));
+
+        try {
+            gianni.setPoints(entries);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            DatabaseHelper.getIstance().getDao().update(gianni);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        entries = new ArrayList<>();
+        entries.add(new WorkoutPoint(gianni, 3.2, 3.6, 22.0, 26.0, 398473897l, 23.6));
+        entries.add(new WorkoutPoint(gianni, 2.2, 1.6, 22.0, 26.0, 398473897l, 23.6));
+
+        try {
+            gianni.setPoints(entries);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            DatabaseHelper.getIstance().getDao().update(gianni);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+        List<WorkoutItem> data = DatabaseHelper.getIstance().GetData(WorkoutItem.class);
+        List<WorkoutPoint> points = data.get(0).getPoints();
+        Log.d("f","g");
+
+        /*gianni.setTotalTime(5345345435l);
+        gianni.setStart(new Date());
+        gianni.setDistance(25300.6);
+        gianni.setName("monte claro");
+        DatabaseHelper.getIstance(this).addData(gianni,WorkoutItem.class);
+        gianni.setTotalTime(34434l);
+        gianni.setStart(new Date());
+        gianni.setDistance(1300.6);
+        gianni.setName("cunnix");
         DatabaseHelper.getIstance(this).addData(gianni,WorkoutItem.class);*/
+
     }
 
     @Override
@@ -124,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Log.d("MainActivity","Settings press");
+            Log.d("MainActivity", "Settings press");
             return true;
         }
 

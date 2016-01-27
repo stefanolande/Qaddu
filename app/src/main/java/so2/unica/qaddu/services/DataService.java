@@ -14,7 +14,7 @@ import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import so2.unica.qaddu.Models.WorkoutPoint;
+import so2.unica.qaddu.models.WorkoutPoint;
 
 /**
  * Created by stefano on 26/01/16.
@@ -159,7 +159,7 @@ public class DataService extends Service {
       speed = mService.getSpeed();
       altitude = mService.getAltitude();
 
-      WorkoutPoint newWorkoutPoint = new WorkoutPoint(latitude, longitude, speed, altitude, totalTime, totalDistance);
+      WorkoutPoint newWorkoutPoint = new WorkoutPoint(null, latitude, longitude, speed, altitude, totalTime, totalDistance);
 
 
       // check if the new data is valid

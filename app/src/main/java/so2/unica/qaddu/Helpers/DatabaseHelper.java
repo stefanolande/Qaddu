@@ -1,4 +1,4 @@
-package so2.unica.qaddu.Helpers;
+package so2.unica.qaddu.helpers;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,7 +12,8 @@ import com.j256.ormlite.table.TableUtils;
 import java.sql.SQLException;
 import java.util.List;
 
-import so2.unica.qaddu.Models.WorkoutItem;
+import so2.unica.qaddu.models.WorkoutItem;
+import so2.unica.qaddu.models.WorkoutPoint;
 
 
 /**
@@ -22,7 +23,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static DatabaseHelper mDatabaseHelper;
     private static final String DATABASE_NAME = "quaddu.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 9;
 
     private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -30,10 +31,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         getWritableDatabase();
     }
 
-    public static DatabaseHelper getIstance(Context ctx){
+    public static void initialize(Context ctx){
         if(mDatabaseHelper == null){
             mDatabaseHelper = new DatabaseHelper(ctx.getApplicationContext());
         }
+    }
+
+    public static DatabaseHelper getIstance(){
         return mDatabaseHelper;
     }
 
@@ -42,6 +46,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         Log.i(DatabaseHelper.class.getName(), "onCreate");
         try {
             TableUtils.createTable(connectionSource, WorkoutItem.class);
+            TableUtils.createTable(connectionSource, WorkoutPoint.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -53,6 +58,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         Log.i(DatabaseHelper.class.getName(), "onUpgrade");
         try {
             TableUtils.dropTable(connectionSource, WorkoutItem.class, true);
+            TableUtils.dropTable(connectionSource, WorkoutPoint.class, true);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,7 +77,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     public <K> void DeleteAll(Class<K> name){
         try {
-            TableUtils.clearTable(getConnectionSource(),name);
+            TableUtils.clearTable(getConnectionSource(), name);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -87,5 +93,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public Dao<WorkoutItem,Integer> getDao(){
+        try {
+            return getDao(WorkoutItem.class);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

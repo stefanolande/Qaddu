@@ -3,6 +3,8 @@ package so2.unica.qaddu;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -15,12 +17,30 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-public class WorkoutDetail extends AppCompatActivity {
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class WorkoutDetail extends AppCompatActivity {
+    @Bind(R.id.tool_bar)
+    Toolbar mToolBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_detail);
+        ButterKnife.bind(this);
+        setSupportActionBar(mToolBar);
+
+        mToolBar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WorkoutDetail.this.finish();
+            }
+        });
+
+
+        setTitle("Dettaglio allenamento");
 
         LineChart lineChart = (LineChart) findViewById(R.id.chart);
 

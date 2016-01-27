@@ -1,4 +1,4 @@
-package so2.unica.qaddu.QuadduFragments;
+package so2.unica.qaddu.quadduFragments;
 
 import android.content.Context;
 import android.net.Uri;
