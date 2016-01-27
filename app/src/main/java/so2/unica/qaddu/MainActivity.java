@@ -7,6 +7,15 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import so2.unica.qaddu.QuadduFragments.History;
+import so2.unica.qaddu.QuadduFragments.Workout;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -21,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             Fragment frg;
             switch(i){
                 case 0:
-                    frg = new Workout();
+                    frg = Workout.newInstance("fdfgf", "fgdfgdfg");
                     break;
                 case 1:
                     frg = new History();
@@ -66,21 +75,58 @@ public class MainActivity extends AppCompatActivity {
 
 
     SamplePagerAdapter mSamplePagerAdapter;
+
+    @Bind(R.id.pager)
     ViewPager mViewPager;
+
+    @Bind(R.id.tab_layout)
     TabLayout mTabLayout;
+
+    @Bind(R.id.tool_bar)
+    Toolbar mToolBar;
+
+    Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        setSupportActionBar(mToolBar);
 
         mSamplePagerAdapter = new SamplePagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mViewPager.setAdapter(mSamplePagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
 
+
+        setTitle("gianni");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        this.mMenu = menu;
+
+        getMenuInflater().inflate(R.menu.quaddu, this.mMenu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Log.d("MainActivity","Settings press");
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
 
