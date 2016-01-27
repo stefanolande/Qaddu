@@ -3,7 +3,7 @@ package so2.unica.qaddu;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class WorkoutActivity extends AppCompatActivity {
+public class WorkoutActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
