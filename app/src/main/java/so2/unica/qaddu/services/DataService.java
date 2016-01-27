@@ -9,231 +9,284 @@ import android.os.IBinder;
 import android.content.ComponentName;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import so2.unica.qaddu.Workout;
+import so2.unica.qaddu.model.WorkoutPoint;
 
 /**
  * Created by stefano on 26/01/16.
  */
 public class DataService extends Service {
-    private final IBinder mBinder = new LocalBinder();
-    Timer timer;
+   private final IBinder mBinder = new LocalBinder();
+   Timer timer;
 
-    private double lastLatitude;
-    private double lastLongitude;
-    private double totalDistance;
-    private long totalTime; //time in seconds from the beginning of the workout
+   ArrayList<WorkoutPoint> workoutPoints;
 
-    private int intevalLength; //length in meters of the window used to calculate the speed and the step
-    private long itervalTime; //time gfhuiweio
+   private double totalDistance;
+   private long totalTime; //time in seconds from the beginning of the workout
+
+   private int intevalLength; //length in meters of the window used to calculate the speed and the step
+   private long itervalTime; //time gfhuiweio
 
 
-    // The primary interface we will be calling on the service
-    private GPSService mService = null;
-    private boolean mIsBound;
+   // The primary interface we will be calling on the service
+   private GPSService mService = null;
+   private boolean mIsBound;
 
-    // Intent for the gps service
-    private Intent serviceIntent;
+   // Intent for the gps service
+   private Intent serviceIntent;
 
-    @Override
-    public void onCreate() {
-        lastLatitude = 0;
-        lastLongitude = 0;
-        totalDistance = 0;
-        totalTime = 0;
+   @Override
+   public void onCreate() {
+      workoutPoints = new ArrayList<>();
+      totalDistance = 0;
+      totalTime = 0;
 
-        timer = new Timer();
+      timer = new Timer();
 
-        //Initialize intent for the service
-        serviceIntent = new Intent(this, GPSService.class);
-    }
+      //Initialize intent for the service
+      serviceIntent = new Intent(this, GPSService.class);
+   }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        disconnectLocalService();
-    }
+   @Override
+   public void onDestroy() {
+      super.onDestroy();
+      disconnectLocalService();
+   }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return mBinder;
-    }
+   @Override
+   public IBinder onBind(Intent intent) {
+      return mBinder;
+   }
 
-    public class LocalBinder extends Binder {
-        DataService getService() {
-            return DataService.this;
-        }
-    }
+   public class LocalBinder extends Binder {
+      DataService getService() {
+         return DataService.this;
+      }
+   }
 
-    private double msTokmh(double ms) {
-        return ms * 3.6; //3.6 is the conversion factor from m/s to km/h
-    }
+   private double msTokmh(double ms) {
+      return ms * 3.6; //3.6 is the conversion factor from m/s to km/h
+   }
 
-    public float calculateNewDistance(double newLat, double newLon) {
-        double earthRadius = 6371000; //meters
-        double dLat = Math.toRadians(newLat - this.lastLatitude);
-        double dLng = Math.toRadians(newLon - this.lastLongitude);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(Math.toRadians(this.lastLatitude)) * Math.cos(Math.toRadians(newLat)) *
-                        Math.sin(dLng / 2) * Math.sin(dLng / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        float dist = (float) (earthRadius * c);
+   public float calculateNewDistance(WorkoutPoint newData, WorkoutPoint lastData) {
+      double earthRadius = 6371000; //meters
+      double dLat = Math.toRadians(newData.getLatitude() - lastData.getLatitude());
+      double dLng = Math.toRadians(newData.getLongitude() - lastData.getLongitude());
+      double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(Math.toRadians(lastData.getLatitude())) * Math.cos(Math.toRadians(newData.getLatitude())) *
+                  Math.sin(dLng / 2) * Math.sin(dLng / 2);
+      double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      float dist = (float) (earthRadius * c);
 
-        return dist;
-    }
+      return dist;
+   }
 
-    private void startTimer() {
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                totalTime += 1;
-            }
-        }, 1000, 1000); //execute every second
-    }
+   private void startTimer() {
+      timer.scheduleAtFixedRate(new TimerTask() {
+         @Override
+         public void run() {
+            totalTime += 1;
+         }
+      }, 1000, 1000); //execute every second
+   }
 
-    private void stopTimer() {
-        timer.cancel();
-    }
+   private void stopTimer() {
+      timer.cancel();
+   }
 
-    /**
-     * Class for interacting with the main interface of the service.
-     */
-    private ServiceConnection mConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName className, IBinder
-                service) {
-            // This is called when the connection with the service has been
-            // established, giving us the service object we can use to
-            // interact with the service.
-            GPSService.LocalBinder binder = (GPSService.LocalBinder) service;
-            mService = binder.getService();
-            mIsBound = true;
+   /**
+    * Class for interacting with the main interface of the service.
+    */
+   private ServiceConnection mConnection = new ServiceConnection() {
+      @Override
+      public void onServiceConnected(ComponentName className, IBinder
+            service) {
+         // This is called when the connection with the service has been
+         // established, giving us the service object we can use to
+         // interact with the service.
+         GPSService.LocalBinder binder = (GPSService.LocalBinder) service;
+         mService = binder.getService();
+         mIsBound = true;
 
-            //Instance the listener that will be called when new gps point are available
-            GPSService.OnNewGPSPointsListener clientListener = new
-                    GPSService.OnNewGPSPointsListener() {
-                        @Override
-                        public void onNewGPSPoint() {
-                            getGPSData();
-                        }
-                    };
-            //Register the listener
-            mService.addOnNewGPSPointsListener(clientListener);
-        }
+         //Instance the listener that will be called when new gps point are available
+         GPSService.OnNewGPSPointsListener clientListener = new
+               GPSService.OnNewGPSPointsListener() {
+                  @Override
+                  public void onNewGPSPoint() {
+                     getGPSData();
+                  }
+               };
+         //Register the listener
+         mService.addOnNewGPSPointsListener(clientListener);
+      }
 
-        @Override
-        public void onServiceDisconnected(ComponentName className) {
-            // This is called when the connection with the service has been
-            // unexpectedly disconnected
-            mIsBound = false;
-            // qui andra' gestita la situazione...
-        }
-    };
+      @Override
+      public void onServiceDisconnected(ComponentName className) {
+         // This is called when the connection with the service has been
+         // unexpectedly disconnected
+         mIsBound = false;
+         // qui andra' gestita la situazione...
+      }
+   };
 
-    private void connectLocalService() {
-        bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
-    }
+   private void connectLocalService() {
+      bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
+   }
 
-    private void disconnectLocalService() {
-        if (mIsBound) {
-            //Deregistro il listener
-            mService.removeOnNewGPSPointsListener();
-            // Detach our existing connection.
-            unbindService(mConnection);
-            mIsBound = false;
-        }
-    }
+   private void disconnectLocalService() {
+      if (mIsBound) {
+         //Deregistro il listener
+         mService.removeOnNewGPSPointsListener();
+         // Detach our existing connection.
+         unbindService(mConnection);
+         mIsBound = false;
+      }
+   }
 
-    private void getGPSData() {
-        double latitude = 0;
-        double longitude = 0;
+   private void getGPSData() {
+      double latitude = 0;
+      double longitude = 0;
+      double speed = 0;
+      double altitude = 0;
 
-        // fetch the coordinates from the service
-        latitude = mService.getLatitude();
-        longitude = mService.getLongitude();
+      // fetch the coordinates from the service
+      latitude = mService.getLatitude();
+      longitude = mService.getLongitude();
+      speed = mService.getSpeed();
+      altitude = mService.getAltitude();
 
-        // check if the new data is valid
-        if (latitude != 0 && longitude != 0) {
-            //check if it is the first point
-            if (this.lastLatitude == 0 && this.lastLongitude == 0) {
+      WorkoutPoint newWorkoutPoint = new WorkoutPoint(latitude, longitude, speed, altitude, totalTime, totalDistance);
 
-                //save the new coordinates
-                this.lastLatitude = latitude;
-                this.lastLongitude = longitude;
-            } else {
-                //if it is a new point calculate the distance
-                double deltaDistance = calculateNewDistance(latitude, longitude);
-                this.totalDistance += deltaDistance;
-            }
-        }
 
-    }
+      // check if the new data is valid
+      if (latitude != 0 && longitude != 0) {
+         //check if it is the first point
+         if (workoutPoints.isEmpty()) {
+            workoutPoints.add(newWorkoutPoint);
+         } else {
+            //if it is a new point calculate the distance
+            WorkoutPoint lastWorkoutPoint = workoutPoints.get(workoutPoints.size() - 1);
+            double deltaDistance = calculateNewDistance(newWorkoutPoint, lastWorkoutPoint);
+            this.totalDistance += deltaDistance;
+         }
+      }
 
-    //Met
+   }
 
-    /**
-     * Methods for the client
-     */
+   //Met
 
-    public void startWorkout() {
-        //connect the gps
-        connectLocalService();
-        //start the timer
-        startTimer();
-    }
+   /**
+    * Methods for the client
+    */
 
-    public void pauseWorkout(){
-        stopTimer();
-    }
+   public void startWorkout() {
+      //connect the gps
+      connectLocalService();
+      //start the timer
+      startTimer();
+   }
 
-    public void endWorkout(){
-        //disconnect the gps
-        disconnectLocalService();
-        //stop the timer
-        stopTimer();
-        //TODO: Save the workout data in the database
-    }
+   public void pauseWorkout() {
+      stopTimer();
+   }
 
-    public void setIntervalLength(int intervalLength) {
-        this.intevalLength = intervalLength;
-    }
+   public void endWorkout() {
+      //disconnect the gps
+      disconnectLocalService();
+      //stop the timer
+      stopTimer();
+      //TODO: Save the workout data in the database
+   }
 
-    public double getSpeed() {
-        //prendi velocità dal gps
-        return 0;
-    }
+   public void setIntervalLength(int intervalLength) {
+      this.intevalLength = intervalLength;
+   }
 
-    public double getTotalSpeed() {
-        return msTokmh(totalDistance / totalTime);
-    }
+   public double getSpeed() {
+      WorkoutPoint lastWorkoutPoint = workoutPoints.get(workoutPoints.size() - 1);
+      return lastWorkoutPoint.getSpeed();
+   }
 
-    public double getIntevalSpeed() {
-        return 0; //attualmente non ho idea di come fare
-    }
+   public double getTotalSpeed() {
 
-    public String getTotalStep() {
-        double timeKm = totalTime / (totalDistance / 1000);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("mm:ss");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+      return msTokmh(totalDistance / totalTime);
+   }
 
-        return dateFormat.format(timeKm);
-    }
+   public double getIntevalSpeed() {
+      //fetch the workout point in the last *interval* meters
+      ArrayList<WorkoutPoint> lastPoints = new ArrayList<>();
 
-    public String getIntervalStep() {
-        return "boh";
-    }
+      for(int i=workoutPoints.size()-1;i>=0;i--){
+         WorkoutPoint point = workoutPoints.get(i);
+         if(this.totalDistance - point.getDistance() <= intevalLength){
+            lastPoints.add(point);
+         }
+      }
 
-    public double getDistance() {
-        return totalDistance / 1000;
-    }
+      //calculate the average speed in the last points
+      double speedSum = 0;
 
-    public String getTime() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+      for(WorkoutPoint point : lastPoints){
+         speedSum += point.getSpeed();
+      }
 
-        return dateFormat.format(totalTime);
-    }
+      double averageSpeed = speedSum / lastPoints.size();
+      return msTokmh(averageSpeed);
+   }
+
+   public String getTotalStep() {
+      double timeKm = totalTime / (totalDistance / 1000);
+      SimpleDateFormat dateFormat = new SimpleDateFormat("mm:ss");
+      dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+      return dateFormat.format(timeKm);
+   }
+
+   public String getIntervalStep() {
+      //fetch the workout point in the last *interval* meters
+      ArrayList<WorkoutPoint> lastPoints = new ArrayList<>();
+
+      for(int i=workoutPoints.size()-1;i>=0;i--){
+         WorkoutPoint point = workoutPoints.get(i);
+         if(this.totalDistance - point.getDistance() <= intevalLength){
+            lastPoints.add(point);
+         }
+      }
+
+      //calculate the average speed in the last points
+      double speedSum = 0;
+
+      for(WorkoutPoint point : lastPoints){
+         speedSum += point.getSpeed();
+      }
+
+      double averageSpeed = speedSum / lastPoints.size();
+
+      //convert the speed from m/s to s/km
+
+      double sToKm = Math.pow(averageSpeed, -1)/1000;
+
+      SimpleDateFormat dateFormat = new SimpleDateFormat("mm:ss");
+      dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+      return dateFormat.format(sToKm);
+   }
+
+   public double getDistance() {
+      return totalDistance / 1000;
+   }
+
+   public String getTime() {
+      SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+      dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+      return dateFormat.format(totalTime);
+   }
 
 
 }
