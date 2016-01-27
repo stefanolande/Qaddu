@@ -28,7 +28,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="390dp"
+        android:layout_marginBottom="330dp"
         android:layout_alignParentEnd="true">
 
         <TableRow
@@ -42,7 +42,7 @@
                 android:layout_weight="1"
                 android:textColor="#2196F3"
                 android:textSize="20dp"
-                android:padding="9dp"
+                android:padding="5dp"
                 android:gravity="center"/>
 
             <TextView
@@ -51,7 +51,7 @@
                 android:layout_weight="1"
                 android:textColor="#2196F3"
                 android:textSize="20dp"
-                android:padding="9dip"
+                android:padding="5dip"
                 android:gravity="center"/>
         </TableRow>
 
@@ -74,7 +74,7 @@
                 android:text="7.12 KM/H"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:textSize="18dp"
+                android:textSize="20dp"
                 android:padding="9dip"
                 android:gravity="center"/>
         </TableRow>
@@ -89,7 +89,7 @@
                 android:text="8:02 /KM"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:textSize="16dp"
+                android:textSize="20dp"
                 android:padding="9dip"
                 android:gravity="center"/>
 
@@ -98,102 +98,37 @@
                 android:text="8:15 /KM"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:textSize="16dp"
+                android:textSize="20dp"
                 android:padding="9dip"
                 android:gravity="center"/>
         </TableRow>
 
     </TableLayout>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/rombo"
-        android:layout_centerVertical="true"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/tableWorkout"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:visibility="visible"
+        android:layout_marginTop="128dp"
+        android:weightSum="1">
 
-        />
-
-    <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignTop="@+id/imageView"
-        android:layout_marginLeft="200dp"
-        android:layout_marginTop="190dp"
-        android:layout_marginBottom="190dp"
-        android:layout_alignParentLeft="false"
-        android:layout_alignWithParentIfMissing="false"
-        android:layout_alignParentRight="false"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:visibility="visible"
-        android:id="@+id/tezxt32">
-        <TableRow
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:gravity="center_horizontal">
+            android:id="@+id/imageView"
+            android:src="@drawable/rombo"
+            android:layout_gravity="center_horizontal" />
 
-            <TextView
-                android:id="@+id/view10"
-                android:text="6.25 Km/h"
-                android:textColor="#2196F3"
-                android:textSize="20dp"
-                android:gravity="center"/>
-
-
-        </TableRow>
-
-        <TableRow
+        <TextView
+            android:layout_width="202dp"
             android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:gravity="center_horizontal">
-
-            <TextView
-                android:id="@+id/view11"
-                android:text="7.35 KM/H"
-                android:textColor="#000000"
-                android:textSize="16dp"
-                android:gravity="center"
-                android:visibility="visible" />
-
-         </TableRow>
-
-    </TableLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:text="01:21:12            2.81 Km"
-        android:textAlignment="center"
-        android:id="@+id/textView"
-        android:layout_alignEnd="@+id/tableWorkout"
-        android:layout_alignStart="@+id/tableWorkout"
-        android:layout_above="@+id/start_pause_button"
-        android:background="#E0E0E0"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:layout_marginBottom="70dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PAUSA"
-        android:id="@+id/start_pause_button"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/textView" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="STOP"
-        android:id="@+id/stop_button"
-        android:layout_below="@+id/textView"
-        android:layout_alignEnd="@+id/textView" />
-
-
+            android:text="New Text"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.22" />
+    </LinearLayout>
 
 
 </RelativeLayout>
