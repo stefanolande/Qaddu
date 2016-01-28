@@ -28,62 +28,13 @@ import so2.unica.qaddu.quadduFragments.Workout;
 
 public class MainActivity extends AppCompatActivity {
 
-    public class SamplePagerAdapter extends FragmentStatePagerAdapter {
-        public SamplePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-            Fragment frg = new Fragment();
-            switch (i) {
-                case 0:
-                    frg = new Workout();
-                    break;
-                case 1:
-                    frg = new History();
-                    break;
-            }
-
-            return frg;
-
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            String title = "";
-
-            switch (position) {
-                case 0:
-                    title = getResources().getString(R.string.title_fragment_workout);
-                    break;
-                case 1:
-                    title = getResources().getString(R.string.title_fragment_history);
-                    break;
-            }
-
-            return title;
-
-        }
-    }
-
-
     SamplePagerAdapter mSamplePagerAdapter;
-
     @Bind(R.id.pager)
     ViewPager mViewPager;
-
     @Bind(R.id.tab_layout)
     TabLayout mTabLayout;
-
     @Bind(R.id.tool_bar)
     Toolbar mToolBar;
-
     Menu mMenu;
 
     @Override
@@ -103,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         gianni.setTotalTime(54545454l);
         gianni.setStart(new Date());
         gianni.setDistance(2300.6);
-        gianni.setName("molentargius");
+        gianni.setName("Molentargius");
 
         DatabaseHelper.getIstance().addData(gianni, WorkoutItem.class);
 
@@ -181,6 +132,50 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public class SamplePagerAdapter extends FragmentStatePagerAdapter {
+        public SamplePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            Fragment frg = new Fragment();
+            switch (i) {
+                case 0:
+                    frg = new Workout();
+                    break;
+                case 1:
+                    frg = new History();
+                    break;
+            }
+
+            return frg;
+
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            String title = "";
+
+            switch (position) {
+                case 0:
+                    title = getResources().getString(R.string.title_fragment_workout);
+                    break;
+                case 1:
+                    title = getResources().getString(R.string.title_fragment_history);
+                    break;
+            }
+
+            return title;
+
+        }
     }
 }
 
