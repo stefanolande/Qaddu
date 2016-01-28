@@ -68,6 +68,9 @@ public class WorkoutDetail extends AppCompatActivity {
     @Bind(R.id.spinnerY)
     Spinner spinnerY;
 
+    @Bind(R.id.fab)
+    FloatingActionButton floatingActionButton;
+
     WorkoutItem mItem;
 
     @Override
@@ -122,8 +125,7 @@ public class WorkoutDetail extends AppCompatActivity {
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerY.setAdapter(adapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
