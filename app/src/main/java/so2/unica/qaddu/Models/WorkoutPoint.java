@@ -31,7 +31,7 @@ public class WorkoutPoint {
     private double distance;
 
     @DatabaseField(foreign = true)
-    public WorkoutItem workout;
+    public transient WorkoutItem workout;
 
 
     public WorkoutPoint(){};

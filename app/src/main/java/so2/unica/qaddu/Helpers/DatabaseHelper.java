@@ -95,6 +95,18 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return list;
     }
 
+
+    public <K> Object getItemById(int id, Class<K> name) {
+        Object item = null;
+        try {
+            Dao dao = getDao(name);
+            item = dao.queryForId(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return item;
+    }
+
     public Dao<WorkoutItem,Integer> getDao(){
         try {
             return getDao(WorkoutItem.class);

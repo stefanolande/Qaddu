@@ -71,9 +71,9 @@ public class History extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent mainIntent = new Intent(getActivity(), WorkoutDetail.class);
-                /*Bundle bundle = new Bundle();
-                bundle.putParcelable("gasstation", gasStations.get(position));
-                mainIntent.putExtras(bundle);*/
+                Bundle bundle = new Bundle();
+                bundle.putInt("WorkoutID", workouts.get(position).getId());
+                mainIntent.putExtras(bundle);
                     getActivity().startActivity(mainIntent);
                 }
             });
