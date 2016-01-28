@@ -204,4 +204,13 @@
             android:layout_marginLeft="10dp" />
     </LinearLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/ic_dialog_email"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
 </RelativeLayout>
