@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -20,11 +19,24 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".WorkoutDetail">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" android:host="*"
+                    android:pathPattern=".*\\.qaddu" />
+                <data android:scheme="https" android:host="*"
+                    android:pathPattern=".*\\.qaddu" />
+                <data android:scheme="content" android:host="*"
+                    android:pathPattern=".*\\.qaddu" />
+                <data android:scheme="file" android:host="*"
+                    android:pathPattern=".*\\.qaddu" />
+            </intent-filter>
         </activity>
     </application>
 

@@ -4,14 +4,21 @@ import android.database.SQLException;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +46,7 @@ public class WorkoutItem {
     Double distance;
 
     @ForeignCollectionField(eager = true)
-    ForeignCollection<WorkoutPoint> points;
+    Collection<WorkoutPoint> points;
 
 
 
@@ -95,3 +102,4 @@ public class WorkoutItem {
         return notesArray;
     }
 }
+

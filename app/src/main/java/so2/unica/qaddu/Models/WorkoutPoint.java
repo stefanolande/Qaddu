@@ -33,6 +33,13 @@ public class WorkoutPoint {
     @DatabaseField(foreign = true)
     public transient WorkoutItem workout;
 
+    public WorkoutItem getWorkout() {
+        return workout;
+    }
+
+    public void setWorkout(WorkoutItem workout) {
+        this.workout = workout;
+    }
 
     public WorkoutPoint(){};
 
