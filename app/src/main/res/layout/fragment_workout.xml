@@ -215,7 +215,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/default_padding_half"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="1"
+        >
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -224,12 +225,17 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <Button
+            <ImageButton
                 android:id="@+id/btn_stop"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_stop"
+                android:nestedScrollingEnabled="false"
+                android:clickable="true"
+                android:scaleType="fitXY"
                 android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="STOP" />
+                android:layout_centerHorizontal="true" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -237,14 +243,20 @@
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
-            <Button
+            <ImageButton
                 android:id="@+id/btn_start"
-                android:layout_width="wrap_content"
-                android:layout_height="80dp"
-                android:text="START" />
-                <!--android:src="@drawable/ic_play_circle"-->
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_play"
+                android:nestedScrollingEnabled="false"
+                android:scaleType="fitXY"
+                android:clickable="true"
+                android:layout_alignParentEnd="false" />
+
 
         </RelativeLayout>
     </LinearLayout>
