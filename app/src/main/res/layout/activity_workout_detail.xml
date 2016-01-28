@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context="so2.unica.qaddu.WorkoutDetail">
 
     <android.support.v7.widget.Toolbar
@@ -21,14 +22,15 @@
         android:text="Name Workout"
         android:id="@+id/tvWorkoutName"
         android:textAlignment="center"
-        android:background="#E0E0E0"
         android:layout_below="@+id/tool_bar"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/colorPrimary" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="220dp"
         android:paddingBottom="200dp"
         android:layout_below="@+id/tvWorkoutName"
         android:layout_alignParentStart="true"
@@ -59,7 +61,8 @@
                 android:layout_height="wrap_content"
                 android:text="DISTANCE"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -84,7 +87,8 @@
                 android:layout_height="wrap_content"
                 android:text="TIME"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView18"
@@ -124,7 +128,8 @@
                 android:layout_height="wrap_content"
                 android:text="TOTAL"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView22"
@@ -155,7 +160,8 @@
                 android:layout_height="wrap_content"
                 android:text="LAST 100MT"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView25"
@@ -196,12 +202,36 @@
             android:text="22/05/2015  12:35"
             android:id="@+id/textView21"
             android:textAlignment="center"
-            android:background="#E0E0E0"
+            android:background="@color/QadduGray"
             android:layout_below="@+id/tool_bar"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentEnd="true"
+        android:baselineAligned="false"
+        android:layout_gravity="center_horizontal">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerX"
+            android:layout_gravity="center_vertical" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerY"
+            android:layout_gravity="center_vertical" />
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -213,4 +243,4 @@
         android:layout_alignParentEnd="false"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true" />
-</RelativeLayout>
+</LinearLayout>
