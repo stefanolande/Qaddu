@@ -248,8 +248,8 @@
 
             <ImageButton
                 android:id="@+id/btn_start"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_play"
                 android:nestedScrollingEnabled="false"
