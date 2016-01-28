@@ -141,7 +141,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/tv_instantSpeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="8:02 Km/h"
@@ -151,7 +151,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/tv_target"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Target: 8 Km/h"
@@ -180,7 +180,8 @@
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/tv_totalTime">
 
             <TextView
                 android:id="@+id/textView10"
@@ -195,7 +196,8 @@
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/tv_totalKm">
 
             <TextView
                 android:id="@+id/textView11"
@@ -223,7 +225,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/btn_stop"
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -238,10 +240,12 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btn_start"
                 android:layout_width="wrap_content"
                 android:layout_height="80dp"
                 android:text="START" />
+                <!--android:src="@drawable/ic_play_circle"-->
+
         </RelativeLayout>
     </LinearLayout>
 
