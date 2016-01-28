@@ -1,25 +1,12 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QuadduFragments.History">
+    tools:context=".quadduFragments.History">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
         android:layout_width="match_parent"
-        android:layout_gravity=""
-        android:layout_height="match_parent"
-        android:text="Questo è il due" />
-
-    <Button
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="vai al workout detail"
-        android:id="@+id/buttonWorkOut"
-        android:layout_marginBottom="51dp"
-        android:layout_marginEnd="44dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="center_horizontal|bottom" />
+        android:id="@+id/lvWorkouts"/>
 
-</FrameLayout>
+</LinearLayout>
