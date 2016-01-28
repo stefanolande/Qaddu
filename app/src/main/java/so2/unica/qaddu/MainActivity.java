@@ -12,8 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.j256.ormlite.dao.ForeignCollection;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,29 +35,23 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int i) {
-            Fragment frg;
+            Fragment frg = new Fragment();
             switch (i) {
                 case 0:
-                    frg = Workout.newInstance("fdfgf", "fgdfgdfg");
+                    frg = new Workout();
                     break;
                 case 1:
                     frg = new History();
                     break;
-                case 2:
-                    frg = new Settings();
-                    break;
-                default:
-                    // Vida loca
-                    frg = new Workout();
-                    break;
             }
 
             return frg;
+
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
 
         @Override
@@ -72,9 +64,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 1:
                     title = getResources().getString(R.string.title_fragment_history);
-                    break;
-                case 2:
-                    title = getResources().getString(R.string.title_fragment_settings);
                     break;
             }
 
@@ -151,10 +140,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
         List<WorkoutItem> data = DatabaseHelper.getIstance().GetData(WorkoutItem.class);
         List<WorkoutPoint> points = data.get(0).getPoints();
-        Log.d("f","g");
+        Log.d("f", "g");
 
         /*gianni.setTotalTime(5345345435l);
         gianni.setStart(new Date());
