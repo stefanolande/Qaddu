@@ -34,26 +34,30 @@
 
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tv_nameTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TOTAL"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-.-- KM/H"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-.-- /KM"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="18dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -65,26 +69,30 @@
 
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/tv_nameLast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="LAST 100MT"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-.-- KM/H"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-.-- /KM"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="18dp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -111,7 +119,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:background="@drawable/circle_gray"
-                android:backgroundTint="@color/colorPrimaryDark" />
+                android:backgroundTint="@color/colorPrimary" />
         </LinearLayout>
 
         <View
@@ -133,18 +141,23 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/tv_instantSpeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Large Text"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:text="8:02 Km/h"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimary"
+                android:textSize="30dp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/tv_target"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Medium Text"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:text="Target: 8 Km/h"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20dp" />
         </LinearLayout>
 
 
@@ -167,10 +180,11 @@
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/llTotalTime">
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/tv_totalTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="01:15:23"
@@ -182,10 +196,11 @@
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/ll_totalKm">
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/tv_totalKm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2.81 KM"
@@ -200,35 +215,50 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/default_padding_half"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="1"
+        >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="STOP" />
-        </LinearLayout>
+            <ImageButton
+                android:id="@+id/btn_stop"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_stop"
+                android:nestedScrollingEnabled="false"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="START" />
-        </LinearLayout>
+            <ImageButton
+                android:id="@+id/btn_start"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_play"
+                android:nestedScrollingEnabled="false"
+                android:scaleType="fitXY"
+                android:clickable="true"
+                android:layout_alignParentEnd="false" />
+
+
+        </RelativeLayout>
     </LinearLayout>
 
 

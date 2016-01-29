@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +62,15 @@ public class WorkoutDetail extends AppCompatActivity {
     @Bind(R.id.tvWorkoutName)
     TextView tvWorkoutName;
 
+    @Bind(R.id.spinnerX)
+    Spinner spinnerX;
+
+    @Bind(R.id.spinnerY)
+    Spinner spinnerY;
+
+    @Bind(R.id.fab)
+    FloatingActionButton floatingActionButton;
+
     WorkoutItem mItem;
 
     @Override
@@ -105,9 +116,16 @@ public class WorkoutDetail extends AppCompatActivity {
             mItem = (WorkoutItem) DatabaseHelper.getIstance().getItemById(id, WorkoutItem.class);
         }
 
+        //load the spinners
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.x_array, android.R.layout.simple_dropdown_item_1line);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerX.setAdapter(adapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        adapter = ArrayAdapter.createFromResource(this, R.array.y_array, android.R.layout.simple_dropdown_item_1line);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerY.setAdapter(adapter);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -154,7 +172,7 @@ public class WorkoutDetail extends AppCompatActivity {
         });
 
 
-        setTitle("Dettaglio allenamento");
+        setTitle("Workout detail");
 
         LineChart lineChart = (LineChart) findViewById(R.id.chart);
 
