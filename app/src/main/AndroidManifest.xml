@@ -18,44 +18,40 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".WorkoutDetail">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="*"
                     android:pathPattern=".*\\.qaddu"
-                    android:scheme="http"/>
+                    android:scheme="http" />
                 <data
                     android:host="*"
                     android:pathPattern=".*\\.qaddu"
-                    android:scheme="https"/>
+                    android:scheme="https" />
                 <data
                     android:host="*"
                     android:pathPattern=".*\\.qaddu"
-                    android:scheme="content"/>
+                    android:scheme="content" />
                 <data
                     android:host="*"
                     android:pathPattern=".*\\.qaddu"
-                    android:scheme="file"/>
+                    android:scheme="file" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="so2.unica.qaddu.MainActivity"/>
+        <activity android:name=".Initial">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
     </application>
 
