@@ -141,7 +141,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_instantSpeed"
+                android:id="@+id/tv_instant_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="8:02 Km/h"
@@ -184,7 +184,7 @@
             android:id="@+id/llTotalTime">
 
             <TextView
-                android:id="@+id/tv_totalTime"
+                android:id="@+id/tv_total_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="01:15:23"
@@ -200,7 +200,7 @@
             android:id="@+id/ll_totalKm">
 
             <TextView
-                android:id="@+id/tv_totalKm"
+                android:id="@+id/tv_total_km"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2.81 KM"

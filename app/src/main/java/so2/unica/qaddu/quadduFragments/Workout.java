@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,14 +24,32 @@ public class Workout extends Fragment {
     @Bind(R.id.min_circle)
     View mCircle;
 
-    @Bind(R.id.tv_instantSpeed)
+    @Bind(R.id.tv_instant_speed)
     TextView tvInstantSpeed;
 
     @Bind(R.id.tv_target)
     TextView tvTargetSpeed;
 
-    @Bind(R.id.tv_totalKm)
+    @Bind(R.id.tv_total_km)
     TextView tvTotalKm;
+
+    @Bind(R.id.tv_total_speed)
+    TextView tvTotalKmH;
+
+    @Bind(R.id.tv_total_time)
+    TextView tvTotalTime;
+
+    @Bind(R.id.tv_total_step)
+    TextView tvTotalStep;
+
+    @Bind(R.id.tv_last_x_speed)
+    TextView tvLastSpeed;
+
+    @Bind(R.id.tv_last_x_step)
+    TextView tvLastStep;
+
+    @Bind(R.id.nameWorkout)
+    EditText etNameWorkout;
 
     int mContainterWidth;
     int tmpOff = -100;
@@ -59,19 +78,48 @@ public class Workout extends Fragment {
         mCircle.setLayoutParams(params);
     }
 
+
+
     //This method is used to set the speed into the TextView of the instant speed
     private void setInstantSpeed(float instantSpeed){
         tvInstantSpeed.setText(Float.toString(instantSpeed) + " Km/h");
     }
+
     //This method is used to set the target speed into the TextView of the target speed
     private void setTargetSpeed(float targetSpeed){
         tvTargetSpeed.setText(Float.toString(targetSpeed) + " Km/h");
     }
+
     //This method is used to set the total Km traveled into the TextView of the total km
     private void setTotalKm(float totalKm){
         tvTotalKm.setText(Float.toString(totalKm) + " Km");
     }
 
+    //This method is used to set the total speed into the TextView of the total speed
+    private void setTotalSpeed(float totalKmH){
+        tvTotalKmH.setText(Float.toString(totalKmH) + " KM/H");
+    }
+
+    //This method is used to set the total time into the TextView of the total time
+    private void setTotalTime(float totalTime){
+        //tvTotalTime.setText(Float.toString(totalTime));
+        tvTotalTime.setText("01:31:12");
+    }
+
+    //This method is used to set the total step speed into the TextView of the total step
+    private void setTotalStep(float totalStep){
+        tvTotalStep.setText(Float.toString(totalStep)+ " /KM");
+    }
+
+    //This method is used to set the last X meter speed into the TextView of the last X meter speed
+    private void setLastSpeed(float lastSpeed){
+        tvLastSpeed.setText(Float.toString(lastSpeed) + " KM/H");
+    }
+
+    //This method is used to set the last X meter's step speed into the TextView of the LastStep
+    private void setLastStep(float lastStep){
+        tvLastStep.setText(Float.toString(lastStep)+ " /KM");
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,9 +156,14 @@ while(true){
     getActivity().runOnUiThread(new Runnable() {
         public void run() {
             setCircleOffset(tmpOff);
-            setInstantSpeed(((tmpOff / 10 + 8) + 0.1f)+instantSpeed);
+            setInstantSpeed(((tmpOff / 10 + 9) + 0.1f) + instantSpeed);
             setTargetSpeed(targetSpeed);
             setTotalKm(totalKm);
+            setTotalSpeed(totalKmH);
+            setTotalTime(totalTime);
+            setTotalStep(totalStep);
+            setLastSpeed(lastKmh);
+            setLastStep(lastStep);
         }
     });
 
