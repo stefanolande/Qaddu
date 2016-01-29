@@ -29,72 +29,72 @@ import so2.unica.qaddu.quadduFragments.Workout;
 
 public class MainActivity extends AppCompatActivity {
 
-    SamplePagerAdapter mSamplePagerAdapter;
-    @Bind(R.id.pager)
-    ViewPager mViewPager;
-    @Bind(R.id.tab_layout)
-    TabLayout mTabLayout;
-    @Bind(R.id.tool_bar)
-    Toolbar mToolBar;
-    Menu mMenu;
+   SamplePagerAdapter mSamplePagerAdapter;
+   @Bind(R.id.pager)
+   ViewPager mViewPager;
+   @Bind(R.id.tab_layout)
+   TabLayout mTabLayout;
+   @Bind(R.id.tool_bar)
+   Toolbar mToolBar;
+   Menu mMenu;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        setSupportActionBar(mToolBar);
+   @Override
+   protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.activity_main);
+      ButterKnife.bind(this);
+      setSupportActionBar(mToolBar);
 
-        mSamplePagerAdapter = new SamplePagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mSamplePagerAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+      mSamplePagerAdapter = new SamplePagerAdapter(getSupportFragmentManager());
+      mViewPager.setAdapter(mSamplePagerAdapter);
+      mTabLayout.setupWithViewPager(mViewPager);
 
-        DatabaseHelper.initialize(this);
+      //DatabaseHelper.initialize(this);
 
-        WorkoutItem gianni = new WorkoutItem();
-        gianni.setTotalTime(54545454l);
-        gianni.setStart(new Date());
-        gianni.setDistance(2300.6);
-        gianni.setName("Molentargius");
+      WorkoutItem gianni = new WorkoutItem();
+      gianni.setTotalTime(54545454l);
+      gianni.setStart(new Date());
+      gianni.setDistance(2300.6);
+      gianni.setName("Molentargius");
 
-        DatabaseHelper.getIstance().addData(gianni, WorkoutItem.class);
+      DatabaseHelper.getIstance().addData(gianni, WorkoutItem.class);
 
-        List<WorkoutPoint> entries = new ArrayList<>();
-        entries.add(new WorkoutPoint(gianni, 3.2, 3.6, 22.0, 26.0, 398473897l, 23.6));
-        entries.add(new WorkoutPoint(gianni, 2.2, 1.6, 22.0, 26.0, 398473897l, 23.6));
+      List<WorkoutPoint> entries = new ArrayList<>();
+      entries.add(new WorkoutPoint(gianni, 3.2, 3.6, 22.0, 26.0, 398473897l, 23.6));
+      entries.add(new WorkoutPoint(gianni, 2.2, 1.6, 22.0, 26.0, 398473897l, 23.6));
 
-        try {
-            gianni.setPoints(entries);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+      try {
+         gianni.setPoints(entries);
+      } catch (SQLException e) {
+         e.printStackTrace();
+      }
 
-        try {
-            DatabaseHelper.getIstance().getDao().update(gianni);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+      try {
+         DatabaseHelper.getIstance().getDao().update(gianni);
+      } catch (SQLException e) {
+         e.printStackTrace();
+      }
 
-        entries = new ArrayList<>();
-        entries.add(new WorkoutPoint(gianni, 3.2, 3.6, 22.0, 26.0, 398473897l, 23.6));
-        entries.add(new WorkoutPoint(gianni, 2.2, 1.6, 22.0, 26.0, 398473897l, 23.6));
+      entries = new ArrayList<>();
+      entries.add(new WorkoutPoint(gianni, 3.2, 3.6, 22.0, 26.0, 398473897l, 23.6));
+      entries.add(new WorkoutPoint(gianni, 2.2, 1.6, 22.0, 26.0, 398473897l, 23.6));
 
-        try {
-            gianni.setPoints(entries);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+      try {
+         gianni.setPoints(entries);
+      } catch (SQLException e) {
+         e.printStackTrace();
+      }
 
-        try {
-            DatabaseHelper.getIstance().getDao().update(gianni);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+      try {
+         DatabaseHelper.getIstance().getDao().update(gianni);
+      } catch (SQLException e) {
+         e.printStackTrace();
+      }
 
 
-        List<WorkoutItem> data = DatabaseHelper.getIstance().GetData(WorkoutItem.class);
-        List<WorkoutPoint> points = data.get(0).getPoints();
-        Log.d("f", "g");
+      List<WorkoutItem> data = DatabaseHelper.getIstance().GetData(WorkoutItem.class);
+      List<WorkoutPoint> points = data.get(0).getPoints();
+      Log.d("f", "g");
 
         /*gianni.setTotalTime(5345345435l);
         gianni.setStart(new Date());
@@ -107,78 +107,78 @@ public class MainActivity extends AppCompatActivity {
         gianni.setName("cunnix");
         DatabaseHelper.getIstance(this).addData(gianni,WorkoutItem.class);*/
 
-    }
+   }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        this.mMenu = menu;
+   @Override
+   public boolean onCreateOptionsMenu(Menu menu) {
+      // Inflate the menu; this adds items to the action bar if it is present.
+      this.mMenu = menu;
 
-        getMenuInflater().inflate(R.menu.quaddu, this.mMenu);
+      getMenuInflater().inflate(R.menu.quaddu, this.mMenu);
 
-        return true;
-    }
+      return true;
+   }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+   @Override
+   public boolean onOptionsItemSelected(MenuItem item) {
+      // Handle action bar item clicks here. The action bar will
+      // automatically handle clicks on the Home/Up button, so long
+      // as you specify a parent activity in AndroidManifest.xml.
+      int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Log.d("MainActivity", "Settings press");
-            Intent intent = new Intent(this, SettingsActivity.class);
-            this.startActivity(intent);
-            return true;
-        }
+      //noinspection SimplifiableIfStatement
+      if (id == R.id.action_settings) {
+         Log.d("MainActivity", "Settings press");
+         Intent intent = new Intent(this, SettingsActivity.class);
+         this.startActivity(intent);
+         return true;
+      }
 
-        return super.onOptionsItemSelected(item);
-    }
+      return super.onOptionsItemSelected(item);
+   }
 
-    public class SamplePagerAdapter extends FragmentStatePagerAdapter {
-        public SamplePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
+   public class SamplePagerAdapter extends FragmentStatePagerAdapter {
+      public SamplePagerAdapter(FragmentManager fm) {
+         super(fm);
+      }
 
-        @Override
-        public Fragment getItem(int i) {
-            Fragment frg = new Fragment();
-            switch (i) {
-                case 0:
-                    frg = new Workout();
-                    break;
-                case 1:
-                    frg = new History();
-                    break;
-            }
+      @Override
+      public Fragment getItem(int i) {
+         Fragment frg = new Fragment();
+         switch (i) {
+            case 0:
+               frg = new Workout();
+               break;
+            case 1:
+               frg = new History();
+               break;
+         }
 
-            return frg;
+         return frg;
 
-        }
+      }
 
-        @Override
-        public int getCount() {
-            return 2;
-        }
+      @Override
+      public int getCount() {
+         return 2;
+      }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            String title = "";
+      @Override
+      public CharSequence getPageTitle(int position) {
+         String title = "";
 
-            switch (position) {
-                case 0:
-                    title = getResources().getString(R.string.title_fragment_workout);
-                    break;
-                case 1:
-                    title = getResources().getString(R.string.title_fragment_history);
-                    break;
-            }
+         switch (position) {
+            case 0:
+               title = getResources().getString(R.string.title_fragment_workout);
+               break;
+            case 1:
+               title = getResources().getString(R.string.title_fragment_history);
+               break;
+         }
 
-            return title;
+         return title;
 
-        }
-    }
+      }
+   }
 }
 

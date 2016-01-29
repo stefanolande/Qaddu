@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:weightSum="1"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal"
+              android:weightSum="1"
     >
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:layout_gravity="center_horizontal"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold"
-            tools:text="22/07/16" />
+            tools:text="22/07/16"/>
 
         <TextView
             android:id="@+id/tvWorkoutTime"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="10.15" />
+            tools:text="10.15"/>
 
 
     </LinearLayout>
@@ -50,13 +50,13 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
-            tools:text="Nome allenamento" />
+            tools:text="Nome allenamento"/>
 
         <TextView
             android:id="@+id/tvWorkoutDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="Durata" />
+            tools:text="Durata"/>
     </LinearLayout>
 </LinearLayout>

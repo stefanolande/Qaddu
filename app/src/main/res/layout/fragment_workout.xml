@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
 
     <EditText
@@ -12,7 +12,7 @@
         android:background="@color/QadduGray"
         android:hint="@string/workout_title"
         android:padding="@dimen/default_padding_half"
-        android:textAlignment="center" />
+        android:textAlignment="center"/>
 
     <LinearLayout
         android:id="@+id/llWorkoutData"
@@ -41,7 +41,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/textView6"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:text="-.-- KM/H"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="18dp" />
+                android:textSize="18dp"/>
 
             <TextView
                 android:id="@+id/textView9"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="-.-- /KM"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="18dp" />
+                android:textSize="18dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -76,7 +76,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/textView7"
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:text="-.-- KM/H"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="18dp" />
+                android:textSize="18dp"/>
 
             <TextView
                 android:id="@+id/textView8"
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:text="-.-- /KM"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="18dp" />
+                android:textSize="18dp"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -111,15 +111,15 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
             <View
                 android:id="@+id/min_circle"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:background="@drawable/circle_gray"
-                android:backgroundTint="@color/colorPrimary" />
+                android:backgroundTint="@color/colorPrimary"/>
         </LinearLayout>
 
         <View
@@ -128,7 +128,7 @@
             android:layout_height="160dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/circle_gray" />
+            android:background="@drawable/circle_gray"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -148,7 +148,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorPrimary"
                 android:textSize="30dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/tv_target"
@@ -157,7 +157,7 @@
                 android:text="Target: 8 Km/h"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20dp" />
+                android:textSize="20dp"/>
         </LinearLayout>
 
 
@@ -176,35 +176,35 @@
         android:weightSum="1">
 
         <LinearLayout
+            android:id="@+id/llTotalTime"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:id="@+id/llTotalTime">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_totalTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="01:15:23"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_totalKm"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:id="@+id/ll_totalKm">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_totalKm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2.81 KM"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -229,13 +229,13 @@
                 android:id="@+id/btn_stop"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_stop"
-                android:nestedScrollingEnabled="false"
-                android:clickable="true"
-                android:scaleType="fitXY"
+                android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:nestedScrollingEnabled="false"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_stop"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -250,12 +250,12 @@
                 android:id="@+id/btn_start"
                 android:layout_width="85dp"
                 android:layout_height="85dp"
+                android:layout_alignParentEnd="false"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_play"
+                android:clickable="true"
                 android:nestedScrollingEnabled="false"
                 android:scaleType="fitXY"
-                android:clickable="true"
-                android:layout_alignParentEnd="false" />
+                android:src="@drawable/ic_play"/>
 
 
         </RelativeLayout>

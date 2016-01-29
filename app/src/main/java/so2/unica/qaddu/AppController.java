@@ -9,10 +9,10 @@ import so2.unica.qaddu.helpers.DatabaseHelper;
  */
 public class AppController extends Application {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
+   @Override
+   public void onCreate() {
+      super.onCreate();
 
-        DatabaseHelper.initialize(getApplicationContext());
-    }
+      DatabaseHelper.initialize(getApplicationContext());
+   }
 }
