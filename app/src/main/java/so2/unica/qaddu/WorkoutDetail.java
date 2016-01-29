@@ -184,15 +184,15 @@ public class WorkoutDetail extends AppCompatActivity {
         entries.add(new Entry(18f, 4));
         entries.add(new Entry(9f, 5));
 
-        LineDataSet dataset = new LineDataSet(entries, "Workout");
+        LineDataSet dataset = new LineDataSet(entries, "Speed");
 
-        ArrayList<String> labels = new ArrayList<String>();
+        ArrayList<String> labels = new ArrayList<>();
         labels.add(" ");
-        labels.add("February");
-        labels.add("March");
-        labels.add("April");
-        labels.add("May");
-        labels.add("June");
+        labels.add(" ");
+        labels.add(" ");
+        labels.add(" ");
+        labels.add(" ");
+        labels.add(" ");
 
         LineData data = new LineData(labels, dataset);
         //dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
@@ -200,6 +200,7 @@ public class WorkoutDetail extends AppCompatActivity {
         dataset.setDrawFilled(true);
 
         lineChart.setData(data);
+        lineChart.setDescription("");
         lineChart.animateY(5000);
 
     }

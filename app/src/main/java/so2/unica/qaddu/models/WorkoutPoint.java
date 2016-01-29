@@ -12,9 +12,10 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "workout_points")
 public class WorkoutPoint {
 
+    @DatabaseField(foreign = true)
+    public transient WorkoutItem workout;
     @DatabaseField(generatedId = true)
     private int id;
-
     @DatabaseField
     private double latitude;
     @DatabaseField
@@ -30,18 +31,8 @@ public class WorkoutPoint {
     @DatabaseField
     private double distance;
 
-    @DatabaseField(foreign = true)
-    public transient WorkoutItem workout;
-
-    public WorkoutItem getWorkout() {
-        return workout;
+    public WorkoutPoint() {
     }
-
-    public void setWorkout(WorkoutItem workout) {
-        this.workout = workout;
-    }
-
-    public WorkoutPoint(){};
 
     public WorkoutPoint(WorkoutItem workout, double latitude, double longitude, double speed, double altitude, long time, double distance) {
         this.workout = workout;
@@ -56,6 +47,14 @@ public class WorkoutPoint {
         double km = distance / 1000;
         double stepInSeconds = time / km;
         this.step = stepInSeconds / 60;
+    }
+
+    public WorkoutItem getWorkout() {
+        return workout;
+    }
+
+    public void setWorkout(WorkoutItem workout) {
+        this.workout = workout;
     }
 
     public double getLongitude() {

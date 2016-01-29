@@ -46,12 +46,6 @@ public class GPSService extends Service
         return mBinder;
     }
 
-    public class LocalBinder extends Binder {
-        GPSService getService() {
-            return GPSService.this;
-        }
-    }
-
     //Metodi usati dai client
     public double getLatitude() {
         return latitude;
@@ -128,6 +122,12 @@ public class GPSService extends Service
      * Interface for listeners
      */
     public interface OnNewGPSPointsListener {
-        public void onNewGPSPoint();
+        void onNewGPSPoint();
+    }
+
+    public class LocalBinder extends Binder {
+        GPSService getService() {
+            return GPSService.this;
+        }
     }
 }
