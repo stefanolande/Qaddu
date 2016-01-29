@@ -54,72 +54,70 @@ public class Workout extends Fragment {
     int mContainterWidth;
     int tmpOff = -100;
 
-    float totalKm=0;      //It contains the total kilometers traveled
-    float totalKmH=0;     //It contains the total speed
-    float totalTime=0;    //It contain the time of the workout
-    float targetSpeed=0;  //It contain the target speed
-    float lastKmh=0;      //It contains the speed of the last X meter
-    float totalStep=0;    //It contain the total step
-    float lastStep=0;     //It contain the step of the last X meter
-    float instantSpeed=0; //It contain the instant speed
-    String nameWorkout="";//It contain the workout's name
-
-
+    float totalKm = 0;      //It contains the total kilometers traveled
+    float totalKmH = 0;     //It contains the total speed
+    float totalTime = 0;    //It contain the time of the workout
+    float targetSpeed = 0;  //It contain the target speed
+    float lastKmh = 0;      //It contains the speed of the last X meter
+    float totalStep = 0;    //It contain the total step
+    float lastStep = 0;     //It contain the step of the last X meter
+    float instantSpeed = 0; //It contain the instant speed
+    String nameWorkout = "";//It contain the workout's name
 
 
     public Workout() {
         // Required empty public constructor
     }
 
-    private void setCircleOffset(double o){
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)mCircle.getLayoutParams();
-        int margin = (int) (mContainterWidth/100*o);
+    private void setCircleOffset(double o) {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mCircle.getLayoutParams();
+        int margin = (int) (mContainterWidth / 100 * o);
         params.setMargins(margin, 0, 0, 0); //substitute parameters for left, top, right, bottom
         mCircle.setLayoutParams(params);
     }
 
 
-
     //This method is used to set the speed into the TextView of the instant speed
-    private void setInstantSpeed(float instantSpeed){
+    private void setInstantSpeed(float instantSpeed) {
         tvInstantSpeed.setText(Float.toString(instantSpeed) + " Km/h");
     }
 
     //This method is used to set the target speed into the TextView of the target speed
-    private void setTargetSpeed(float targetSpeed){
+    private void setTargetSpeed(float targetSpeed) {
         tvTargetSpeed.setText(Float.toString(targetSpeed) + " Km/h");
     }
 
     //This method is used to set the total Km traveled into the TextView of the total km
-    private void setTotalKm(float totalKm){
+    private void setTotalKm(float totalKm) {
         tvTotalKm.setText(Float.toString(totalKm) + " Km");
     }
 
     //This method is used to set the total speed into the TextView of the total speed
-    private void setTotalSpeed(float totalKmH){
+    private void setTotalSpeed(float totalKmH) {
         tvTotalKmH.setText(Float.toString(totalKmH) + " KM/H");
     }
 
     //This method is used to set the total time into the TextView of the total time
-    private void setTotalTime(float totalTime){
+    private void setTotalTime(float totalTime) {
         //tvTotalTime.setText(Float.toString(totalTime));
         tvTotalTime.setText("01:31:12");
     }
 
     //This method is used to set the total step speed into the TextView of the total step
-    private void setTotalStep(float totalStep){
-        tvTotalStep.setText(Float.toString(totalStep)+ " /KM");
+    private void setTotalStep(float totalStep) {
+        tvTotalStep.setText(Float.toString(totalStep) + " /KM");
     }
 
     //This method is used to set the last X meter speed into the TextView of the last X meter speed
-    private void setLastSpeed(float lastSpeed){
+    private void setLastSpeed(float lastSpeed) {
         tvLastSpeed.setText(Float.toString(lastSpeed) + " KM/H");
     }
 
     //This method is used to set the last X meter's step speed into the TextView of the LastStep
-    private void setLastStep(float lastStep){
-        tvLastStep.setText(Float.toString(lastStep)+ " /KM");
+    private void setLastStep(float lastStep) {
+        tvLastStep.setText(Float.toString(lastStep) + " /KM");
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,42 +143,41 @@ public class Workout extends Fragment {
         });
 
 
-
-
         new Thread(new Runnable() {
             public void run() {
                 int sum = 1;
-while(true){
-                tmpOff+=sum;
+                while (true) {
+                    tmpOff += sum;
 
-    getActivity().runOnUiThread(new Runnable() {
-        public void run() {
-            setCircleOffset(tmpOff);
-            setInstantSpeed(((tmpOff / 10 + 9) + 0.1f) + instantSpeed);
-            setTargetSpeed(targetSpeed);
-            setTotalKm(totalKm);
-            setTotalSpeed(totalKmH);
-            setTotalTime(totalTime);
-            setTotalStep(totalStep);
-            setLastSpeed(lastKmh);
-            setLastStep(lastStep);
-        }
-    });
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            setCircleOffset(tmpOff);
+                            setInstantSpeed(((tmpOff / 10 + 9) + 0.1f) + instantSpeed);
+                            setTargetSpeed(targetSpeed);
+                            setTotalKm(totalKm);
+                            setTotalSpeed(totalKmH);
+                            setTotalTime(totalTime);
+                            setTotalStep(totalStep);
+                            setLastSpeed(lastKmh);
+                            setLastStep(lastStep);
+                        }
+                    });
 
 
-    if(tmpOff == 100){
-                    sum = -1;
+                    if (tmpOff == 100) {
+                        sum = -1;
 
+                    }
+                    if (tmpOff == -100) {
+                        sum = 1;
+                    }
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-    if(tmpOff == -100){
-        sum = 1;
-    }
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }}
+            }
         }).start();
 
 
