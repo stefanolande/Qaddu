@@ -5,7 +5,9 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-
+/*
+* This is the initial activity
+ */
 public class Initial extends AppCompatActivity {
     int time=2000;
     @Override
@@ -22,9 +24,5 @@ public class Initial extends AppCompatActivity {
         }, time);
 
     }
-
-
-
-
 
 }
