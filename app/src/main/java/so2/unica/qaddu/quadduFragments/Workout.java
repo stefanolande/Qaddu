@@ -1,30 +1,18 @@
 package so2.unica.qaddu.quadduFragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import so2.unica.qaddu.R;
-import so2.unica.qaddu.WorkoutDetail;
-import so2.unica.qaddu.helpers.DatabaseHelper;
-import so2.unica.qaddu.models.WorkoutItem;
 
 
 public class Workout extends Fragment {
@@ -34,6 +22,15 @@ public class Workout extends Fragment {
 
     @Bind(R.id.min_circle)
     View mCircle;
+
+    @Bind(R.id.tv_instantSpeed)
+    TextView tvInstantSpeed;
+
+    @Bind(R.id.tv_target)
+    TextView tvTargetSpeed;
+
+    @Bind(R.id.tv_totalKm)
+    TextView tvTotalKm;
 
     int mContainterWidth;
     int tmpOff = -100;
@@ -48,8 +45,7 @@ public class Workout extends Fragment {
     float instantSpeed=0; //It contain the instant speed
     String nameWorkout="";//It contain the workout's name
 
-    @Bind(R.id.tv_instantSpeed)
-    TextView tvInstantSpeed;
+
 
 
     public Workout() {
@@ -62,8 +58,18 @@ public class Workout extends Fragment {
         params.setMargins(margin, 0, 0, 0); //substitute parameters for left, top, right, bottom
         mCircle.setLayoutParams(params);
     }
-    private void setInstantSpeed(float speed){
-        tvInstantSpeed.setText(Float.toString(speed)+" Km/h");
+
+    //This method is used to set the speed into the TextView of the instant speed
+    private void setInstantSpeed(float instantSpeed){
+        tvInstantSpeed.setText(Float.toString(instantSpeed) + " Km/h");
+    }
+    //This method is used to set the target speed into the TextView of the target speed
+    private void setTargetSpeed(float targetSpeed){
+        tvTargetSpeed.setText(Float.toString(targetSpeed) + " Km/h");
+    }
+    //This method is used to set the total Km traveled into the TextView of the total km
+    private void setTotalKm(float totalKm){
+        tvTotalKm.setText(Float.toString(totalKm) + " Km");
     }
 
     @Override
@@ -102,7 +108,9 @@ while(true){
     getActivity().runOnUiThread(new Runnable() {
         public void run() {
             setCircleOffset(tmpOff);
-            setInstantSpeed(((tmpOff/10+8)+0.1f));
+            setInstantSpeed(((tmpOff / 10 + 8) + 0.1f)+instantSpeed);
+            setTargetSpeed(targetSpeed);
+            setTotalKm(totalKm);
         }
     });
 
