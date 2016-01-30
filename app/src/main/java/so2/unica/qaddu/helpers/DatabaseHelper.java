@@ -17,7 +17,7 @@ import so2.unica.qaddu.models.WorkoutPoint;
 
 
 /**
- * Created by Sergio
+ * Created by Stefano
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 

@@ -13,7 +13,7 @@ import java.util.List;
 import so2.unica.qaddu.helpers.DatabaseHelper;
 
 /**
- * Created by Sergio.
+ * Created by Sergio
  */
 
 @DatabaseTable(tableName = "workouts")

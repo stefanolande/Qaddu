@@ -51,42 +51,42 @@ public class MainActivity extends AppCompatActivity {
 
       //DatabaseHelper.initialize(this);
 
-      WorkoutItem gianni = new WorkoutItem();
-      gianni.setTotalTime(54545454l);
-      gianni.setStart(new Date());
-      gianni.setDistance(2300.6);
-      gianni.setName("Molentargius");
+      WorkoutItem workout = new WorkoutItem();
+      workout.setTotalTime(54545454l);
+      workout.setStart(new Date());
+      workout.setDistance(2300.6);
+      workout.setName("Molentargius");
 
-      DatabaseHelper.getIstance().addData(gianni, WorkoutItem.class);
+      DatabaseHelper.getIstance().addData(workout, WorkoutItem.class);
 
       List<WorkoutPoint> entries = new ArrayList<>();
-      entries.add(new WorkoutPoint(gianni, 3.2, 3.6, 22.0, 26.0, 398473897l, 23.6));
-      entries.add(new WorkoutPoint(gianni, 2.2, 1.6, 22.0, 26.0, 398473897l, 23.6));
+      entries.add(new WorkoutPoint(workout, 3.2, 3.6, 22.0, 26.0, 398473897l, 23.6));
+      entries.add(new WorkoutPoint(workout, 2.2, 1.6, 22.0, 26.0, 398473897l, 23.6));
 
       try {
-         gianni.setPoints(entries);
+         workout.setPoints(entries);
       } catch (SQLException e) {
          e.printStackTrace();
       }
 
       try {
-         DatabaseHelper.getIstance().getDao().update(gianni);
+         DatabaseHelper.getIstance().getDao().update(workout);
       } catch (SQLException e) {
          e.printStackTrace();
       }
 
       entries = new ArrayList<>();
-      entries.add(new WorkoutPoint(gianni, 3.2, 3.6, 22.0, 26.0, 398473897l, 23.6));
-      entries.add(new WorkoutPoint(gianni, 2.2, 1.6, 22.0, 26.0, 398473897l, 23.6));
+      entries.add(new WorkoutPoint(workout, 3.2, 3.6, 22.0, 26.0, 398473897l, 23.6));
+      entries.add(new WorkoutPoint(workout, 2.2, 1.6, 22.0, 26.0, 398473897l, 23.6));
 
       try {
-         gianni.setPoints(entries);
+         workout.setPoints(entries);
       } catch (SQLException e) {
          e.printStackTrace();
       }
 
       try {
-         DatabaseHelper.getIstance().getDao().update(gianni);
+         DatabaseHelper.getIstance().getDao().update(workout);
       } catch (SQLException e) {
          e.printStackTrace();
       }
@@ -96,16 +96,16 @@ public class MainActivity extends AppCompatActivity {
       List<WorkoutPoint> points = data.get(0).getPoints();
       Log.d("f", "g");
 
-        /*gianni.setTotalTime(5345345435l);
-        gianni.setStart(new Date());
-        gianni.setDistance(25300.6);
-        gianni.setName("monte claro");
-        DatabaseHelper.getIstance(this).addData(gianni,WorkoutItem.class);
-        gianni.setTotalTime(34434l);
-        gianni.setStart(new Date());
-        gianni.setDistance(1300.6);
-        gianni.setName("cunnix");
-        DatabaseHelper.getIstance(this).addData(gianni,WorkoutItem.class);*/
+        /*workout.setTotalTime(5345345435l);
+        workout.setStart(new Date());
+        workout.setDistance(25300.6);
+        workout.setName("monte claro");
+        DatabaseHelper.getIstance(this).addData(workout,WorkoutItem.class);
+        workout.setTotalTime(34434l);
+        workout.setStart(new Date());
+        workout.setDistance(1300.6);
+        workout.setName("cunnix");
+        DatabaseHelper.getIstance(this).addData(workout,WorkoutItem.class);*/
 
    }
 
