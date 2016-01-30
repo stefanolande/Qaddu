@@ -6,12 +6,13 @@
     <EditText
         android:id="@+id/nameWorkout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="37dp"
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal|top"
         android:background="@color/QadduGray"
         android:hint="@string/workout_title"
         android:padding="@dimen/default_padding_half"
+        android:singleLine="true"
         android:textAlignment="center"/>
 
     <LinearLayout
