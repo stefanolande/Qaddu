@@ -4,6 +4,10 @@
     <string name="title_fragment_history">History</string>
     <string name="title_fragment_settings">Settings</string>
     <string name="title_fragment_workout">Workout</string>
+    <string name="setting_gps">Setting Gps</string>
+    <string name="setting_meters">Setting Meters</string>
+    <string name="setting_target">Setting Target</string>
+    <string name="delete_all">Delete All</string>
 
     <string name="hint_workout_name">Insert workout name</string>
     <string name="total_info">TOTAL</string>
@@ -14,8 +18,7 @@
     <string name="empty_time">--:--:--</string>
     <string name="distance">DISTANCE</string>
     <string name="time">TIME</string>
-
-
+    
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="settings">Settings</string>
     <string name="delete_workout">Delete workout</string>
