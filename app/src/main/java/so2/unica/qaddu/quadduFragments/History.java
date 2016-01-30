@@ -25,6 +25,8 @@ import so2.unica.qaddu.models.WorkoutItem;
 
 public class History extends Fragment {
 
+   public static final String WORKOUT_ID = "WorkoutID";
+
    @Bind(R.id.lvWorkouts)
    ListView mListView;
 
@@ -81,7 +83,7 @@ public class History extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                Intent mainIntent = new Intent(getActivity(), WorkoutDetail.class);
                Bundle bundle = new Bundle();
-               bundle.putInt("WorkoutID", workouts.get(position).getId());
+               bundle.putInt(WORKOUT_ID, workouts.get(position).getId());
                mainIntent.putExtras(bundle);
                getActivity().startActivity(mainIntent);
             }

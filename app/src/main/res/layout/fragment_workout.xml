@@ -10,7 +10,7 @@
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal|top"
         android:background="@color/QadduGray"
-        android:hint="@string/workout_title"
+        android:hint="@string/hint_workout_name"
         android:padding="@dimen/default_padding_half"
         android:singleLine="true"
         android:textAlignment="center"/>
@@ -38,7 +38,7 @@
                 android:id="@+id/tv_nameTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TOTAL"
+                android:text="@string/total_info"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20dp"
@@ -48,7 +48,7 @@
                 android:id="@+id/tv_total_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-.-- KM/H"
+                android:text="@string/default_speed"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="18dp"/>
 
@@ -56,7 +56,7 @@
                 android:id="@+id/tv_total_step"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-.-- /KM"
+                android:text="@string/default_step"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="18dp"/>
         </LinearLayout>
@@ -73,7 +73,7 @@
                 android:id="@+id/tv_nameLast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="LAST 100MT"
+                android:text="@string/default_interval"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20dp"
@@ -83,7 +83,7 @@
                 android:id="@+id/tv_last_x_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-.-- KM/H"
+                android:text="@string/default_speed"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="18dp"/>
 
@@ -91,7 +91,7 @@
                 android:id="@+id/tv_last_x_step"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-.-- /KM"
+                android:text="@string/default_step"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="18dp"/>
         </LinearLayout>
@@ -145,7 +145,7 @@
                 android:id="@+id/tv_instant_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8:02 Km/h"
+                android:text="@string/default_speed"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorPrimary"
                 android:textSize="30dp"
@@ -155,7 +155,7 @@
                 android:id="@+id/tv_target"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Target: 8 Km/h"
+                android:text="@string/default_target"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20dp"/>
@@ -188,7 +188,7 @@
                 android:id="@+id/tv_total_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="01:15:23"
+                android:text="@string/empty_time"
                 android:textAppearance="?android:attr/textAppearanceMedium"/>
         </LinearLayout>
 
@@ -204,7 +204,7 @@
                 android:id="@+id/tv_total_km"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2.81 KM"
+                android:text="@string/default_speed"
                 android:textAppearance="?android:attr/textAppearanceMedium"/>
         </LinearLayout>
     </LinearLayout>

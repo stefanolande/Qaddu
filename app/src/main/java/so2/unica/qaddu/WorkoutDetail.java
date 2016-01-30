@@ -33,6 +33,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import so2.unica.qaddu.helpers.DatabaseHelper;
 import so2.unica.qaddu.models.WorkoutItem;
+import so2.unica.qaddu.quadduFragments.History;
 
 public class WorkoutDetail extends AppCompatActivity {
    @Bind(R.id.tool_bar)
@@ -93,7 +94,7 @@ public class WorkoutDetail extends AppCompatActivity {
 
 
       } else {
-         int id = bundle.getInt("WorkoutID");
+         int id = bundle.getInt(History.WORKOUT_ID);
          mItem = (WorkoutItem) DatabaseHelper.getIstance().getItemById(id, WorkoutItem.class);
       }
 
@@ -106,42 +107,8 @@ public class WorkoutDetail extends AppCompatActivity {
       adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
       spinnerY.setAdapter(adapter);
 
-      floatingActionButton.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View view) {
+      addFloatingButtonAction();
 
-            Gson gson = new Gson();
-
-            String filename = tvWorkoutName.getText() + ".qaddu";
-            String string = gson.toJson(mItem);
-
-            try {
-               File myFile = new File("/sdcard/" + filename);
-               myFile.createNewFile();
-               FileOutputStream fOut = new FileOutputStream(myFile);
-               OutputStreamWriter myOutWriter =
-                     new OutputStreamWriter(fOut);
-               myOutWriter.append(string);
-               myOutWriter.close();
-               fOut.close();
-               Toast.makeText(getBaseContext(),
-                     "Done writing SD 'mysdfile.txt'",
-                     Toast.LENGTH_SHORT).show();
-
-               Uri path = Uri.fromFile(myFile);
-               Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-               intent.setType("application/octet-stream");
-               intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Guarda il mio allenamento");
-               intent.putExtra(Intent.EXTRA_STREAM, path);
-               startActivityForResult(Intent.createChooser(intent, "Send mail..."), 1222);
-            } catch (Exception e) {
-               Toast.makeText(getBaseContext(), e.getMessage(),
-                     Toast.LENGTH_SHORT).show();
-            }
-
-
-         }
-      });
       tvWorkoutName.setText(mItem.getName());
 
       mToolBar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
@@ -216,7 +183,7 @@ public class WorkoutDetail extends AppCompatActivity {
 
       //noinspection SimplifiableIfStatement
       if (id == R.id.action_delete_workout) {
-         Log.d("WorkoutDetail", "Delete press press");
+         Log.d("WorkoutDetail", "Delete press");
          //handle workout delete
          Toast toast = Toast.makeText(getApplicationContext(), "E se poi te ne penti?", Toast.LENGTH_SHORT);
          toast.show();
@@ -226,4 +193,42 @@ public class WorkoutDetail extends AppCompatActivity {
       return super.onOptionsItemSelected(item);
    }
 
+   private void addFloatingButtonAction() {
+      floatingActionButton.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+
+            Gson gson = new Gson();
+
+            String filename = tvWorkoutName.getText() + ".qaddu";
+            String string = gson.toJson(mItem);
+
+            try {
+               File myFile = new File("/sdcard/" + filename);
+               myFile.createNewFile();
+               FileOutputStream fOut = new FileOutputStream(myFile);
+               OutputStreamWriter myOutWriter =
+                     new OutputStreamWriter(fOut);
+               myOutWriter.append(string);
+               myOutWriter.close();
+               fOut.close();
+               Toast.makeText(getBaseContext(),
+                     "Done writing SD 'mysdfile.txt'",
+                     Toast.LENGTH_SHORT).show();
+
+               Uri path = Uri.fromFile(myFile);
+               Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+               intent.setType("application/octet-stream");
+               intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Guarda il mio allenamento");
+               intent.putExtra(Intent.EXTRA_STREAM, path);
+               startActivityForResult(Intent.createChooser(intent, "Send mail..."), 1222);
+            } catch (Exception e) {
+               Toast.makeText(getBaseContext(), e.getMessage(),
+                     Toast.LENGTH_SHORT).show();
+            }
+
+
+         }
+      });
+   }
 }

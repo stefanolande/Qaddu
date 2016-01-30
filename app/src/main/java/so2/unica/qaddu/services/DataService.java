@@ -29,7 +29,6 @@ public class DataService extends Service {
    private long totalTime; //time in seconds from the beginning of the workout
 
    private int intevalLength; //length in meters of the window used to calculate the speed and the step
-   private long itervalTime; //time gfhuiweio
 
 
    // The primary interface we will be calling on the service
