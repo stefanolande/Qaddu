@@ -4,7 +4,10 @@
     <string name="title_fragment_history">History</string>
     <string name="title_fragment_settings">Settings</string>
     <string name="title_fragment_workout">Workout</string>
-
+    <string name="setting_gps">Setting Gps</string>
+    <string name="setting_meters">Setting Meters</string>
+    <string name="setting_target">Setting Target</string>
+    <string name="delete_all">Delete All</string>
 
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="settings">Settings</string>

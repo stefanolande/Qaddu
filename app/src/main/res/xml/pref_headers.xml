@@ -19,15 +19,15 @@
 
     <header
         android:fragment="so2.unica.qaddu.SettingsActivity$SettingGpsPreferenceFragment"
-        android:title="Setting Gps"/>
+        android:title="@string/setting_gps"/>
     <header
         android:fragment="so2.unica.qaddu.SettingsActivity$SettingMetersPreferenceFragment"
-        android:title="Setting Meters"/>
+        android:title="@string/setting_meters"/>
     <header
         android:fragment="so2.unica.qaddu.SettingsActivity$SettingTargetPreferenceFragment"
-        android:title="Setting Target"/>
+        android:title="@string/setting_target"/>
     <header
         android:fragment="so2.unica.qaddu.SettingsActivity$DeleteAllPreferenceFragment"
-        android:title="Delete All"/>
+        android:title="@string/delete_all"/>
 
 </preference-headers>
