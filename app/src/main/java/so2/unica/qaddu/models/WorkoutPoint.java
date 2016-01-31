@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by stefano on 27/01/16.
- * This class models an istant of the workout
+ * This class models an instant of the workout
  */
 
 @DatabaseTable(tableName = "workout_points")

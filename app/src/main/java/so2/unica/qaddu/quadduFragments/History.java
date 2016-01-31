@@ -62,10 +62,10 @@ public class History extends Fragment {
                }
                WorkoutItem workoutItem = getItem(position);
                SimpleDateFormat dateFormat = new SimpleDateFormat("d-M-yy");
-               String startDate = dateFormat.format(workoutItem.getStart());
+               String startDate = dateFormat.format(workoutItem.getStartDate());
 
                dateFormat = new SimpleDateFormat("HH:mm:ss");
-               String startTime = dateFormat.format(workoutItem.getStart());
+               String startTime = dateFormat.format(workoutItem.getStartDate());
 
                Double km = Math.floor(workoutItem.getDistance() / 1000);
 

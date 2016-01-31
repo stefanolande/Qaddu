@@ -25,7 +25,7 @@ public class WorkoutItem {
    String name;
 
    @DatabaseField
-   Date start;
+   Date startDate;
 
    @DatabaseField
    Long totalTime;
@@ -37,12 +37,12 @@ public class WorkoutItem {
    Collection<WorkoutPoint> points;
 
 
-   public Date getStart() {
-      return start;
+   public Date getStartDate() {
+      return startDate;
    }
 
-   public void setStart(Date start) {
-      this.start = start;
+   public void setStartDate(Date startDate) {
+      this.startDate = startDate;
    }
 
    public Long getTotalTime() {

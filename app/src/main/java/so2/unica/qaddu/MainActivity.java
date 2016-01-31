@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
       WorkoutItem workout = new WorkoutItem();
       workout.setTotalTime(54545454l);
-      workout.setStart(new Date());
+      workout.setStartDate(new Date());
       workout.setDistance(2300.6);
       workout.setName("Molentargius");
 
