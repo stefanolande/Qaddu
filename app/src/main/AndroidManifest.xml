@@ -18,7 +18,7 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible|adjustPan">
+            android:windowSoftInputMode="stateHidden">
 
         </activity>
         <activity android:name=".WorkoutDetail">
@@ -57,6 +57,8 @@
 
         <activity android:name=".SettingsActivity">
         </activity>
+
+        <service android:name=".services.GPSService" />
     </application>
 
 </manifest>

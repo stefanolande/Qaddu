@@ -9,6 +9,8 @@ import android.location.LocationManager;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -16,13 +18,15 @@ import android.widget.Toast;
  */
 public class GPSService extends Service
       implements LocationListener {
-   private final IBinder mBinder = new LocalBinder();
-   private OnNewGPSPointsListener clientListener;
    private LocationManager locationManager;
    private double latitude;
    private double longitude;
    private double speed;
    private double altitude;
+
+   private Long lastupdate = null;
+   private Double lastlongitude = null;
+   private Double lastlatitude = null;
 
    @Override
    public void onCreate() {
@@ -33,6 +37,13 @@ public class GPSService extends Service
       subscribeToLocationUpdates();
    }
 
+
+   @Override
+   public int onStartCommand(Intent intent, int flags, int startId) {
+      Log.d("GPS","Service started");
+      return super.onStartCommand(intent, flags, startId);
+   }
+
    @Override
    public void onDestroy() {
       super.onDestroy();
@@ -41,10 +52,12 @@ public class GPSService extends Service
             Toast.LENGTH_LONG).show();
    }
 
+   @Nullable
    @Override
    public IBinder onBind(Intent intent) {
-      return mBinder;
+      return null;
    }
+
 
    //Metodi usati dai client
    public double getLatitude() {
@@ -63,28 +76,44 @@ public class GPSService extends Service
       return altitude;
    }
 
-   public void addOnNewGPSListener(OnNewGPSPointsListener
-                                         listener) {
-      clientListener = listener;
-   }
+   public Double calculateNewDistance(Double lat, Double lon) {
+      double earthRadius = 6371000; //meters
+      double dLat = Math.toRadians(lat - lastlatitude);
+      double dLng = Math.toRadians(lon - lastlongitude);
+      double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(Math.toRadians(lastlatitude)) * Math.cos(Math.toRadians(lat)) *
+                      Math.sin(dLng / 2) * Math.sin(dLng / 2);
+      double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-   public void removeOnNewGPSPointsListener() {
-      clientListener = null;
+      return (earthRadius * c);
    }
 
    //Appena è disponibile un nuovo punto notifico il client registrato
    public void onLocationChanged(Location location) {
-      // Aggiorna le coordinate
-      latitude = location.getLatitude();
-      longitude = location.getLongitude();
-      speed = location.getSpeed();
-      altitude = location.getAltitude();
-      //Avviso i client (uno in questo caso)
-      if (clientListener != null)
+      if (lastupdate != null){
+         Long now = System.currentTimeMillis();
+         if(now - lastupdate > 1000){
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
 
-      {
-         clientListener.onNewGPSPoint();
+            Double time = (now-lastupdate)/1000.0;
+            Double distance =  calculateNewDistance(latitude,longitude);
+
+            this.speed = distance/time*3.6;
+            // Aggiorna le coordinate
+            //speed = location.getSpeed();
+            altitude = location.getAltitude();
+            //Avviso i client (uno in questo caso)
+            Intent intent = new Intent();
+            intent.setAction("gianni.gianni");
+            intent.putExtra("speed",speed);
+            sendBroadcast(intent);
+         }
       }
+
+      lastupdate = System.currentTimeMillis();
+      lastlatitude = location.getLatitude();
+      lastlongitude = location.getLongitude();
    }
 
    @Override
@@ -114,20 +143,4 @@ public class GPSService extends Service
       this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
    }
 
-   public void addOnNewGPSPointsListener(OnNewGPSPointsListener listener) {
-      clientListener = listener;
-   }
-
-   /**
-    * Interface for listeners
-    */
-   public interface OnNewGPSPointsListener {
-      void onNewGPSPoint();
-   }
-
-   public class LocalBinder extends Binder {
-      GPSService getService() {
-         return GPSService.this;
-      }
-   }
 }

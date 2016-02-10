@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+import so2.unica.qaddu.services.GPSService;
+
 /*
 * This is the initial activity
  */
@@ -23,6 +25,7 @@ public class Initial extends AppCompatActivity {
             Initial.this.finish();
          }
       }, time);
+
 
    }
 

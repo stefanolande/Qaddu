@@ -148,7 +148,7 @@
                 android:text="@string/default_speed"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorPrimary"
-                android:textSize="30dp"
+                android:textSize="25dp"
                 android:textStyle="bold"/>
 
             <TextView

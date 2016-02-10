@@ -25,6 +25,7 @@ import so2.unica.qaddu.models.WorkoutItem;
 import so2.unica.qaddu.models.WorkoutPoint;
 import so2.unica.qaddu.quadduFragments.History;
 import so2.unica.qaddu.quadduFragments.Workout;
+import so2.unica.qaddu.services.GPSService;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -43,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_main);
       ButterKnife.bind(this);
+
+      Intent intent = new Intent(getApplicationContext(), GPSService.class);
+      startService(intent);
+
       setSupportActionBar(mToolBar);
 
       mSamplePagerAdapter = new SamplePagerAdapter(getSupportFragmentManager());
@@ -94,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
       List<WorkoutItem> data = DatabaseHelper.getIstance().GetData(WorkoutItem.class);
       List<WorkoutPoint> points = data.get(0).getPoints();
-      Log.d("f", "g");
 
         /*workout.setTotalTime(5345345435l);
         workout.setStart(new Date());

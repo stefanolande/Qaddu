@@ -1,8 +1,12 @@
 package so2.unica.qaddu.quadduFragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,138 +15,156 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import so2.unica.qaddu.R;
+import so2.unica.qaddu.helpers.ReceiverHelper;
 
 
 public class Workout extends Fragment {
 
-   @Bind(R.id.circle_container)
-   LinearLayout mCircleContainer;
+    @Bind(R.id.circle_container)
+    LinearLayout mCircleContainer;
 
-   @Bind(R.id.min_circle)
-   View mCircle;
+    @Bind(R.id.min_circle)
+    View mCircle;
 
-   @Bind(R.id.tv_instant_speed)
-   TextView tvInstantSpeed;
+    @Bind(R.id.tv_instant_speed)
+    TextView tvInstantSpeed;
 
-   @Bind(R.id.tv_target)
-   TextView tvTargetSpeed;
+    @Bind(R.id.tv_target)
+    TextView tvTargetSpeed;
 
-   @Bind(R.id.tv_total_km)
-   TextView tvTotalKm;
+    @Bind(R.id.tv_total_km)
+    TextView tvTotalKm;
 
-   @Bind(R.id.tv_total_speed)
-   TextView tvTotalKmH;
+    @Bind(R.id.tv_total_speed)
+    TextView tvTotalKmH;
 
-   @Bind(R.id.tv_total_time)
-   TextView tvTotalTime;
+    @Bind(R.id.tv_total_time)
+    TextView tvTotalTime;
 
-   @Bind(R.id.tv_total_step)
-   TextView tvTotalStep;
+    @Bind(R.id.tv_total_step)
+    TextView tvTotalStep;
 
-   @Bind(R.id.tv_last_x_speed)
-   TextView tvLastSpeed;
+    @Bind(R.id.tv_last_x_speed)
+    TextView tvLastSpeed;
 
-   @Bind(R.id.tv_last_x_step)
-   TextView tvLastStep;
+    @Bind(R.id.tv_last_x_step)
+    TextView tvLastStep;
 
-   @Bind(R.id.nameWorkout)
-   EditText etNameWorkout;
+    @Bind(R.id.nameWorkout)
+    EditText etNameWorkout;
 
-   int mContainterWidth;
-   int tmpOff = -100;
+    BroadcastReceiver mBroadcastReceiver;
 
-   float totalKm = 0;      //It contains the total kilometers traveled
-   float totalKmH = 0;     //It contains the total speed
-   float totalTime = 0;    //It contain the time of the workout
-   float targetSpeed = 0;  //It contain the target speed
-   float lastKmh = 0;      //It contains the speed of the last X meter
-   float totalStep = 0;    //It contain the total step
-   float lastStep = 0;     //It contain the step of the last X meter
-   float instantSpeed = 0; //It contain the instant speed
-   String nameWorkout = "";//It contain the workout's name
+    int mContainterWidth;
+    int tmpOff = -100;
 
-
-   public Workout() {
-      // Required empty public constructor
-   }
-
-   private void setCircleOffset(double o) {
-      LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mCircle.getLayoutParams();
-      int margin = (int) (mContainterWidth / 100 * o);
-      params.setMargins(margin, 0, 0, 0); //substitute parameters for left, top, right, bottom
-      mCircle.setLayoutParams(params);
-   }
+    float totalKm = 0;      //It contains the total kilometers traveled
+    float totalKmH = 0;     //It contains the total speed
+    float totalTime = 0;    //It contain the time of the workout
+    float targetSpeed = 0;  //It contain the target speed
+    float lastKmh = 0;      //It contains the speed of the last X meter
+    float totalStep = 0;    //It contain the total step
+    float lastStep = 0;     //It contain the step of the last X meter
+    float instantSpeed = 0; //It contain the instant speed
+    String nameWorkout = "";//It contain the workout's name
 
 
-   //This method is used to set the speed into the TextView of the instant speed
-   private void setInstantSpeed(float instantSpeed) {
-      tvInstantSpeed.setText(Float.toString(instantSpeed) + " Km/h");
-   }
+    public Workout() {
+        // Required empty public constructor
+    }
 
-   //This method is used to set the target speed into the TextView of the target speed
-   private void setTargetSpeed(float targetSpeed) {
-      tvTargetSpeed.setText(Float.toString(targetSpeed) + " Km/h");
-   }
-
-   //This method is used to set the total Km traveled into the TextView of the total km
-   private void setTotalKm(float totalKm) {
-      tvTotalKm.setText(Float.toString(totalKm) + " Km");
-   }
-
-   //This method is used to set the total speed into the TextView of the total speed
-   private void setTotalSpeed(float totalKmH) {
-      tvTotalKmH.setText(Float.toString(totalKmH) + " KM/H");
-   }
-
-   //This method is used to set the total time into the TextView of the total time
-   private void setTotalTime(float totalTime) {
-      //tvTotalTime.setText(Float.toString(totalTime));
-      tvTotalTime.setText("01:31:12");
-   }
-
-   //This method is used to set the total step speed into the TextView of the total step
-   private void setTotalStep(float totalStep) {
-      tvTotalStep.setText(Float.toString(totalStep) + " /KM");
-   }
-
-   //This method is used to set the last X meter speed into the TextView of the last X meter speed
-   private void setLastSpeed(float lastSpeed) {
-      tvLastSpeed.setText(Float.toString(lastSpeed) + " KM/H");
-   }
-
-   //This method is used to set the last X meter's step speed into the TextView of the LastStep
-   private void setLastStep(float lastStep) {
-      tvLastStep.setText(Float.toString(lastStep) + " /KM");
-   }
-
-   @Override
-   public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-
-   }
-
-   @Override
-   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-      View view = inflater.inflate(R.layout.fragment_workout, container, false);
-      ButterKnife.bind(this, view);
-
-      return view;
-   }
-
-   @Override
-   public void onStart() {
-      super.onStart();
-      mCircleContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-         @Override
-         public void onGlobalLayout() {
-            mContainterWidth = mCircleContainer.getWidth();
-         }
-      });
+    private void setCircleOffset(double o) {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mCircle.getLayoutParams();
+        int margin = (int) (mContainterWidth / 100 * o);
+        params.setMargins(margin, 0, 0, 0); //substitute parameters for left, top, right, bottom
+        mCircle.setLayoutParams(params);
+    }
 
 
+    //This method is used to set the speed into the TextView of the instant speed
+    private void setInstantSpeed(double instantSpeed) {
+        DecimalFormat df = new DecimalFormat("#0.00");
+        tvInstantSpeed.setText(df.format(instantSpeed) + " KM/H");
+    }
+
+    //This method is used to set the target speed into the TextView of the target speed
+    private void setTargetSpeed(float targetSpeed) {
+        tvTargetSpeed.setText(Float.toString(targetSpeed) + " Km/h");
+    }
+
+    //This method is used to set the total Km traveled into the TextView of the total km
+    private void setTotalKm(float totalKm) {
+        tvTotalKm.setText(Float.toString(totalKm) + " Km");
+    }
+
+    //This method is used to set the total speed into the TextView of the total speed
+    private void setTotalSpeed(double totalKmH) {
+        tvTotalKmH.setText(Double.toString(totalKmH) + " KM/H");
+    }
+
+    //This method is used to set the total time into the TextView of the total time
+    private void setTotalTime(float totalTime) {
+        //tvTotalTime.setText(Float.toString(totalTime));
+        tvTotalTime.setText("01:31:12");
+    }
+
+    //This method is used to set the total step speed into the TextView of the total step
+    private void setTotalStep(float totalStep) {
+        tvTotalStep.setText(Float.toString(totalStep) + " /KM");
+    }
+
+    //This method is used to set the last X meter speed into the TextView of the last X meter speed
+    private void setLastSpeed(float lastSpeed) {
+        tvLastSpeed.setText(Float.toString(lastSpeed) + " KM/H");
+    }
+
+    //This method is used to set the last X meter's step speed into the TextView of the LastStep
+    private void setLastStep(float lastStep) {
+        tvLastStep.setText(Float.toString(lastStep) + " /KM");
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_workout, container, false);
+        ButterKnife.bind(this, view);
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mCircleContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mContainterWidth = mCircleContainer.getWidth();
+            }
+        });
+        if (mBroadcastReceiver == null) {
+            IntentFilter filter = new IntentFilter("gianni.gianni");
+
+            mBroadcastReceiver = new ReceiverHelper() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    setInstantSpeed(intent.getDoubleExtra("speed",0));
+                }
+            };
+            getActivity().registerReceiver(mBroadcastReceiver, filter);
+
+        }
+
+/*
       new Thread(new Runnable() {
          public void run() {
             int sum = 1;
@@ -172,7 +194,7 @@ public class Workout extends Fragment {
                   sum = 1;
                }
                try {
-                  Thread.sleep(50);
+                  Thread.sleep(150);
                } catch (InterruptedException e) {
                   e.printStackTrace();
                }
@@ -180,16 +202,16 @@ public class Workout extends Fragment {
          }
       }).start();
 
+*/
+    }
 
-   }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
 
-   @Override
-   public void onAttach(Context context) {
-      super.onAttach(context);
-   }
-
-   @Override
-   public void onDetach() {
-      super.onDetach();
-   }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
 }
