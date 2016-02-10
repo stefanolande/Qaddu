@@ -3,9 +3,11 @@ package so2.unica.qaddu;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,7 +66,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       Intent intent = getIntent();
       Bundle bundle = intent.getExtras();
       if (getIntent().getData() != null) {
-         String filePath = getIntent().getData().getEncodedPath();
+         String filePath = getIntent().getData().getPath();
 
 
          try {
@@ -88,7 +90,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
             DatabaseHelper.getIstance().addData(mItem, WorkoutItem.class);
          } catch (IOException e) {
-            //You'll need to add proper error handling here
+            Log.d("E","EXCEPTION");
          }
 
 
@@ -203,7 +205,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
             String string = gson.toJson(mItem);
 
             try {
-               File myFile = new File("/sdcard/" + filename);
+               File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/"+filename);
                myFile.createNewFile();
                FileOutputStream fOut = new FileOutputStream(myFile);
                OutputStreamWriter myOutWriter =
