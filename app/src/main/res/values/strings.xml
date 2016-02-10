@@ -23,13 +23,13 @@
     <string name="settings">Settings</string>
     <string name="delete_workout">Delete workout</string>
 
-    <string-array name="x_array">
+    <string-array name="y_array">
         <item>Speed</item>
         <item>Step</item>
         <item>Altitude</item>
     </string-array>
 
-    <string-array name="y_array">
+    <string-array name="x_array">
         <item>Time</item>
         <item>Distance</item>
     </string-array>

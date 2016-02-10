@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -67,12 +68,13 @@ public class History extends Fragment {
                dateFormat = new SimpleDateFormat("HH:mm:ss");
                String startTime = dateFormat.format(workoutItem.getStartDate());
 
-               Double km = Math.floor(workoutItem.getDistance() / 1000);
+               Double km = workoutItem.getDistance() / 1000.0;
+               DecimalFormat df = new DecimalFormat("#0.0#");
 
                ((TextView) convertView.findViewById(R.id.tvWorkoutName)).setText(workoutItem.getName());
                ((TextView) convertView.findViewById(R.id.tvWorkoutDate)).setText(startDate);
                ((TextView) convertView.findViewById(R.id.tvWorkoutTime)).setText(startTime);
-               ((TextView) convertView.findViewById(R.id.tvWorkoutDuration)).setText(km + " km");
+               ((TextView) convertView.findViewById(R.id.tvWorkoutDuration)).setText(df.format(km) + " km");
 
                return convertView;
             }

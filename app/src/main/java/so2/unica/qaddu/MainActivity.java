@@ -25,7 +25,6 @@ import so2.unica.qaddu.models.WorkoutItem;
 import so2.unica.qaddu.models.WorkoutPoint;
 import so2.unica.qaddu.quadduFragments.History;
 import so2.unica.qaddu.quadduFragments.Workout;
-import so2.unica.qaddu.services.GPSService;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -55,16 +54,20 @@ public class MainActivity extends AppCompatActivity {
       //DatabaseHelper.initialize(this);
 
       WorkoutItem workout = new WorkoutItem();
-      workout.setTotalTime(54545454l);
-      workout.setStartDate(new Date());
-      workout.setDistance(2300.6);
+      workout.setTotalTime(300l);
+      workout.setStartDate(new Date(1455138110l));
+      workout.setDistance(700.0);
       workout.setName("Molentargius");
 
       DatabaseHelper.getIstance().addData(workout, WorkoutItem.class);
 
       List<WorkoutPoint> entries = new ArrayList<>();
-      entries.add(new WorkoutPoint(workout, 3.2, 3.6, 22.0, 26.0, 398473897l, 23.6));
-      entries.add(new WorkoutPoint(workout, 2.2, 1.6, 22.0, 26.0, 398473897l, 23.6));
+      entries.add(new WorkoutPoint(workout, 3.2, 9.0, 0, 26.0, 1455138110, 0));
+      entries.add(new WorkoutPoint(workout, 2.2, 9.0, 3.6, 20.0, 1455138170, 60));
+      entries.add(new WorkoutPoint(workout, 2.2, 9.0, 10, 25.0, 1455138230, 326));
+      entries.add(new WorkoutPoint(workout, 2.2, 9.0, 9.8, 21.2, 1455138290, 570));
+      entries.add(new WorkoutPoint(workout, 2.2, 9.0, 4.1, 22.0, 1455138350, 660));
+      entries.add(new WorkoutPoint(workout, 2.2, 9.0, 0, 22.0, 1455138410, 700));
 
       try {
          workout.setPoints(entries);
@@ -77,23 +80,6 @@ public class MainActivity extends AppCompatActivity {
       } catch (SQLException e) {
          e.printStackTrace();
       }
-
-      entries = new ArrayList<>();
-      entries.add(new WorkoutPoint(workout, 3.2, 3.6, 22.0, 26.0, 398473897l, 23.6));
-      entries.add(new WorkoutPoint(workout, 2.2, 1.6, 22.0, 26.0, 398473897l, 23.6));
-
-      try {
-         workout.setPoints(entries);
-      } catch (SQLException e) {
-         e.printStackTrace();
-      }
-
-      try {
-         DatabaseHelper.getIstance().getDao().update(workout);
-      } catch (SQLException e) {
-         e.printStackTrace();
-      }
-
 
       List<WorkoutItem> data = DatabaseHelper.getIstance().GetData(WorkoutItem.class);
       List<WorkoutPoint> points = data.get(0).getPoints();

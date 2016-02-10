@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -34,6 +36,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import so2.unica.qaddu.helpers.DatabaseHelper;
 import so2.unica.qaddu.models.WorkoutItem;
+import so2.unica.qaddu.models.WorkoutPoint;
 import so2.unica.qaddu.quadduFragments.History;
 
 public class WorkoutDetailActivity extends AppCompatActivity {
@@ -44,17 +47,23 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    TextView tvWorkoutName;
 
    @Bind(R.id.spinnerX)
-   Spinner spinnerX;
+   Spinner spinnery;
 
    @Bind(R.id.spinnerY)
-   Spinner spinnerY;
+   Spinner spinnerX;
 
    @Bind(R.id.fab)
    FloatingActionButton floatingActionButton;
 
+   @Bind(R.id.chart)
+   LineChart lineChart;
+
    Menu mMenu;
 
    WorkoutItem mItem;
+
+   ArrayList<Double> listYAxis;
+   ArrayList<Long> listXAxis;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +71,9 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       setContentView(R.layout.activity_workout_detail);
       ButterKnife.bind(this);
       setSupportActionBar(mToolBar);
+
+      //Set the title of the action bar
+      setTitle("Workout detail");
 
       Intent intent = getIntent();
       Bundle bundle = intent.getExtras();
@@ -90,7 +102,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
             DatabaseHelper.getIstance().addData(mItem, WorkoutItem.class);
          } catch (IOException e) {
-            Log.d("E","EXCEPTION");
+            Log.d("E", "EXCEPTION");
          }
 
 
@@ -99,14 +111,79 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          mItem = (WorkoutItem) DatabaseHelper.getIstance().getItemById(id, WorkoutItem.class);
       }
 
+      //set the time as default y axis
+      listXAxis = new ArrayList();
+      for (WorkoutPoint point : mItem.getPoints()) {
+         listXAxis.add(point.getTime());
+      }
+
       //load the spinners
-      ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.x_array, android.R.layout.simple_dropdown_item_1line);
+      ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.y_array, android.R.layout.simple_dropdown_item_1line);
+      adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+      spinnery.setAdapter(adapter);
+      spinnery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+         @Override
+         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            listYAxis = new ArrayList<>();
+            switch (position) {
+               case 0:
+                  for (WorkoutPoint point : mItem.getPoints()) {
+                     listYAxis.add(point.getSpeed());
+                  }
+                  break;
+               case 1:
+                  for (WorkoutPoint point : mItem.getPoints()) {
+                     listYAxis.add(point.getStep());
+                  }
+                  break;
+               case 2:
+                  for (WorkoutPoint point : mItem.getPoints()) {
+                     listYAxis.add(point.getAltitude());
+                  }
+                  break;
+            }
+            plot();
+         }
+
+         @Override
+         public void onNothingSelected(AdapterView<?> parent) {
+            listYAxis = new ArrayList<>();
+            for (WorkoutPoint point : mItem.getPoints()) {
+               listYAxis.add(point.getSpeed());
+            }
+         }
+      });
+
+      adapter = ArrayAdapter.createFromResource(this, R.array.x_array, android.R.layout.simple_dropdown_item_1line);
       adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
       spinnerX.setAdapter(adapter);
+      spinnerX.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+         @Override
+         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            listXAxis = new ArrayList();
+            switch (position) {
+               case 0:
+                  for (WorkoutPoint point : mItem.getPoints()) {
+                     listXAxis.add(point.getTime());
+                  }
+                  break;
+               case 1:
+                  for (WorkoutPoint point : mItem.getPoints()) {
+                     listXAxis.add((long) point.getDistance());
+                  }
+                  break;
+            }
+            plot();
+         }
 
-      adapter = ArrayAdapter.createFromResource(this, R.array.y_array, android.R.layout.simple_dropdown_item_1line);
-      adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-      spinnerY.setAdapter(adapter);
+         @Override
+         public void onNothingSelected(AdapterView<?> parent) {
+            listXAxis = new ArrayList();
+            for (WorkoutPoint point : mItem.getPoints()) {
+               listXAxis.add(point.getTime());
+            }
+         }
+      });
 
       addFloatingButtonAction();
 
@@ -119,40 +196,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
             WorkoutDetailActivity.this.finish();
          }
       });
-
-
-      setTitle("Workout detail");
-
-      LineChart lineChart = (LineChart) findViewById(R.id.chart);
-
-
-      ArrayList<Entry> entries = new ArrayList<>();
-      entries.add(new Entry(4f, 0));
-      entries.add(new Entry(8f, 1));
-      entries.add(new Entry(6f, 2));
-      entries.add(new Entry(2f, 3));
-      entries.add(new Entry(18f, 4));
-      entries.add(new Entry(9f, 5));
-
-      LineDataSet dataset = new LineDataSet(entries, "Speed");
-
-      ArrayList<String> labels = new ArrayList<>();
-      labels.add(" ");
-      labels.add(" ");
-      labels.add(" ");
-      labels.add(" ");
-      labels.add(" ");
-      labels.add(" ");
-
-      LineData data = new LineData(labels, dataset);
-      //dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
-      dataset.setDrawCubic(true);
-      dataset.setDrawFilled(true);
-
-      lineChart.setData(data);
-      lineChart.setDescription("");
-      lineChart.animateY(5000);
-
    }
 
    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -205,7 +248,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
             String string = gson.toJson(mItem);
 
             try {
-               File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/"+filename);
+               File myFile = new File(Environment.getExternalStorageDirectory().getPath() + "/" + filename);
                myFile.createNewFile();
                FileOutputStream fOut = new FileOutputStream(myFile);
                OutputStreamWriter myOutWriter =
@@ -228,5 +271,32 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
          }
       });
+   }
+
+   private void plot() {
+
+      ArrayList<Entry> entries = new ArrayList<>();
+      ArrayList<String> labels = new ArrayList<>();
+
+      for (int i = 0; i < listYAxis.size(); i++) {
+         entries.add(new Entry(listYAxis.get(i).floatValue(), listXAxis.get(i).intValue()));
+         Log.d("Graph Y", listYAxis.get(i) + "");
+         labels.add("");
+      }
+
+
+      LineDataSet dataset = new LineDataSet(entries, "Speed");
+
+
+      LineData data = new LineData(labels, dataset);
+      data.setValueFormatter(new LargeValueFormatter());
+      dataset.setDrawCubic(true);
+      dataset.setDrawFilled(true);
+
+      lineChart.setData(data);
+      lineChart.setDescription("");
+      lineChart.getAxisRight().setEnabled(false);
+      //lineChart.animateY(5000);
+      lineChart.invalidate();
    }
 }

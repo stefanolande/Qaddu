@@ -22,7 +22,7 @@ import so2.unica.qaddu.models.WorkoutPoint;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
    private static final String DATABASE_NAME = "quaddu.db";
-   private static final int DATABASE_VERSION = 9;
+   private static final int DATABASE_VERSION = 10;
    private static DatabaseHelper mDatabaseHelper;
 
    private DatabaseHelper(Context context) {
