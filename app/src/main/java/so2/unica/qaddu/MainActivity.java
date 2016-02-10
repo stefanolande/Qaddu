@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
       setContentView(R.layout.activity_main);
       ButterKnife.bind(this);
 
-      Intent intent = new Intent(getApplicationContext(), GPSService.class);
-      startService(intent);
 
       setSupportActionBar(mToolBar);
 

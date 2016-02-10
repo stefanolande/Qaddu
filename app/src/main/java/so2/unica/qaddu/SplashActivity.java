@@ -5,12 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
-import so2.unica.qaddu.services.GPSService;
-
 /*
 * This is the initial activity
  */
-public class Initial extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
    int time = 2000;
 
    @Override
@@ -20,9 +18,9 @@ public class Initial extends AppCompatActivity {
       new Handler().postDelayed(new Runnable() {
          @Override
          public void run() {
-            final Intent mainIntent = new Intent(Initial.this, MainActivity.class);
-            Initial.this.startActivity(mainIntent);
-            Initial.this.finish();
+            final Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
+            SplashActivity.this.startActivity(mainIntent);
+            SplashActivity.this.finish();
          }
       }, time);
 

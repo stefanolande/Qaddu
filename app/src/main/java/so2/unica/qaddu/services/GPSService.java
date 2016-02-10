@@ -18,6 +18,8 @@ import android.widget.Toast;
  */
 public class GPSService extends Service
       implements LocationListener {
+
+   public static Boolean running = false;
    private LocationManager locationManager;
    private double latitude;
    private double longitude;
@@ -41,12 +43,14 @@ public class GPSService extends Service
    @Override
    public int onStartCommand(Intent intent, int flags, int startId) {
       Log.d("GPS","Service started");
+      running = true;
       return super.onStartCommand(intent, flags, startId);
    }
 
    @Override
    public void onDestroy() {
       super.onDestroy();
+      running = false;
       locationManager.removeUpdates(this);
       Toast.makeText(this, "ServiceonDestroy()",
             Toast.LENGTH_LONG).show();
@@ -129,7 +133,7 @@ public class GPSService extends Service
 
    @Override
    public void onStatusChanged(String provider, int status, Bundle extras) {
-      Toast.makeText(this, "onStatusChanged " + provider + " status: " + status, Toast.LENGTH_SHORT).show();
+      //Toast.makeText(this, "onStatusChanged " + provider + " status: " + status, Toast.LENGTH_SHORT).show();
    }
 
    private void subscribeToLocationUpdates() {

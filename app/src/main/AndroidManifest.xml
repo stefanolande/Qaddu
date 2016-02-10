@@ -21,7 +21,7 @@
             android:windowSoftInputMode="stateHidden">
 
         </activity>
-        <activity android:name=".WorkoutDetail">
+        <activity android:name=".WorkoutDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
@@ -46,7 +46,7 @@
                     android:scheme="file"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Initial">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

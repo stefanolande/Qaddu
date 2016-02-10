@@ -18,7 +18,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import so2.unica.qaddu.R;
-import so2.unica.qaddu.WorkoutDetail;
+import so2.unica.qaddu.WorkoutDetailActivity;
 import so2.unica.qaddu.helpers.DatabaseHelper;
 import so2.unica.qaddu.models.WorkoutItem;
 
@@ -81,7 +81,7 @@ public class History extends Fragment {
          mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               Intent mainIntent = new Intent(getActivity(), WorkoutDetail.class);
+               Intent mainIntent = new Intent(getActivity(), WorkoutDetailActivity.class);
                Bundle bundle = new Bundle();
                bundle.putInt(WORKOUT_ID, workouts.get(position).getId());
                mainIntent.putExtras(bundle);

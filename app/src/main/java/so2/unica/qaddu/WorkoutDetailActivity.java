@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +34,7 @@ import so2.unica.qaddu.helpers.DatabaseHelper;
 import so2.unica.qaddu.models.WorkoutItem;
 import so2.unica.qaddu.quadduFragments.History;
 
-public class WorkoutDetail extends AppCompatActivity {
+public class WorkoutDetailActivity extends AppCompatActivity {
    @Bind(R.id.tool_bar)
    Toolbar mToolBar;
 
@@ -115,7 +114,7 @@ public class WorkoutDetail extends AppCompatActivity {
       mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
-            WorkoutDetail.this.finish();
+            WorkoutDetailActivity.this.finish();
          }
       });
 
@@ -183,7 +182,7 @@ public class WorkoutDetail extends AppCompatActivity {
 
       //noinspection SimplifiableIfStatement
       if (id == R.id.action_delete_workout) {
-         Log.d("WorkoutDetail", "Delete press");
+         //Log.d("WorkoutDetail", "Delete press");
          //handle workout delete
          Toast toast = Toast.makeText(getApplicationContext(), "E se poi te ne penti?", Toast.LENGTH_SHORT);
          toast.show();

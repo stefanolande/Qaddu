@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import so2.unica.qaddu.R;
 import so2.unica.qaddu.helpers.ReceiverHelper;
+import so2.unica.qaddu.services.GPSService;
 
 
 public class Workout extends Fragment {
@@ -57,6 +59,12 @@ public class Workout extends Fragment {
 
     @Bind(R.id.nameWorkout)
     EditText etNameWorkout;
+
+    @Bind(R.id.btn_stop)
+    ImageButton bStop;
+
+    @Bind(R.id.btn_start)
+    ImageButton bStart;
 
     BroadcastReceiver mBroadcastReceiver;
 
@@ -138,6 +146,35 @@ public class Workout extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_workout, container, false);
         ButterKnife.bind(this, view);
+
+        bStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!GPSService.running) {
+                    Intent intent = new Intent(getActivity().getApplicationContext(), GPSService.class);
+                    getActivity().startService(intent);
+
+                    bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
+                } else {
+                    Intent intent = new Intent(getActivity().getApplicationContext(), GPSService.class);
+                    getActivity().stopService(intent);
+
+                    bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+                }
+            }
+        });
+
+        bStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(GPSService.running) {
+                    Intent intent = new Intent(getActivity().getApplicationContext(), GPSService.class);
+                    getActivity().stopService(intent);
+
+                    bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+                }
+            }
+        });
 
         return view;
     }
