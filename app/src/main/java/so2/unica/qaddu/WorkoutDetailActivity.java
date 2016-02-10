@@ -159,7 +159,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       super.onActivityResult(requestCode, resultCode, data);
       if (requestCode == 1222) {
          String filename = "workout.qaddu";
-         File myFile = new File("/sdcard/" + filename);
+         File myFile = new File(Environment.getExternalStorageDirectory().getPath() + filename);
          myFile.delete();
       }
 
@@ -213,9 +213,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
                myOutWriter.append(string);
                myOutWriter.close();
                fOut.close();
-               Toast.makeText(getBaseContext(),
-                     "Done writing SD 'mysdfile.txt'",
-                     Toast.LENGTH_SHORT).show();
 
                Uri path = Uri.fromFile(myFile);
                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
