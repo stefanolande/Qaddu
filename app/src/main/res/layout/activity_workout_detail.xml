@@ -6,13 +6,6 @@
                 android:layout_height="match_parent"
                 tools:context=".WorkoutDetailActivity">
 
-
-    <LinearLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
         <android.support.v7.widget.Toolbar
             android:id="@+id/tool_bar"
             android:layout_width="match_parent"
@@ -23,6 +16,8 @@
             android:id="@+id/tvWorkoutName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tool_bar"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:text="Name Workout"
             android:textAlignment="center"
@@ -33,33 +28,42 @@
             android:id="@+id/chart"
             android:layout_width="fill_parent"
             android:layout_height="220dp"
+            android:layout_below="@id/tvWorkoutName"
             android:paddingBottom="200dp"
             />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/spinnerLayout"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_below="@id/chart"
             android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
             <Spinner
                 android:id="@+id/spinnerX"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center"
+                android:layout_weight="0.50"
+                android:textAlignment="center"/>
 
             <Spinner
                 android:id="@+id/spinnerY"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|right"
+                android:layout_weight="0.50"
+                android:textAlignment="center"/>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/mainInfoLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/spinnerLayout"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/QadduGray"
@@ -121,9 +125,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout3"
+            android:id="@+id/speedLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/mainInfoLayout"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/QadduGray"
@@ -199,6 +204,7 @@
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_below="@id/speedLayout"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -220,7 +226,6 @@
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"/>
         </LinearLayout>
-    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
