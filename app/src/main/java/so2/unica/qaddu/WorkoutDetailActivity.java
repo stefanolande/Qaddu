@@ -329,6 +329,4 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    }
 
    private enum xAxisType {TIME, DISTANCE}
-
-
 }
