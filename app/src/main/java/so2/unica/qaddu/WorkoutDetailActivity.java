@@ -279,9 +279,11 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          //format the x label as a date
          //getTime() returns the epoch in seconds, it must be converted in milliseconds multiplying by 1000 to create a Date
          for (int i = 0; i < listYAxis.size(); i++) {
+
             Log.d("XTime", Long.toString(workoutPoints.get(i).getTime()));
             Log.d("XTime", new Date(workoutPoints.get(i).getTime() * 1000).toString());
             dataArray[i] = new DataPoint(new Date(workoutPoints.get(i).getTime() * 1000), listYAxis.get(i));
+
          }
 
          LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataArray);
@@ -292,7 +294,22 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          graph.addSeries(series);
 
          // set date label formatter
-         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, new SimpleDateFormat("HH:mm:ss")));
+         //the override is needed because the api object DateAsXAxisLabelFormatter does not provide a way
+         //to change the y label formatting style
+         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, new SimpleDateFormat("HH:mm:ss")) {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+               if (isValueX) {
+                  // format the x label as date with the parent method
+                  return super.formatLabel(value, isValueX);
+               } else {
+                  // format the y label without decimals
+                  DecimalFormat decimalFormat = new DecimalFormat("0");
+                  return decimalFormat.format(value);
+               }
+            }
+         });
+
          graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
 
          // set manual x bounds to have nice steps
@@ -316,7 +333,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          graph.addSeries(series);
 
          // set date label formatter
-         graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(new DecimalFormat("0.#"), new DecimalFormat()));
+         graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(new DecimalFormat("0.#"), new DecimalFormat("0")));
          graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
 
          // set manual x bounds to have nice steps
