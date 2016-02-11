@@ -29,11 +29,12 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/colorPrimary"/>
 
-        <com.github.mikephil.charting.charts.LineChart
+        <com.jjoe64.graphview.GraphView
             android:id="@+id/chart"
             android:layout_width="fill_parent"
             android:layout_height="220dp"
-            android:paddingBottom="200dp"/>
+            android:paddingBottom="200dp"
+            />
 
         <LinearLayout
             android:id="@+id/linearLayout"

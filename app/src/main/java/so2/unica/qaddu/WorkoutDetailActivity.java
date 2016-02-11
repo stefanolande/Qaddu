@@ -1,6 +1,7 @@
 package so2.unica.qaddu;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,12 +18,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.google.gson.Gson;
+import com.jjoe64.graphview.DefaultLabelFormatter;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,7 +31,11 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,31 +44,27 @@ import so2.unica.qaddu.models.WorkoutItem;
 import so2.unica.qaddu.models.WorkoutPoint;
 import so2.unica.qaddu.quadduFragments.History;
 
+
 public class WorkoutDetailActivity extends AppCompatActivity {
+
    @Bind(R.id.tool_bar)
    Toolbar mToolBar;
 
+   ;
    @Bind(R.id.tvWorkoutName)
    TextView tvWorkoutName;
-
    @Bind(R.id.spinnerX)
-   Spinner spinnery;
-
+   Spinner spinnerY;
    @Bind(R.id.spinnerY)
    Spinner spinnerX;
-
    @Bind(R.id.fab)
    FloatingActionButton floatingActionButton;
-
    @Bind(R.id.chart)
-   LineChart lineChart;
-
+   GraphView graph;
    Menu mMenu;
-
    WorkoutItem mItem;
-
    ArrayList<Double> listYAxis;
-   ArrayList<Long> listXAxis;
+   xAxisType xAxis;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -111,17 +112,14 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          mItem = (WorkoutItem) DatabaseHelper.getIstance().getItemById(id, WorkoutItem.class);
       }
 
-      //set the time as default y axis
-      listXAxis = new ArrayList();
-      for (WorkoutPoint point : mItem.getPoints()) {
-         listXAxis.add(point.getTime());
-      }
+      //set the time as default x axis
+      xAxis = xAxisType.TIME;
 
       //load the spinners
       ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.y_array, android.R.layout.simple_dropdown_item_1line);
       adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-      spinnery.setAdapter(adapter);
-      spinnery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      spinnerY.setAdapter(adapter);
+      spinnerY.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
          @Override
          public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             listYAxis = new ArrayList<>();
@@ -160,17 +158,12 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       spinnerX.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
          @Override
          public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            listXAxis = new ArrayList();
             switch (position) {
                case 0:
-                  for (WorkoutPoint point : mItem.getPoints()) {
-                     listXAxis.add(point.getTime());
-                  }
+                  xAxis = xAxisType.TIME;
                   break;
                case 1:
-                  for (WorkoutPoint point : mItem.getPoints()) {
-                     listXAxis.add((long) point.getDistance());
-                  }
+                  xAxis = xAxisType.DISTANCE;
                   break;
             }
             plot();
@@ -178,10 +171,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
          @Override
          public void onNothingSelected(AdapterView<?> parent) {
-            listXAxis = new ArrayList();
-            for (WorkoutPoint point : mItem.getPoints()) {
-               listXAxis.add(point.getTime());
-            }
+            xAxis = xAxisType.TIME;
          }
       });
 
@@ -275,28 +265,60 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
    private void plot() {
 
-      ArrayList<Entry> entries = new ArrayList<>();
-      ArrayList<String> labels = new ArrayList<>();
+      DataPoint[] dataArray = new DataPoint[listYAxis.size()];
+      List<WorkoutPoint> workoutPoints = mItem.getPoints();
 
-      for (int i = 0; i < listYAxis.size(); i++) {
-         entries.add(new Entry(listYAxis.get(i).floatValue(), listXAxis.get(i).intValue()));
-         Log.d("Graph Y", listYAxis.get(i) + "");
-         labels.add("");
+      if (xAxis == xAxisType.TIME) {
+         //format the x label as a date
+         for (int i = 0; i < listYAxis.size(); i++) {
+            dataArray[i] = new DataPoint(new Date(workoutPoints.get(i).getTime()), listYAxis.get(i));
+         }
+
+         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataArray);
+         series.setColor(Color.parseColor(getString(R.string.colorPrimaryHex)));
+
+         graph.getViewport().setXAxisBoundsManual(false);
+         graph.removeAllSeries();
+         graph.addSeries(series);
+
+         // set date label formatter
+         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, new SimpleDateFormat("HH:mm:ss")));
+         graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
+
+         // set manual x bounds to have nice steps
+         graph.getViewport().setMinX(workoutPoints.get(0).getTime());
+         graph.getViewport().setMaxX(workoutPoints.get(workoutPoints.size() - 1).getTime());
+         graph.getViewport().setXAxisBoundsManual(true);
+         graph.invalidate();
+
+      } else if (xAxis == xAxisType.DISTANCE) {
+
+         //format the x label in km
+         for (int i = 0; i < listYAxis.size(); i++) {
+            dataArray[i] = new DataPoint(workoutPoints.get(i).getDistance() / 1000.0, listYAxis.get(i));
+         }
+
+         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataArray);
+         series.setColor(Color.parseColor(getString(R.string.colorPrimaryHex)));
+
+         graph.getViewport().setXAxisBoundsManual(false);
+         graph.removeAllSeries();
+         graph.addSeries(series);
+
+         // set date label formatter
+         graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(new DecimalFormat("0.#"), new DecimalFormat()));
+         graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
+
+         // set manual x bounds to have nice steps
+         graph.getViewport().setMinX(workoutPoints.get(0).getDistance() / 1000.0);
+         graph.getViewport().setMaxX(workoutPoints.get(workoutPoints.size() - 1).getDistance() / 1000.0);
+         graph.getViewport().setXAxisBoundsManual(true);
+         graph.invalidate();
+
       }
-
-
-      LineDataSet dataset = new LineDataSet(entries, "Speed");
-
-
-      LineData data = new LineData(labels, dataset);
-      data.setValueFormatter(new LargeValueFormatter());
-      dataset.setDrawCubic(true);
-      dataset.setDrawFilled(true);
-
-      lineChart.setData(data);
-      lineChart.setDescription("");
-      lineChart.getAxisRight().setEnabled(false);
-      //lineChart.animateY(5000);
-      lineChart.invalidate();
    }
+
+   private enum xAxisType {TIME, DISTANCE}
+
+
 }
