@@ -76,6 +76,9 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
       Intent intent = getIntent();
       Bundle bundle = intent.getExtras();
+
+      //Check if the user is opening a json workout file
+      //adn read it
       if (getIntent().getData() != null) {
          String filePath = getIntent().getData().getPath();
 
@@ -106,6 +109,8 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
 
       } else {
+         //The user is opening a workout from the history
+         //get the id and fetch it from the database
          int id = bundle.getInt(History.WORKOUT_ID);
          mItem = (WorkoutItem) DatabaseHelper.getIstance().getItemById(id, WorkoutItem.class);
       }
@@ -117,6 +122,8 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.y_array, android.R.layout.simple_dropdown_item_1line);
       adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
       spinnerY.setAdapter(adapter);
+
+      //choose the list of Y data to show and call plot to re-draw the graph
       spinnerY.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
          @Override
          public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -153,6 +160,8 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       adapter = ArrayAdapter.createFromResource(this, R.array.x_array, android.R.layout.simple_dropdown_item_1line);
       adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
       spinnerX.setAdapter(adapter);
+
+      //chose the value on the x axis using the enum and call plot to re-draw the graph
       spinnerX.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
          @Override
          public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
