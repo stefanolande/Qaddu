@@ -299,8 +299,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          graph.getViewport().setMinX(workoutPoints.get(0).getTime() * 1000);
          graph.getViewport().setMaxX(workoutPoints.get(workoutPoints.size() - 1).getTime() * 1000);
          graph.getViewport().setXAxisBoundsManual(true);
-         graph.getViewport().setScalable(true);
-         graph.getViewport().setScrollable(true);
          graph.invalidate();
 
       } else if (xAxis == xAxisType.DISTANCE) {
@@ -325,8 +323,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          graph.getViewport().setMinX(workoutPoints.get(0).getDistance() / 1000.0);
          graph.getViewport().setMaxX(workoutPoints.get(workoutPoints.size() - 1).getDistance() / 1000.0);
          graph.getViewport().setXAxisBoundsManual(true);
-         graph.getViewport().setScalable(true);
-         graph.getViewport().setScrollable(true);
          graph.invalidate();
 
       }
