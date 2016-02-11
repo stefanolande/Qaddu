@@ -277,8 +277,11 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
       if (xAxis == xAxisType.TIME) {
          //format the x label as a date
+         //getTime() returns the epoch in seconds, it must be converted in milliseconds multiplying by 1000 to create a Date
          for (int i = 0; i < listYAxis.size(); i++) {
-            dataArray[i] = new DataPoint(new Date(workoutPoints.get(i).getTime()), listYAxis.get(i));
+            Log.d("XTime", Long.toString(workoutPoints.get(i).getTime()));
+            Log.d("XTime", new Date(workoutPoints.get(i).getTime() * 1000).toString());
+            dataArray[i] = new DataPoint(new Date(workoutPoints.get(i).getTime() * 1000), listYAxis.get(i));
          }
 
          LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataArray);
@@ -293,8 +296,8 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
 
          // set manual x bounds to have nice steps
-         graph.getViewport().setMinX(workoutPoints.get(0).getTime());
-         graph.getViewport().setMaxX(workoutPoints.get(workoutPoints.size() - 1).getTime());
+         graph.getViewport().setMinX(workoutPoints.get(0).getTime() * 1000);
+         graph.getViewport().setMaxX(workoutPoints.get(workoutPoints.size() - 1).getTime() * 1000);
          graph.getViewport().setXAxisBoundsManual(true);
          graph.invalidate();
 

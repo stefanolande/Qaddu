@@ -44,9 +44,11 @@ public class WorkoutPoint {
       this.distance = distance;
 
       //calculate the step from the speed
-      double km = distance / 1000;
-      double stepInSeconds = time / km;
-      this.step = stepInSeconds / 60;
+      if (speed == 0) {
+         this.step = 0;
+      } else {
+         this.step = (1 / speed) * 60;
+      }
    }
 
    public WorkoutItem getWorkout() {
