@@ -49,8 +49,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
    @Bind(R.id.tool_bar)
    Toolbar mToolBar;
-
-   ;
    @Bind(R.id.tvWorkoutName)
    TextView tvWorkoutName;
    @Bind(R.id.spinnerX)
