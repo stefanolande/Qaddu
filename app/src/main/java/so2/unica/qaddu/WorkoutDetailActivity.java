@@ -87,11 +87,11 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       //Set the title of the action bar
       setTitle("Workout detail");
 
+      //Check if the user is opening a json workout file
+      //and read it
       Intent intent = getIntent();
       Bundle bundle = intent.getExtras();
 
-      //Check if the user is opening a json workout file
-      //adn read it
       if (getIntent().getData() != null) {
          String filePath = getIntent().getData().getPath();
 
