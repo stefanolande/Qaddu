@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,8 +50,20 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
    @Bind(R.id.tool_bar)
    Toolbar mToolBar;
+
    @Bind(R.id.tvWorkoutName)
    TextView tvWorkoutName;
+   @Bind(R.id.tvWorkoutDistance)
+   TextView tvWorkoutDistance;
+   @Bind(R.id.tvWorkoutTime)
+   TextView tvWorkoutTime;
+   @Bind(R.id.tvWorkoutAvgSpeed)
+   TextView tvWorkoutAvgSpeed;
+   @Bind(R.id.tvWorkoutAvgStep)
+   TextView tvWorkoutAvgStep;
+   @Bind(R.id.tvWorkoutDate)
+   TextView getTvWorkoutDate;
+
    @Bind(R.id.spinnerX)
    Spinner spinnerY;
    @Bind(R.id.spinnerY)
@@ -185,6 +198,29 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       addFloatingButtonAction();
 
       tvWorkoutName.setText(mItem.getName());
+
+      DecimalFormat decimalFormat = new DecimalFormat("0.#");
+      String distance = decimalFormat.format(mItem.getDistance() / 1000.0) + " KM";
+      tvWorkoutDistance.setText(distance);
+
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+      simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+      String duration = simpleDateFormat.format(mItem.getTotalTime() * 1000);
+      tvWorkoutTime.setText(duration);
+
+      String avgSpeed = decimalFormat.format(mItem.getAverageSpeed()) + " KM/H";
+      tvWorkoutAvgSpeed.setText(avgSpeed);
+
+      simpleDateFormat = new SimpleDateFormat("mm:ss");
+      simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+      String avgStep = simpleDateFormat.format(mItem.getAverageStepInSeconds() * 1000) + " MIN/KM";
+      Log.d("AVGStep", mItem.getAverageStepInSeconds() + "");
+      tvWorkoutAvgStep.setText(avgStep);
+
+      simpleDateFormat = new SimpleDateFormat("dd-mm-yy HH:mm:ss");
+      simpleDateFormat.setTimeZone(TimeZone.getDefault());
+      String date = simpleDateFormat.format(mItem.getStartDate().getTime());
+      getTvWorkoutDate.setText(date);
 
       mToolBar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
       mToolBar.setNavigationOnClickListener(new View.OnClickListener() {

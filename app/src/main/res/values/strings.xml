@@ -18,6 +18,8 @@
     <string name="empty_time">--:--:--</string>
     <string name="distance">DISTANCE</string>
     <string name="time">TIME</string>
+    <string name="average_speed">AVERAGE SPEED</string>
+    <string name="average_step">AVERAGE STEP</string>
     
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="settings">Settings</string>

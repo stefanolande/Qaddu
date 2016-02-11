@@ -88,5 +88,17 @@ public class WorkoutItem {
       }
       this.points.addAll(points);
    }
+
+   public double getAverageSpeed() {
+      double speed = 0;
+      if (totalTime != 0) {
+         speed = distance / totalTime * 3.6;
+      }
+      return speed;
+   }
+
+   public double getAverageStepInSeconds() {
+      return (1 / getAverageSpeed()) * 3600;
+   }
 }
 

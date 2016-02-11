@@ -63,6 +63,8 @@
             android:id="@+id/mainInfoLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="false"
             android:layout_below="@id/spinnerLayout"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -87,12 +89,12 @@
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/textView15"
+                    android:id="@+id/tvWorkoutDistance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="13.02 KM"
-                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
 
             </LinearLayout>
 
@@ -113,12 +115,12 @@
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/textView18"
+                    android:id="@+id/tvWorkoutTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="1:20:45 s"
-                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
 
             </LinearLayout>
 
@@ -146,25 +148,19 @@
                     android:id="@+id/textView20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/total_info"
+                    android:text="@string/average_speed"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/colorPrimary"
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/textView22"
+                    android:id="@+id/tvWorkoutAvgSpeed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="7.35 KM/H"
-                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-                <TextView
-                    android:id="@+id/textView23"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="8.02 m/KM"
-                    android:textAppearance="?android:attr/textAppearanceSmall"/>
             </LinearLayout>
 
             <LinearLayout
@@ -178,25 +174,18 @@
                     android:id="@+id/textView24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/default_interval"
+                    android:text="@string/average_step"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/colorPrimary"
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/textView25"
+                    android:id="@+id/tvWorkoutAvgStep"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="7.12 KM/H"
-                    android:textAppearance="?android:attr/textAppearanceSmall"/>
-
-                <TextView
-                    android:id="@+id/textView26"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="8.15 m/KM"
-                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+                    android:text="8:15 min/KM"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -213,7 +202,7 @@
             android:weightSum="1">
 
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/tvWorkoutDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
