@@ -35,6 +35,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -63,7 +64,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    Menu mMenu;
    WorkoutItem mItem;
    ArrayList<Double> listYAxis;
-   ArrayList<Long> listXAxis;
    xAxisType xAxis;
 
    @Override
@@ -113,10 +113,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       }
 
       //set the time as default x axis
-      listXAxis = new ArrayList();
-      for (WorkoutPoint point : mItem.getPoints()) {
-         listXAxis.add(point.getTime());
-      }
       xAxis = xAxisType.TIME;
 
       //load the spinners
@@ -162,18 +158,11 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       spinnerX.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
          @Override
          public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            listXAxis = new ArrayList();
             switch (position) {
                case 0:
-                  for (WorkoutPoint point : mItem.getPoints()) {
-                     listXAxis.add(point.getTime());
-                  }
                   xAxis = xAxisType.TIME;
                   break;
                case 1:
-                  for (WorkoutPoint point : mItem.getPoints()) {
-                     listXAxis.add((long) point.getDistance());
-                  }
                   xAxis = xAxisType.DISTANCE;
                   break;
             }
@@ -182,10 +171,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
          @Override
          public void onNothingSelected(AdapterView<?> parent) {
-            listXAxis = new ArrayList();
-            for (WorkoutPoint point : mItem.getPoints()) {
-               listXAxis.add(point.getTime());
-            }
+            xAxis = xAxisType.TIME;
          }
       });
 
@@ -279,16 +265,16 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
    private void plot() {
 
-      DataPoint[] dataVector = new DataPoint[listXAxis.size()];
+      DataPoint[] dataArray = new DataPoint[listYAxis.size()];
+      List<WorkoutPoint> workoutPoints = mItem.getPoints();
 
       if (xAxis == xAxisType.TIME) {
          //format the x label as a date
          for (int i = 0; i < listYAxis.size(); i++) {
-            dataVector[i] = new DataPoint(new Date(listXAxis.get(i)), listYAxis.get(i));
-            Log.d("XTime", new Date(listXAxis.get(i)).toString());
+            dataArray[i] = new DataPoint(new Date(workoutPoints.get(i).getTime()), listYAxis.get(i));
          }
 
-         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataVector);
+         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataArray);
          series.setColor(Color.parseColor(getString(R.string.colorPrimaryHex)));
 
          graph.getViewport().setXAxisBoundsManual(false);
@@ -300,20 +286,19 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
 
          // set manual x bounds to have nice steps
-         graph.getViewport().setMinX(listXAxis.get(0));
-         graph.getViewport().setMaxX(listXAxis.get(listXAxis.size() - 1));
+         graph.getViewport().setMinX(workoutPoints.get(0).getTime());
+         graph.getViewport().setMaxX(workoutPoints.get(workoutPoints.size() - 1).getTime());
          graph.getViewport().setXAxisBoundsManual(true);
          graph.invalidate();
 
       } else if (xAxis == xAxisType.DISTANCE) {
 
          //format the x label in km
-         for (int i = 0; i < listXAxis.size(); i++) {
-            dataVector[i] = new DataPoint(listXAxis.get(i) / 1000.0, listYAxis.get(i));
-            Log.d("XDistance", listXAxis.get(i) / 1000.0 + "");
+         for (int i = 0; i < listYAxis.size(); i++) {
+            dataArray[i] = new DataPoint(workoutPoints.get(i).getDistance() / 1000.0, listYAxis.get(i));
          }
 
-         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataVector);
+         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataArray);
          series.setColor(Color.parseColor(getString(R.string.colorPrimaryHex)));
 
          graph.getViewport().setXAxisBoundsManual(false);
@@ -325,8 +310,8 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
 
          // set manual x bounds to have nice steps
-         graph.getViewport().setMinX(listXAxis.get(0) / 1000.0);
-         graph.getViewport().setMaxX(listXAxis.get(listXAxis.size() - 1) / 1000.0);
+         graph.getViewport().setMinX(workoutPoints.get(0).getDistance() / 1000.0);
+         graph.getViewport().setMaxX(workoutPoints.get(workoutPoints.size() - 1).getDistance() / 1000.0);
          graph.getViewport().setXAxisBoundsManual(true);
          graph.invalidate();
 
