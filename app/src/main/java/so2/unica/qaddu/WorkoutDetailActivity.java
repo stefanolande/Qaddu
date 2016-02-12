@@ -132,8 +132,8 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       xAxis = xAxisType.TIME;
 
       //load the spinners
-      ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.y_array, android.R.layout.simple_dropdown_item_1line);
-      adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+      ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.y_array, R.layout.spinner_center_item);
+      adapter.setDropDownViewResource(R.layout.spinner_center_item);
       spinnerY.setAdapter(adapter);
 
       //choose the list of Y data to show and call plot to re-draw the graph
@@ -170,8 +170,8 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          }
       });
 
-      adapter = ArrayAdapter.createFromResource(this, R.array.x_array, android.R.layout.simple_dropdown_item_1line);
-      adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+      adapter = ArrayAdapter.createFromResource(this, R.array.x_array, R.layout.spinner_center_item);
+      adapter.setDropDownViewResource(R.layout.spinner_center_item);
       spinnerX.setAdapter(adapter);
 
       //chose the value on the x axis using the enum and call plot to re-draw the graph

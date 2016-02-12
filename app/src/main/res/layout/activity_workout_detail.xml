@@ -46,17 +46,19 @@
                 android:id="@+id/spinnerX"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center"
+                android:layout_gravity="center"
                 android:layout_weight="0.50"
+                android:gravity="center"
                 android:textAlignment="center"/>
 
             <Spinner
                 android:id="@+id/spinnerY"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|right"
+                android:layout_gravity="center"
                 android:layout_weight="0.50"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                />
         </LinearLayout>
 
         <LinearLayout
