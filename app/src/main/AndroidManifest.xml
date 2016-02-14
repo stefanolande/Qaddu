@@ -19,7 +19,7 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden|adjustNothing">
 
         </activity>
         <activity android:name=".WorkoutDetailActivity">
@@ -61,6 +61,7 @@
         </activity>
 
         <service android:name=".services.GPSService" />
+        <service android:name=".services.WorkoutService" />
     </application>
 
 </manifest>

@@ -4,8 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +22,12 @@ import java.text.DecimalFormat;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import so2.unica.qaddu.AppController;
 import so2.unica.qaddu.R;
 import so2.unica.qaddu.helpers.ReceiverHelper;
+import so2.unica.qaddu.models.GpsPoint;
 import so2.unica.qaddu.services.GPSService;
+import so2.unica.qaddu.services.WorkoutService;
 
 
 public class Workout extends Fragment {
@@ -95,9 +100,14 @@ public class Workout extends Fragment {
 
 
     //This method is used to set the speed into the TextView of the instant speed
-    private void setInstantSpeed(double instantSpeed) {
+    private void setInstantSpeed(double instantSpeed,boolean isCalculated) {
         DecimalFormat df = new DecimalFormat("#0.00");
         tvInstantSpeed.setText(df.format(instantSpeed) + " KM/H");
+        if(isCalculated){
+            tvInstantSpeed.setTextColor(ContextCompat.getColor(getActivity(), R.color.QadduRed));
+        } else {
+            tvInstantSpeed.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
+        }
     }
 
     //This method is used to set the target speed into the TextView of the target speed
@@ -161,6 +171,9 @@ public class Workout extends Fragment {
 
                     bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
                 }
+                Intent intent = new Intent(getActivity().getApplicationContext(), WorkoutService.class);
+                intent.putExtra(WorkoutService.WORKOUT_TITLE, etNameWorkout.getText().toString());
+                getActivity().startService(intent);
             }
         });
 
@@ -173,6 +186,8 @@ public class Workout extends Fragment {
 
                     bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
                 }
+                Intent intent = new Intent(getActivity().getApplicationContext(), WorkoutService.class);
+                getActivity().stopService(intent);
             }
         });
 
@@ -189,12 +204,14 @@ public class Workout extends Fragment {
             }
         });
         if (mBroadcastReceiver == null) {
-            IntentFilter filter = new IntentFilter("gianni.gianni");
+            IntentFilter filter = new IntentFilter(AppController.BROADCAST_NEW_GPS_POSITION);
 
             mBroadcastReceiver = new ReceiverHelper() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    setInstantSpeed(intent.getDoubleExtra("speed",0));
+                    GpsPoint point = intent.getParcelableExtra(GpsPoint.QUADDU_GPS_POINT);
+
+                    setInstantSpeed(point.getSpeed(),point.isSpeedCalculated());
                 }
             };
             getActivity().registerReceiver(mBroadcastReceiver, filter);

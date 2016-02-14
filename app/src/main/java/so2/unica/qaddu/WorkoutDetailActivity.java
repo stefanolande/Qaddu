@@ -88,7 +88,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       setSupportActionBar(mToolBar);
 
       //Set the title of the action bar
-      setTitle("Workout detail");
+      setTitle(getString(R.string.workout_detail));
 
       //Check if the user is opening a json workout file
       //and read it
@@ -97,7 +97,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
       if (getIntent().getData() != null) {
          String filePath = getIntent().getData().getPath();
-
 
          try {
             StringBuilder text = new StringBuilder();
@@ -135,9 +134,13 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       mXAxis = xAxisType.TIME;
 
       //load the spinners
-      ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.y_array, R.layout.spinner_center_item);
-      adapter.setDropDownViewResource(R.layout.spinner_center_item);
-      mSpinnerY.setAdapter(adapter);
+      ArrayAdapter<CharSequence> adapterY = ArrayAdapter.createFromResource(this, R.array.y_array, R.layout.spinner_center_item);
+      adapterY.setDropDownViewResource(R.layout.spinner_center_item);
+      mSpinnerY.setAdapter(adapterY);
+
+      ArrayAdapter<CharSequence> adapterX = ArrayAdapter.createFromResource(this, R.array.x_array, R.layout.spinner_center_item);
+      adapterX.setDropDownViewResource(R.layout.spinner_center_item);
+      mSpinnerX.setAdapter(adapterX);
 
       //choose the list of Y data to show and call plot to re-draw the graph
       mSpinnerY.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -173,9 +176,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          }
       });
 
-      adapter = ArrayAdapter.createFromResource(this, R.array.x_array, R.layout.spinner_center_item);
-      adapter.setDropDownViewResource(R.layout.spinner_center_item);
-      mSpinnerX.setAdapter(adapter);
+
 
       //chose the value on the x axis using the enum and call plot to re-draw the graph
       mSpinnerX.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -198,12 +199,14 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          }
       });
 
+
       addFloatingButtonAction();
 
       mTvWorkoutName.setText(mItem.getName());
 
       DecimalFormat decimalFormat = new DecimalFormat("0.#");
-      String distance = decimalFormat.format(mItem.getDistance() / 1000.0) + " KM";
+      //todo
+      String distance = "0.0";//decimalFormat.format(mItem.getDistance() / 1000.0) + " KM";
       mTvWorkoutDistance.setText(distance);
 
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
@@ -327,6 +330,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    }
 
    private void plot() {
+      //mGraph.invalidate();
 
       DataPoint[] dataArray = new DataPoint[mListYAxis.size()];
       List<WorkoutPoint> workoutPoints = mItem.getPoints();
@@ -337,13 +341,29 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          for (int i = 0; i < mListYAxis.size(); i++) {
 
             Log.d("XTime", Long.toString(workoutPoints.get(i).getTime()));
-            Log.d("XTime", new Date(workoutPoints.get(i).getTime() * 1000).toString());
-            dataArray[i] = new DataPoint(new Date(workoutPoints.get(i).getTime() * 1000), mListYAxis.get(i));
+            Log.d("XTime", new Date(workoutPoints.get(i).getTime()).toString());
+            dataArray[i] = new DataPoint(new Date(workoutPoints.get(i).getTime()), mListYAxis.get(i));
 
          }
 
          LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataArray);
          series.setColor(Color.parseColor(getString(R.string.colorPrimaryHex)));
+
+         mGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, new SimpleDateFormat("HH:mm:ss")) {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+               if (isValueX) {
+                  // format the x label as date with the parent method
+                  Log.d("Formatter",mDateFormat.format(value));
+                  return super.formatLabel(value, isValueX);
+               } else {
+                  // format the y label without decimals
+                  DecimalFormat decimalFormat = new DecimalFormat("0");
+                  Log.d("Formatter",mDateFormat.format(value));
+                  return decimalFormat.format(value);
+               }
+            }
+         });
 
          mGraph.getViewport().setXAxisBoundsManual(false);
          mGraph.removeAllSeries();
@@ -352,27 +372,15 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          // set date label formatter
          //the override is needed because the api object DateAsXAxisLabelFormatter does not provide a way
          //to change the y label formatting style
-         mGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, new SimpleDateFormat("HH:mm:ss")) {
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-               if (isValueX) {
-                  // format the x label as date with the parent method
-                  return super.formatLabel(value, isValueX);
-               } else {
-                  // format the y label without decimals
-                  DecimalFormat decimalFormat = new DecimalFormat("0");
-                  return decimalFormat.format(value);
-               }
-            }
-         });
+
 
          mGraph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
 
          // set manual x bounds to have nice steps
-         mGraph.getViewport().setMinX(workoutPoints.get(0).getTime() * 1000);
-         mGraph.getViewport().setMaxX(workoutPoints.get(workoutPoints.size() - 1).getTime() * 1000);
+         mGraph.getViewport().setMinX(workoutPoints.get(0).getTime());
+         mGraph.getViewport().setMaxX(workoutPoints.get(workoutPoints.size() - 1).getTime());
          mGraph.getViewport().setXAxisBoundsManual(true);
-         mGraph.invalidate();
+
 
       } else if (mXAxis == xAxisType.DISTANCE) {
 

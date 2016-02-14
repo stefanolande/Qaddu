@@ -12,149 +12,102 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import so2.unica.qaddu.AppController;
+import so2.unica.qaddu.R;
+import so2.unica.qaddu.models.GpsPoint;
+
 /**
  * Created by stefano on 18/11/15.
  */
 public class GPSService extends Service
-      implements LocationListener {
+        implements LocationListener {
 
-   public static Boolean running = false;
-   private LocationManager locationManager;
-   private double latitude;
-   private double longitude;
-   private double speed;
-   private double altitude;
+    public static Boolean running = false;
+    private LocationManager locationManager;
 
-   private Long lastupdate = null;
-   private Double lastlongitude = null;
-   private Double lastlatitude = null;
+    private Long lastupdate = null;
+    private Double lastlongitude = null;
+    private Double lastlatitude = null;
 
-   @Override
-   public void onCreate() {
-      Toast.makeText(this, "ServiceonCreate()",
-            Toast.LENGTH_LONG).show();
-      latitude = 0;
-      longitude = 0;
-      subscribeToLocationUpdates();
-   }
+    @Override
+    public void onCreate() {
+        subscribeToLocationUpdates();
+    }
 
 
-   @Override
-   public int onStartCommand(Intent intent, int flags, int startId) {
-      Log.d("GPS","Service started");
-      running = true;
-      return super.onStartCommand(intent, flags, startId);
-   }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        running = true;
+        return super.onStartCommand(intent, flags, startId);
+    }
 
-   @Override
-   public void onDestroy() {
-      super.onDestroy();
-      running = false;
-      locationManager.removeUpdates(this);
-      Toast.makeText(this, "ServiceonDestroy()",
-            Toast.LENGTH_LONG).show();
-   }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        running = false;
+        locationManager.removeUpdates(this);
+    }
 
-   @Nullable
-   @Override
-   public IBinder onBind(Intent intent) {
-      return null;
-   }
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 
+    public Double calculateNewDistance(Double lat, Double lon) {
+        double earthRadius = 6371000; //meters
+        double dLat = Math.toRadians(lat - lastlatitude);
+        double dLng = Math.toRadians(lon - lastlongitude);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+           Math.cos(Math.toRadians(lastlatitude)) * Math.cos(Math.toRadians(lat)) *
+                        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-   //Metodi usati dai client
-   public double getLatitude() {
-      return latitude;
-   }
+        return (earthRadius * c);
+    }
 
-   public double getLongitude() {
-      return longitude;
-   }
+    //Appena è disponibile un nuovo punto notifico il client registrato
+    public void onLocationChanged(Location location) {
 
-   public double getSpeed() {
-      return speed;
-   }
+        Boolean calculatedSpeed = false;
+        if (!location.hasSpeed() && lastupdate != null) {
+            Double time = (System.currentTimeMillis() - lastupdate) / 1000.0;
+            Double distance = calculateNewDistance(location.getLatitude(), location.getLongitude());
+            location.setSpeed((float) (distance / time));
+            calculatedSpeed = true;
+        }
 
-   public double getAltitude() {
-      return altitude;
-   }
+        lastupdate = System.currentTimeMillis();
+        lastlatitude = location.getLatitude();
+        lastlongitude = location.getLongitude();
 
-   public Double calculateNewDistance(Double lat, Double lon) {
-      double earthRadius = 6371000; //meters
-      double dLat = Math.toRadians(lat - lastlatitude);
-      double dLng = Math.toRadians(lon - lastlongitude);
-      double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(Math.toRadians(lastlatitude)) * Math.cos(Math.toRadians(lat)) *
-                      Math.sin(dLng / 2) * Math.sin(dLng / 2);
-      double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        Intent intent = new Intent();
+        intent.setAction(AppController.BROADCAST_NEW_GPS_POSITION);
+        intent.putExtra(GpsPoint.QUADDU_GPS_POINT, new GpsPoint(location.getLatitude(), location.getLongitude(), location.getSpeed() * 3.6, location.getAltitude(), calculatedSpeed));
+        sendBroadcast(intent);
+    }
 
-      return (earthRadius * c);
-   }
+    @Override
+    public void onProviderDisabled(String provider) {
+    }
 
-   //Appena è disponibile un nuovo punto notifico il client registrato
-   public void onLocationChanged(Location location) {
-      if (lastupdate != null && !location.hasSpeed()) {
-         Long now = System.currentTimeMillis();
-         if(now - lastupdate > 1000){
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
+    @Override
+    public void onProviderEnabled(String provider) {
+    }
 
-            Double time = (now-lastupdate)/1000.0;
-            Double distance =  calculateNewDistance(latitude,longitude);
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
 
-            this.speed = distance/time*3.6;
-            // Aggiorna le coordinate
-            //speed = location.getSpeed();
-            altitude = location.getAltitude();
-            //Avviso i client (uno in questo caso)
-            Intent intent = new Intent();
-            intent.setAction("gianni.gianni");
-            intent.putExtra("speed",speed);
-            sendBroadcast(intent);
-         }
-      }
-
-      if (location.hasSpeed()) {
-         Toast toast = Toast.makeText(getApplicationContext(), "Chessone homo " + location.getSpeed(), Toast.LENGTH_SHORT);
-         toast.show();
-         speed = location.getSpeed();
-         //Avviso i client (uno in questo caso)
-         Intent intent = new Intent();
-         intent.setAction("gianni.gianni");
-         intent.putExtra("speed", speed);
-         sendBroadcast(intent);
-      }
-
-      lastupdate = System.currentTimeMillis();
-      lastlatitude = location.getLatitude();
-      lastlongitude = location.getLongitude();
-   }
-
-   @Override
-   public void onProviderDisabled(String provider) {
-      Toast.makeText(this, "onProviderDisabled " + provider,
-            Toast.LENGTH_SHORT).show();
-   }
-
-   @Override
-   public void onProviderEnabled(String provider) {
-      Toast.makeText(this, "onProviderEnabled " + provider, Toast.LENGTH_SHORT).show();
-   }
-
-   @Override
-   public void onStatusChanged(String provider, int status, Bundle extras) {
-      //Toast.makeText(this, "onStatusChanged " + provider + " status: " + status, Toast.LENGTH_SHORT).show();
-   }
-
-   private void subscribeToLocationUpdates() {
-      this.locationManager =
-            (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-      //Verifica se il GPS e' abilitato altrimenti avvisa l'utente
-      if (!locationManager.isProviderEnabled("gps")) {
-         Toast.makeText(this, "GPS e' attualmente disabilitato. E' possibile abilitarlo dal menu impostazioni.",
-               Toast.LENGTH_LONG).show();
-      }
-      this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-   }
+    private void subscribeToLocationUpdates() {
+        this.locationManager =
+                (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //Verifica se il GPS e' abilitato altrimenti avvisa l'utente
+        if (!locationManager.isProviderEnabled("gps")) {
+            Toast.makeText(this, R.string.gps_disable,
+                    Toast.LENGTH_LONG).show();
+        }
+        this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+    }
 
 }

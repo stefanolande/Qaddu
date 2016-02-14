@@ -50,6 +50,12 @@ public class History extends Fragment {
    @Override
    public void onStart() {
       super.onStart();
+
+   }
+
+   @Override
+   public void onResume() {
+      super.onResume();
       ArrayAdapter<WorkoutItem> listAdapter;
 
       final List<WorkoutItem> workouts = DatabaseHelper.getIstance().GetData(WorkoutItem.class);
@@ -67,8 +73,8 @@ public class History extends Fragment {
 
                dateFormat = new SimpleDateFormat("HH:mm:ss");
                String startTime = dateFormat.format(workoutItem.getStartDate());
-
-               Double km = workoutItem.getDistance() / 1000.0;
+//TO-DO
+               Double km = 0.0; //workoutItem.getDistance() / 1000.0;
                DecimalFormat df = new DecimalFormat("#0.0#");
 
                ((TextView) convertView.findViewById(R.id.tvWorkoutName)).setText(workoutItem.getName());
@@ -93,7 +99,6 @@ public class History extends Fragment {
 
          mListView.setAdapter(listAdapter);
       }
-
    }
 
    @Override
