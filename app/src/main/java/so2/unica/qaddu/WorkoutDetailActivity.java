@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,11 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.jjoe64.graphview.DefaultLabelFormatter;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -43,6 +39,11 @@ import java.util.TimeZone;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.view.LineChartView;
 import so2.unica.qaddu.helpers.DatabaseHelper;
 import so2.unica.qaddu.models.WorkoutItem;
 import so2.unica.qaddu.models.WorkoutPoint;
@@ -74,11 +75,12 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    @Bind(R.id.fab)
    FloatingActionButton mFloatingActionButton;
    @Bind(R.id.chart)
-   GraphView mGraph;
+   LineChartView mChart;
    Menu mMenu;
    WorkoutItem mItem;
    ArrayList<Double> mListYAxis;
    xAxisType mXAxis;
+   yAxisType mYAxis;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -149,19 +151,13 @@ public class WorkoutDetailActivity extends AppCompatActivity {
             mListYAxis = new ArrayList<>();
             switch (position) {
                case 0:
-                  for (WorkoutPoint point : mItem.getPoints()) {
-                     mListYAxis.add(point.getSpeed());
-                  }
+                  mYAxis = yAxisType.SPEED;
                   break;
                case 1:
-                  for (WorkoutPoint point : mItem.getPoints()) {
-                     mListYAxis.add(point.getStep());
-                  }
+                  mYAxis = yAxisType.STEP;
                   break;
                case 2:
-                  for (WorkoutPoint point : mItem.getPoints()) {
-                     mListYAxis.add(point.getAltitude());
-                  }
+                  mYAxis = yAxisType.ALTITUDE;
                   break;
             }
             plot();
@@ -169,10 +165,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
          @Override
          public void onNothingSelected(AdapterView<?> parent) {
-            mListYAxis = new ArrayList<>();
-            for (WorkoutPoint point : mItem.getPoints()) {
-               mListYAxis.add(point.getSpeed());
-            }
+            mYAxis = yAxisType.SPEED;
          }
       });
 
@@ -205,13 +198,12 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       mTvWorkoutName.setText(mItem.getName());
 
       DecimalFormat decimalFormat = new DecimalFormat("0.#");
-      //todo
-      String distance = "0.0";//decimalFormat.format(mItem.getDistance() / 1000.0) + " KM";
+      String distance = "TOGLIMI"; //decimalFormat.format(mItem.getDistance() / 1000.0) + " KM";
       mTvWorkoutDistance.setText(distance);
 
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
       simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-      String duration = simpleDateFormat.format(mItem.getTotalTime() * 1000);
+      String duration = "toglimi"; //simpleDateFormat.format(mItem.getTotalTime() * 1000);
       mTvWorkoutTime.setText(duration);
 
       String avgSpeed = decimalFormat.format(mItem.getAverageSpeed()) + " KM/H";
@@ -330,84 +322,57 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    }
 
    private void plot() {
-      //mGraph.invalidate();
+      List<PointValue> values = new ArrayList<PointValue>();
+      Axis axisX = new Axis();
+      Axis axisY = new Axis().setHasLines(true);
 
-      DataPoint[] dataArray = new DataPoint[mListYAxis.size()];
-      List<WorkoutPoint> workoutPoints = mItem.getPoints();
 
-      if (mXAxis == xAxisType.TIME) {
-         //format the x label as a date
-         //getTime() returns the epoch in seconds, it must be converted in milliseconds multiplying by 1000 to create a Date
-         for (int i = 0; i < mListYAxis.size(); i++) {
+      for(int i = 0; i < mItem.getPoints().size(); i++){
+         Float x,y = 0f;
 
-            Log.d("XTime", Long.toString(workoutPoints.get(i).getTime()));
-            Log.d("XTime", new Date(workoutPoints.get(i).getTime()).toString());
-            dataArray[i] = new DataPoint(new Date(workoutPoints.get(i).getTime()), mListYAxis.get(i));
-
+         if(mXAxis == xAxisType.TIME){
+            x = (float) mItem.getPoints().get(i).getTime()/1000/60;
+            axisX.setName("Time");
+         } else {
+            x = (float) mItem.getPoints().get(i).getDistance();
+            axisX.setName("Distance");
          }
 
-         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataArray);
-         series.setColor(Color.parseColor(getString(R.string.colorPrimaryHex)));
-
-         mGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, new SimpleDateFormat("HH:mm:ss")) {
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-               if (isValueX) {
-                  // format the x label as date with the parent method
-                  Log.d("Formatter",mDateFormat.format(value));
-                  return super.formatLabel(value, isValueX);
-               } else {
-                  // format the y label without decimals
-                  DecimalFormat decimalFormat = new DecimalFormat("0");
-                  Log.d("Formatter",mDateFormat.format(value));
-                  return decimalFormat.format(value);
-               }
-            }
-         });
-
-         mGraph.getViewport().setXAxisBoundsManual(false);
-         mGraph.removeAllSeries();
-         mGraph.addSeries(series);
-
-         // set date label formatter
-         //the override is needed because the api object DateAsXAxisLabelFormatter does not provide a way
-         //to change the y label formatting style
-
-
-         mGraph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
-
-         // set manual x bounds to have nice steps
-         mGraph.getViewport().setMinX(workoutPoints.get(0).getTime());
-         mGraph.getViewport().setMaxX(workoutPoints.get(workoutPoints.size() - 1).getTime());
-         mGraph.getViewport().setXAxisBoundsManual(true);
-
-
-      } else if (mXAxis == xAxisType.DISTANCE) {
-
-         //format the x label in km
-         for (int i = 0; i < mListYAxis.size(); i++) {
-            dataArray[i] = new DataPoint(workoutPoints.get(i).getDistance() / 1000.0, mListYAxis.get(i));
+         switch(mYAxis){
+            case SPEED:
+               y = (float) mItem.getPoints().get(i).getSpeed();
+               axisY.setName("Speed");
+               break;
+            case STEP:
+               y = (float) mItem.getPoints().get(i).getStep();
+               axisY.setName("Step");
+               break;
+            case ALTITUDE:
+               y = (float) mItem.getPoints().get(i).getAltitude();
+               axisY.setName("Altitude");
+               break;
          }
 
-         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataArray);
-         series.setColor(Color.parseColor(getString(R.string.colorPrimaryHex)));
-
-         mGraph.getViewport().setXAxisBoundsManual(false);
-         mGraph.removeAllSeries();
-         mGraph.addSeries(series);
-
-         // set date label formatter
-         mGraph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(new DecimalFormat("0.#"), new DecimalFormat("0")));
-         mGraph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
-
-         // set manual x bounds to have nice steps
-         mGraph.getViewport().setMinX(workoutPoints.get(0).getDistance() / 1000.0);
-         mGraph.getViewport().setMaxX(workoutPoints.get(workoutPoints.size() - 1).getDistance() / 1000.0);
-         mGraph.getViewport().setXAxisBoundsManual(true);
-         mGraph.invalidate();
-
+         values.add(new PointValue(x, y));
       }
+
+
+
+
+      //In most cased you can call data model methods in builder-pattern-like manner.
+      Line line = new Line(values).setColor(ContextCompat.getColor(WorkoutDetailActivity.this, R.color.colorPrimaryDark)).setCubic(true);
+      List<Line> lines = new ArrayList<Line>();
+      lines.add(line);
+
+      LineChartData data = new LineChartData();
+      data.setLines(lines);
+      data.setAxisXBottom(axisX);
+      data.setAxisYLeft(axisY);
+      mChart.setZoomEnabled(false);
+      mChart.setContainerScrollEnabled(false, null);
+      mChart.setLineChartData(data);
    }
 
    private enum xAxisType {TIME, DISTANCE}
+   private enum yAxisType {SPEED, STEP, ALTITUDE}
 }

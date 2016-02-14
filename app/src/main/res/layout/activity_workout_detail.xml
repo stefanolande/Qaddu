@@ -24,12 +24,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/colorPrimary" />
 
-    <com.jjoe64.graphview.GraphView
+    <lecho.lib.hellocharts.view.LineChartView
         android:id="@+id/chart"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:layout_below="@id/tvWorkoutName"
-        android:paddingBottom="200dp" />
+        android:layout_below="@+id/tvWorkoutName" />
 
     <LinearLayout
         android:id="@+id/spinnerLayout"

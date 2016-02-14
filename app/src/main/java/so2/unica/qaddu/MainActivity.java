@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
       mTabLayout.setupWithViewPager(mViewPager);
 
       //DatabaseHelper.initialize(this);
-
+/*
       WorkoutItem workout = new WorkoutItem();
       workout.setTotalTime(300l);
       workout.setStartDate(new Date(1455138110000l));
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
       }
 
       List<WorkoutItem> data = DatabaseHelper.getIstance().GetData(WorkoutItem.class);
-      List<WorkoutPoint> points = data.get(0).getPoints();
+      List<WorkoutPoint> points = data.get(0).getPoints();*/
 
         /*workout.setTotalTime(5345345435l);
         workout.setStart(new Date());

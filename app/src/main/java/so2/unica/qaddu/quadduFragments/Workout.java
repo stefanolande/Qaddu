@@ -100,10 +100,10 @@ public class Workout extends Fragment {
 
 
     //This method is used to set the speed into the TextView of the instant speed
-    private void setInstantSpeed(double instantSpeed,boolean isCalculated) {
+    private void setInstantSpeed(double instantSpeed, boolean isCalculated) {
         DecimalFormat df = new DecimalFormat("#0.00");
         tvInstantSpeed.setText(df.format(instantSpeed) + " KM/H");
-        if(isCalculated){
+        if (isCalculated) {
             tvInstantSpeed.setTextColor(ContextCompat.getColor(getActivity(), R.color.QadduRed));
         } else {
             tvInstantSpeed.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
@@ -160,7 +160,7 @@ public class Workout extends Fragment {
         bStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!GPSService.running) {
+                if (!GPSService.running) {
                     Intent intent = new Intent(getActivity().getApplicationContext(), GPSService.class);
                     getActivity().startService(intent);
 
@@ -171,16 +171,19 @@ public class Workout extends Fragment {
 
                     bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
                 }
-                Intent intent = new Intent(getActivity().getApplicationContext(), WorkoutService.class);
-                intent.putExtra(WorkoutService.WORKOUT_TITLE, etNameWorkout.getText().toString());
-                getActivity().startService(intent);
+
+                if (!WorkoutService.running) {
+                    Intent intent = new Intent(getActivity().getApplicationContext(), WorkoutService.class);
+                    intent.putExtra(WorkoutService.WORKOUT_TITLE, etNameWorkout.getText().toString());
+                    getActivity().startService(intent);
+                }
             }
         });
 
         bStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(GPSService.running) {
+                if (GPSService.running) {
                     Intent intent = new Intent(getActivity().getApplicationContext(), GPSService.class);
                     getActivity().stopService(intent);
 
@@ -211,7 +214,7 @@ public class Workout extends Fragment {
                 public void onReceive(Context context, Intent intent) {
                     GpsPoint point = intent.getParcelableExtra(GpsPoint.QUADDU_GPS_POINT);
 
-                    setInstantSpeed(point.getSpeed(),point.isSpeedCalculated());
+                    setInstantSpeed(point.getSpeed(), point.isSpeedCalculated());
                 }
             };
             getActivity().registerReceiver(mBroadcastReceiver, filter);
