@@ -75,6 +75,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
    }
 
+   public <K> void removeData(K object, Class<K> name) {
+      try {
+         Dao dao = getDao(name);
+         dao.delete(object);
+      } catch (SQLException e) {
+         e.printStackTrace();
+      }
+
+   }
+
    public <K> void DeleteAll(Class<K> name) {
       try {
          TableUtils.clearTable(getConnectionSource(), name);

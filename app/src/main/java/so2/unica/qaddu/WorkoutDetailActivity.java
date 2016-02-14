@@ -1,11 +1,14 @@
 package so2.unica.qaddu;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -260,10 +263,24 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
       //noinspection SimplifiableIfStatement
       if (id == R.id.action_delete_workout) {
-         //Log.d("WorkoutDetail", "Delete press");
-         //handle workout delete
-         Toast toast = Toast.makeText(getApplicationContext(), "E se poi te ne penti?", Toast.LENGTH_SHORT);
-         toast.show();
+         AlertDialog.Builder builder = new AlertDialog.Builder(WorkoutDetailActivity.this);
+// Add the buttons
+         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+               WorkoutDetailActivity.this.finish();
+               DatabaseHelper.getIstance().removeData(mItem,WorkoutItem.class);
+            }
+         });
+         builder.setNegativeButton("gianni", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+               // User cancelled the dialog
+            }
+         });
+
+// Create the AlertDialog
+         AlertDialog dialog = builder.create();
+         dialog.setTitle("Vuoi davvro cancellare il workout?");
+         dialog.show();
          return true;
       }
 
