@@ -1,7 +1,9 @@
 package so2.unica.qaddu.quadduFragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,9 +20,12 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import so2.unica.qaddu.AppController;
 import so2.unica.qaddu.R;
 import so2.unica.qaddu.WorkoutDetailActivity;
 import so2.unica.qaddu.helpers.DatabaseHelper;
+import so2.unica.qaddu.helpers.ReceiverHelper;
+import so2.unica.qaddu.models.GpsPoint;
 import so2.unica.qaddu.models.WorkoutItem;
 
 
@@ -31,12 +36,17 @@ public class History extends Fragment {
    @Bind(R.id.lvWorkouts)
    ListView mListView;
 
+   BroadcastReceiver mBroadcastReceiver;
+
    public History() {
       // Required empty public constructor
    }
 
    @Override
    public void onCreate(Bundle savedInstanceState) {
+
+
+
       super.onCreate(savedInstanceState);
    }
 
@@ -49,13 +59,27 @@ public class History extends Fragment {
 
    @Override
    public void onStart() {
+      IntentFilter filter = new IntentFilter(AppController.BROADCAST_NEW_WORKOUT);
+
+      mBroadcastReceiver = new ReceiverHelper() {
+         @Override
+         public void onReceive(Context context, Intent intent) {
+            populateList();
+         }
+      };
+      getActivity().registerReceiver(mBroadcastReceiver, filter);
       super.onStart();
 
    }
 
    @Override
    public void onResume() {
+      populateList();
       super.onResume();
+   }
+
+   private void populateList(){
+
       ArrayAdapter<WorkoutItem> listAdapter;
 
       final List<WorkoutItem> workouts = DatabaseHelper.getIstance().GetData(WorkoutItem.class);
@@ -73,7 +97,8 @@ public class History extends Fragment {
 
                dateFormat = new SimpleDateFormat("HH:mm:ss");
                String startTime = dateFormat.format(workoutItem.getStartDate());
-//TO-DO
+
+               //todo remove this ***
                Double km = 0.0; //workoutItem.getDistance() / 1000.0;
                DecimalFormat df = new DecimalFormat("#0.0#");
 
@@ -109,5 +134,11 @@ public class History extends Fragment {
    @Override
    public void onDetach() {
       super.onDetach();
+   }
+
+   @Override
+   public void onStop() {
+      getActivity().unregisterReceiver(mBroadcastReceiver);
+      super.onStop();
    }
 }

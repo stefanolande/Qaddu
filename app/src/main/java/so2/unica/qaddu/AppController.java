@@ -9,6 +9,7 @@ import so2.unica.qaddu.helpers.DatabaseHelper;
  */
 public class AppController extends Application {
    public static final String BROADCAST_NEW_GPS_POSITION = "QuadduBroadcastNewGpsPosition";
+   public static final String BROADCAST_NEW_WORKOUT = "QuadduBroadcastNewWorkout";
    @Override
    public void onCreate() {
       super.onCreate();
