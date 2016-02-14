@@ -22,14 +22,12 @@ import so2.unica.qaddu.models.WorkoutPoint;
 
 
 /**
- * Created by Riccardo on 14/02/2016.
+ * Created by Stefano on 14/02/2016.
  */
 public class WorkoutService extends Service {
 
-    public static Boolean running = false;
-
     public static final String WORKOUT_TITLE = "QuadduWorkout";
-
+    public static Boolean running = false;
     WorkoutItem mItem;
     List<WorkoutPoint> mPoints;
 
@@ -37,7 +35,6 @@ public class WorkoutService extends Service {
 
     BroadcastReceiver mBroadcastReceiver;
 
-    int coso = 0;
 
     @Nullable
     @Override
