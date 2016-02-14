@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -94,7 +93,7 @@ public class GPSService extends Service
 
    //Appena è disponibile un nuovo punto notifico il client registrato
    public void onLocationChanged(Location location) {
-      if (lastupdate != null){
+      if (lastupdate != null && !location.hasSpeed()) {
          Long now = System.currentTimeMillis();
          if(now - lastupdate > 1000){
             latitude = location.getLatitude();
@@ -113,6 +112,11 @@ public class GPSService extends Service
             intent.putExtra("speed",speed);
             sendBroadcast(intent);
          }
+      }
+
+      if (location.hasSpeed()) {
+         Toast toast = Toast.makeText(getApplicationContext(), "Chessone homo", Toast.LENGTH_SHORT);
+         toast.show();
       }
 
       lastupdate = System.currentTimeMillis();
