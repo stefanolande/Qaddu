@@ -115,8 +115,14 @@ public class GPSService extends Service
       }
 
       if (location.hasSpeed()) {
-         Toast toast = Toast.makeText(getApplicationContext(), "Chessone homo", Toast.LENGTH_SHORT);
+         Toast toast = Toast.makeText(getApplicationContext(), "Chessone homo " + location.getSpeed(), Toast.LENGTH_SHORT);
          toast.show();
+         speed = location.getSpeed();
+         //Avviso i client (uno in questo caso)
+         Intent intent = new Intent();
+         intent.setAction("gianni.gianni");
+         intent.putExtra("speed", speed);
+         sendBroadcast(intent);
       }
 
       lastupdate = System.currentTimeMillis();
