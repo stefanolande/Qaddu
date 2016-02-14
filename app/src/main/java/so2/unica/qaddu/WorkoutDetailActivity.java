@@ -268,6 +268,9 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                WorkoutDetailActivity.this.finish();
+               for(WorkoutPoint point : mItem.getPoints()){
+                  DatabaseHelper.getIstance().removeData(point,WorkoutPoint.class);
+               }
                DatabaseHelper.getIstance().removeData(mItem,WorkoutItem.class);
             }
          });
