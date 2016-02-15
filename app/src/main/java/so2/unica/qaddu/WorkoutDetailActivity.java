@@ -216,7 +216,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       Log.d("AVGStep", mItem.getAverageStepInSeconds() + "");
       mTvWorkoutAvgStep.setText(avgStep);
 
-      simpleDateFormat = new SimpleDateFormat("dd-mm-yy HH:mm:ss");
+      simpleDateFormat = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
       simpleDateFormat.setTimeZone(TimeZone.getDefault());
       String date = simpleDateFormat.format(mItem.getStartDate().getTime());
       mTvWorkoutDate.setText(date);
@@ -349,7 +349,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
             @Override
             public int formatValueForManualAxis(char[] formattedValue, AxisValue axisValue) {
-               //not used
+               //not used-
                return 0;
             }
          });
@@ -387,9 +387,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          values.add(new PointValue(x, y));
       }
 
-
-      //In most cased you can call data model methods in builder-pattern-like manner.
-      Line line = new Line(values).setColor(ContextCompat.getColor(WorkoutDetailActivity.this, R.color.colorPrimary)).setCubic(true);
+      Line line = new Line(values).setColor(ContextCompat.getColor(WorkoutDetailActivity.this, R.color.colorPrimary)).setCubic(true).setHasPoints(false).setFilled(true);
       List<Line> lines = new ArrayList<>();
       lines.add(line);
 
