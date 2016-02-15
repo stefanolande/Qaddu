@@ -92,7 +92,7 @@ public class WorkoutItem {
    public double getAverageSpeed() {
       double speed = 0;
       if (totalTime != 0) {
-         speed = distance / totalTime * 3.6;
+         speed = distance / (totalTime / 1000) * 3.6;
       }
       return speed;
    }

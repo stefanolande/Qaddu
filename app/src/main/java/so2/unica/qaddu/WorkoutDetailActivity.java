@@ -81,6 +81,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    ArrayList<Double> mListYAxis;
    xAxisType mXAxis;
    yAxisType mYAxis;
+   Boolean mImportedWorkout;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +120,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
                mItem.getPoints().get(i).setWorkout(mItem);
             }
 
-            DatabaseHelper.getIstance().addData(mItem, WorkoutItem.class);
+            mImportedWorkout = true;
          } catch (IOException e) {
             Log.d("E", "EXCEPTION");
          }
@@ -130,6 +131,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          //get the id and fetch it from the database
          int id = bundle.getInt(History.WORKOUT_ID);
          mItem = (WorkoutItem) DatabaseHelper.getIstance().getItemById(id, WorkoutItem.class);
+         mImportedWorkout = false;
       }
 
       //set the time as default x axis
@@ -214,7 +216,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       Log.d("AVGStep", mItem.getAverageStepInSeconds() + "");
       mTvWorkoutAvgStep.setText(avgStep);
 
-      simpleDateFormat = new SimpleDateFormat("dd-mm-yy HH:mm:ss");
+      simpleDateFormat = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
       simpleDateFormat.setTimeZone(TimeZone.getDefault());
       String date = simpleDateFormat.format(mItem.getStartDate().getTime());
       mTvWorkoutDate.setText(date);
@@ -243,7 +245,10 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       // Inflate the menu; this adds items to the action bar if it is present.
       this.mMenu = menu;
 
-      getMenuInflater().inflate(R.menu.delete, this.mMenu);
+      //do not create the delete icon if the interface is showing an imported workout
+      if (!mImportedWorkout) {
+         getMenuInflater().inflate(R.menu.delete, this.mMenu);
+      }
 
       return true;
    }
@@ -344,7 +349,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
             @Override
             public int formatValueForManualAxis(char[] formattedValue, AxisValue axisValue) {
-               //not used
+               //not used-
                return 0;
             }
          });
@@ -382,9 +387,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          values.add(new PointValue(x, y));
       }
 
-
-      //In most cased you can call data model methods in builder-pattern-like manner.
-      Line line = new Line(values).setColor(ContextCompat.getColor(WorkoutDetailActivity.this, R.color.colorPrimary)).setCubic(true);
+      Line line = new Line(values).setColor(ContextCompat.getColor(WorkoutDetailActivity.this, R.color.colorPrimary)).setCubic(true).setHasPoints(false).setFilled(true);
       List<Line> lines = new ArrayList<>();
       lines.add(line);
 
