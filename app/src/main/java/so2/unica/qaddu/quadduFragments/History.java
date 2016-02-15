@@ -25,7 +25,6 @@ import so2.unica.qaddu.R;
 import so2.unica.qaddu.WorkoutDetailActivity;
 import so2.unica.qaddu.helpers.DatabaseHelper;
 import so2.unica.qaddu.helpers.ReceiverHelper;
-import so2.unica.qaddu.models.GpsPoint;
 import so2.unica.qaddu.models.WorkoutItem;
 
 
@@ -98,8 +97,7 @@ public class History extends Fragment {
                dateFormat = new SimpleDateFormat("HH:mm:ss");
                String startTime = dateFormat.format(workoutItem.getStartDate());
 
-               //todo remove this ***
-               Double km = 0.0; //workoutItem.getDistance() / 1000.0;
+               Double km = workoutItem.getDistance() / 1000.0;
                DecimalFormat df = new DecimalFormat("#0.0#");
 
                ((TextView) convertView.findViewById(R.id.tvWorkoutName)).setText(workoutItem.getName());

@@ -99,4 +99,7 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="gps_disable">Turn on the gps before starting a workout.</string>
     <string name="workout_detail">Workout detail</string>
+    <string name="no">No</string>
+    <string name="delete">Delete</string>
+    <string name="workout_delete_confirmation">Are you sure you want to delete the workout?</string>
 </resources>
