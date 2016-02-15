@@ -73,6 +73,7 @@ public class Workout extends Fragment {
 
     BroadcastReceiver mBroadcastReceiver;
 
+
     int mContainterWidth;
     int tmpOff = -100;
 
