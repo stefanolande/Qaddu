@@ -81,6 +81,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    ArrayList<Double> mListYAxis;
    xAxisType mXAxis;
    yAxisType mYAxis;
+   Boolean mImportedWorkout;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +120,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
                mItem.getPoints().get(i).setWorkout(mItem);
             }
 
-            DatabaseHelper.getIstance().addData(mItem, WorkoutItem.class);
+            mImportedWorkout = true;
          } catch (IOException e) {
             Log.d("E", "EXCEPTION");
          }
@@ -130,6 +131,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          //get the id and fetch it from the database
          int id = bundle.getInt(History.WORKOUT_ID);
          mItem = (WorkoutItem) DatabaseHelper.getIstance().getItemById(id, WorkoutItem.class);
+         mImportedWorkout = false;
       }
 
       //set the time as default x axis
@@ -243,7 +245,10 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       // Inflate the menu; this adds items to the action bar if it is present.
       this.mMenu = menu;
 
-      getMenuInflater().inflate(R.menu.delete, this.mMenu);
+      //do not create the delete icon if the interface is showing an imported workout
+      if (!mImportedWorkout) {
+         getMenuInflater().inflate(R.menu.delete, this.mMenu);
+      }
 
       return true;
    }
