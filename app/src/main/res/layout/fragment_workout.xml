@@ -236,7 +236,7 @@
                 android:clickable="true"
                 android:nestedScrollingEnabled="false"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_stop"/>
+                android:src="@drawable/ic_stopgray"/>
         </RelativeLayout>
 
         <RelativeLayout

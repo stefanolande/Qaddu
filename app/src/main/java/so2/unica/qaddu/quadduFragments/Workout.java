@@ -164,13 +164,14 @@ public class Workout extends Fragment {
                 if (!GPSService.running) {
                     Intent intent = new Intent(getActivity().getApplicationContext(), GPSService.class);
                     getActivity().startService(intent);
-
+                    bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stopgray));
                     bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
                 } else {
                     Intent intent = new Intent(getActivity().getApplicationContext(), GPSService.class);
                     getActivity().stopService(intent);
 
                     bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+                    bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stop));
                 }
 
                 if (!WorkoutService.running) {
