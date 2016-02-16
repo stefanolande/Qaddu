@@ -256,7 +256,8 @@
                 android:clickable="true"
                 android:nestedScrollingEnabled="false"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_play"/>
+                android:src="@drawable/ic_play"
+                android:contextClickable="false" />
 
 
         </RelativeLayout>
