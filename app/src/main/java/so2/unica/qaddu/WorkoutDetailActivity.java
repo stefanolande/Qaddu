@@ -193,7 +193,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          }
       });
 
-
       addFloatingButtonAction();
 
       mTvWorkoutName.setText(mItem.getName());
@@ -387,7 +386,11 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          values.add(new PointValue(x, y));
       }
 
-      Line line = new Line(values).setColor(ContextCompat.getColor(WorkoutDetailActivity.this, R.color.colorPrimary)).setCubic(true).setHasPoints(false).setFilled(true);
+      Line line = new Line(values);
+      line.setColor(ContextCompat.getColor(WorkoutDetailActivity.this, R.color.colorPrimary));
+      line.setCubic(true);
+      line.setHasPoints(false);
+      line.setFilled(true);
       List<Line> lines = new ArrayList<>();
       lines.add(line);
 
