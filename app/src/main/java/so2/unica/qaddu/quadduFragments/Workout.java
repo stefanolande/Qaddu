@@ -164,14 +164,15 @@ public class Workout extends Fragment {
                 if (!GPSService.running) {
                     Intent intent = new Intent(getActivity().getApplicationContext(), GPSService.class);
                     getActivity().startService(intent);
-                    bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stopgray));
+                    //when the workout is play or pause, the user can stop the workout (the stop button in enable, is blu)
+                    bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stop));
                     bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
                 } else {
                     Intent intent = new Intent(getActivity().getApplicationContext(), GPSService.class);
                     getActivity().stopService(intent);
 
                     bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
-                    bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stop));
+                    //bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stop));
                 }
 
                 if (!WorkoutService.running) {
@@ -188,11 +189,12 @@ public class Workout extends Fragment {
                 if (GPSService.running) {
                     Intent intent = new Intent(getActivity().getApplicationContext(), GPSService.class);
                     getActivity().stopService(intent);
-
                     bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
                 }
                 Intent intent = new Intent(getActivity().getApplicationContext(), WorkoutService.class);
                 getActivity().stopService(intent);
+                //when the Workout is stopped, the user can't click stop button again
+                bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stopgray));
             }
         });
 
