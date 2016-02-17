@@ -191,7 +191,7 @@ public class WorkoutFragment extends Fragment {
       bStop.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
-            if (GPSService.running) {
+            if (GPSService.mRunning) {
                Intent intent = new Intent(getActivity().getApplicationContext(), GPSService.class);
                getActivity().stopService(intent);
                bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
