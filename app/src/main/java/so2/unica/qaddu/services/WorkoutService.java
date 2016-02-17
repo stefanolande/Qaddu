@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Location;
+import android.os.Binder;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,30 +20,39 @@ import so2.unica.qaddu.helpers.ReceiverHelper;
 import so2.unica.qaddu.models.GpsPoint;
 import so2.unica.qaddu.models.WorkoutItem;
 import so2.unica.qaddu.models.WorkoutPoint;
+import so2.unica.qaddu.quadduFragments.WorkoutFragment;
 
 
 /**
  * Created by Stefano on 14/02/2016.
  */
+
 public class WorkoutService extends Service {
 
    public static final String WORKOUT_TITLE = "QuadduWorkout";
    public static Boolean running = false;
+   // Binder given to clients
+   private final IBinder mBinder = new LocalBinder();
    WorkoutItem mItem;
    List<WorkoutPoint> mPoints;
-
    Double mDistance;
-
    BroadcastReceiver mBroadcastReceiver;
-
+   //Reference to the WorkoutFragment to update the UI
+   private WorkoutFragment workoutFragment;
    private int mIntevalLength;
    private long mTotalTime;
 
-
-   @Nullable
    @Override
    public IBinder onBind(Intent intent) {
-      return null;
+      return mBinder;
+   }
+
+   public void addWorkoutListener(WorkoutFragment workoutFragment) {
+      this.workoutFragment = workoutFragment;
+   }
+
+   public void removeWorkoutListener() {
+      this.workoutFragment = null;
    }
 
    @Override
@@ -67,12 +76,12 @@ public class WorkoutService extends Service {
          @Override
          public void onReceive(Context context, Intent intent) {
             GpsPoint point = intent.getParcelableExtra(GpsPoint.QUADDU_GPS_POINT);
-
             onReceivePoint(point);
          }
       };
       this.registerReceiver(mBroadcastReceiver, filter);
 
+      //TODO retrieve the interval length from settings and set mIntervalLength
 
       return super.onStartCommand(intent, flags, startId);
    }
@@ -92,10 +101,16 @@ public class WorkoutService extends Service {
          mDistance += distanceArray[0];
       }
 
+      mTotalTime = System.currentTimeMillis() - mItem.getStartDate().getTime();
 
-      mPoints.add(new WorkoutPoint(mItem, point.getLatitude(), point.getLongitude(), point.getSpeed(), point.getAltitude(), System.currentTimeMillis() - mItem.getStartDate().getTime(), mDistance));
-      mItem.setTotalTime(System.currentTimeMillis() - mItem.getStartDate().getTime());
+      mPoints.add(new WorkoutPoint(mItem, point.getLatitude(), point.getLongitude(), point.getSpeed(), point.getAltitude(), mTotalTime, mDistance));
+      mItem.setTotalTime(mTotalTime);
       mItem.setDistance(mDistance);
+
+      //notify the UI
+      if (this.workoutFragment != null) {
+         this.workoutFragment.update();
+      }
    }
 
    @Override
@@ -119,20 +134,28 @@ public class WorkoutService extends Service {
       super.onDestroy();
    }
 
-   public void setIntervalLength(int intervalLength) {
-      this.mIntevalLength = intervalLength;
-   }
-
+   /**
+    * Returns the last instantaneous speed in km/h
+    *
+    * @return double speed in km/h
+    */
    public double getSpeed() {
       WorkoutPoint lastWorkoutPoint = mPoints.get(mPoints.size() - 1);
       return lastWorkoutPoint.getSpeed();
    }
 
+   /**
+    * Returns the average speed for the workout in km/h
+    * @return double speed in km/j
+    */
    public double getTotalSpeed() {
-
       return msTokmh(mDistance / mTotalTime);
    }
 
+   /**
+    * Returns the average speed for the last interval in km/h
+    * @return double speed in km/h
+    */
    public double getIntevalSpeed() {
       //fetch the workout point in the last *interval* meters
       ArrayList<WorkoutPoint> lastPoints = new ArrayList<>();
@@ -155,12 +178,20 @@ public class WorkoutService extends Service {
       return msTokmh(averageSpeed);
    }
 
+   /**
+    * Returns the average step for the workout in seconds to km
+    * @return double step in seconds to km
+    */
    public double getTotalStep() {
       double timeKm = mTotalTime / (mDistance / 1000);
 
       return timeKm;
    }
 
+   /**
+    * Returns the average step for the last interval in seconds to km
+    * @return double seconds to km
+    */
    public double getIntervalStep() {
       //fetch the workout point in the last *interval* meters
       ArrayList<WorkoutPoint> lastPoints = new ArrayList<>();
@@ -188,16 +219,39 @@ public class WorkoutService extends Service {
       return sToKm;
    }
 
+   /**
+    * Returns the distance covered during the workout in meters
+    * @return double distance in meters
+    */
    public double getDistance() {
       return mDistance / 1000;
    }
 
+   /**
+    * Returns the duration of the workout in seconds
+    * @return
+    */
    public long getTime() {
       return mTotalTime;
    }
 
+   /**
+    * Converts the speed from m/s to km/h
+    * @param ms speed in m/s
+    * @return double speed in km/h
+    */
    private double msTokmh(double ms) {
       return ms * 3.6; //3.6 is the conversion factor from m/s to km/h
+   }
+
+   /**
+    * Class used for the client Binder.
+    */
+   public class LocalBinder extends Binder {
+      public WorkoutService getService() {
+         // Return this instance of WorkoutService so clients can call public methods
+         return WorkoutService.this;
+      }
    }
 
 }

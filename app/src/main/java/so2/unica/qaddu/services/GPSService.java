@@ -9,7 +9,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.Toast;
 
 import so2.unica.qaddu.AppController;
@@ -69,12 +68,12 @@ public class GPSService extends Service
     //Appena è disponibile un nuovo punto notifico il client registrato
     public void onLocationChanged(Location location) {
 
-        Boolean calculatedSpeed = false;
+        Boolean isSpeedCalculated = false;
         if (!location.hasSpeed() && lastupdate != null) {
             Double time = (System.currentTimeMillis() - lastupdate) / 1000.0;
             Double distance = calculateNewDistance(location.getLatitude(), location.getLongitude());
             location.setSpeed((float) (distance / time));
-            calculatedSpeed = true;
+            isSpeedCalculated = true;
         }
 
         lastupdate = System.currentTimeMillis();
@@ -83,7 +82,7 @@ public class GPSService extends Service
 
         Intent intent = new Intent();
         intent.setAction(AppController.BROADCAST_NEW_GPS_POSITION);
-        intent.putExtra(GpsPoint.QUADDU_GPS_POINT, new GpsPoint(location.getLatitude(), location.getLongitude(), location.getSpeed() * 3.6, location.getAltitude(), calculatedSpeed));
+        intent.putExtra(GpsPoint.QUADDU_GPS_POINT, new GpsPoint(location.getLatitude(), location.getLongitude(), location.getSpeed() * 3.6, location.getAltitude(), isSpeedCalculated));
         sendBroadcast(intent);
     }
 

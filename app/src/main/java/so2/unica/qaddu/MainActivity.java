@@ -13,18 +13,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import so2.unica.qaddu.helpers.DatabaseHelper;
-import so2.unica.qaddu.models.WorkoutItem;
-import so2.unica.qaddu.models.WorkoutPoint;
-import so2.unica.qaddu.quadduFragments.History;
-import so2.unica.qaddu.quadduFragments.Workout;
+import so2.unica.qaddu.quadduFragments.HistoryFragment;
+import so2.unica.qaddu.quadduFragments.WorkoutFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -135,10 +127,10 @@ public class MainActivity extends AppCompatActivity {
          Fragment frg = new Fragment();
          switch (i) {
             case 0:
-               frg = new Workout();
+               frg = new WorkoutFragment();
                break;
             case 1:
-               frg = new History();
+               frg = new HistoryFragment();
                break;
          }
 

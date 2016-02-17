@@ -1,12 +1,12 @@
 package so2.unica.qaddu.quadduFragments;
 
-import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,18 +21,18 @@ import java.text.DecimalFormat;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import so2.unica.qaddu.AppController;
 import so2.unica.qaddu.R;
-import so2.unica.qaddu.helpers.ReceiverHelper;
-import so2.unica.qaddu.models.GpsPoint;
 import so2.unica.qaddu.services.GPSService;
 import so2.unica.qaddu.services.WorkoutService;
+import so2.unica.qaddu.services.WorkoutService.LocalBinder;
 
 
-public class Workout extends Fragment {
+public class WorkoutFragment extends Fragment {
 
-   BroadcastReceiver mBroadcastReceiver;
-   int mContainterWidth;
+   WorkoutService mService;
+   boolean mBound = false;
+
+   int mContainerWidth;
    int tmpOff = -100;
    float totalKm = 0;      //It contains the total kilometers traveled
    float totalKmH = 0;     //It contains the total speed
@@ -42,69 +42,81 @@ public class Workout extends Fragment {
    float totalStep = 0;    //It contain the total step
    float lastStep = 0;     //It contain the step of the last X meter
    float instantSpeed = 0; //It contain the instant speed
-   String nameWorkout = "";//It contain the workout's name
+
    @Bind(R.id.circle_container)
-   private LinearLayout mCircleContainer;
+   LinearLayout mCircleContainer;
    @Bind(R.id.min_circle)
-   private View mCircle;
+   View mCircle;
    @Bind(R.id.tv_instant_speed)
-   private TextView tvInstantSpeed;
+   TextView tvInstantSpeed;
    @Bind(R.id.tv_target)
-   private TextView tvTargetSpeed;
+   TextView tvTargetSpeed;
    @Bind(R.id.tv_total_km)
-   private TextView tvTotalKm;
+   TextView tvTotalKm;
    @Bind(R.id.tv_total_speed)
-   private TextView tvTotalKmH;
+   TextView tvTotalKmH;
    @Bind(R.id.tv_total_time)
-   private TextView tvTotalTime;
+   TextView tvTotalTime;
    @Bind(R.id.tv_total_step)
-   private TextView tvTotalStep;
+   TextView tvTotalStep;
    @Bind(R.id.tv_last_x_speed)
-   private TextView tvLastSpeed;
+   TextView tvLastSpeed;
    @Bind(R.id.tv_last_x_step)
-   private TextView tvLastStep;
+   TextView tvLastStep;
    @Bind(R.id.nameWorkout)
-   private EditText etNameWorkout;
+   EditText etNameWorkout;
    @Bind(R.id.btn_stop)
-   private ImageButton bStop;
+   ImageButton bStop;
    @Bind(R.id.btn_start)
-   private ImageButton bStart;
+   ImageButton bStart;
+
    private String mWorkoutName = "Untitled workout";
    private boolean mWorkoutRunning = false;
    private boolean mWorkoutPaused = false;
+   /**
+    * Defines callbacks for service binding, passed to bindService()
+    */
+   private ServiceConnection mConnection = new ServiceConnection() {
+      @Override
+      public void onServiceConnected(ComponentName name, IBinder service) {
+         LocalBinder binder = (LocalBinder) service;
+         mService = binder.getService();
+         mBound = true;
+      }
 
+      @Override
+      public void onServiceDisconnected(ComponentName name) {
+         mBound = false;
+      }
+   };
 
-   public Workout() {
+   public WorkoutFragment() {
       // Required empty public constructor
    }
 
-   private void setCircleOffset(double o) {
+   private void setCircleOffset(double offset) {
       LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mCircle.getLayoutParams();
-      int margin = (int) (mContainterWidth / 100 * o);
+      int margin = (int) (mContainerWidth / 100 * offset);
       params.setMargins(margin, 0, 0, 0); //substitute parameters for left, top, right, bottom
       mCircle.setLayoutParams(params);
    }
 
-
    //This method is used to set the speed into the TextView of the instant speed
-   private void setInstantSpeed(double instantSpeed, boolean isCalculated) {
+   private void setInstantSpeed(double instantSpeed) {
       DecimalFormat df = new DecimalFormat("#0.00");
       tvInstantSpeed.setText(df.format(instantSpeed) + " KM/H");
-      if (isCalculated) {
-         tvInstantSpeed.setTextColor(ContextCompat.getColor(getActivity(), R.color.QadduRed));
-      } else {
-         tvInstantSpeed.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
-      }
    }
 
    //This method is used to set the target speed into the TextView of the target speed
    private void setTargetSpeed(float targetSpeed) {
-      tvTargetSpeed.setText(Float.toString(targetSpeed) + " Km/h");
+      tvTargetSpeed.setText(Float.toString(targetSpeed) + " KM/H");
    }
 
    //This method is used to set the total Km traveled into the TextView of the total km
-   private void setTotalKm(float totalKm) {
-      tvTotalKm.setText(Float.toString(totalKm) + " Km");
+   private void setTotalKm(double totalMeters) {
+      double km = totalMeters / 1000;
+      DecimalFormat df = new DecimalFormat("#0.0");
+      tvTotalKm.setText(df.format(totalKm) + " KM");
    }
 
    //This method is used to set the total speed into the TextView of the total speed
@@ -168,8 +180,10 @@ public class Workout extends Fragment {
 
                etNameWorkout.setEnabled(false);
 
+               //Start and bind the workout service
                intent.putExtra(WorkoutService.WORKOUT_TITLE, mWorkoutName);
-               getActivity().startService(intent);
+               getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
             }
          }
       });
@@ -183,16 +197,25 @@ public class Workout extends Fragment {
                bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
             }
             Intent intent = new Intent(getActivity().getApplicationContext(), WorkoutService.class);
-            getActivity().stopService(intent);
-            //when the Workout is stopped, the user can't click stop button again
+
+            //Stop the gps service
+            if (mBound) {
+               getActivity().unbindService(mConnection);
+               mBound = false;
+            }
+
+
+            //when the WorkoutFragment is stopped, the user can't click stop button again
             bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stopgray));
             mWorkoutRunning = false;
             mWorkoutPaused = false;
             etNameWorkout.setEnabled(true);
-            Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Workout " + mWorkoutName + " saved.", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getActivity().getApplicationContext(), "WorkoutFragment " + mWorkoutName + " saved.", Toast.LENGTH_SHORT);
             toast.show();
          }
       });
+
+      //TODO retrieve the target speed from settings and setTargetSpeed()
 
       return view;
    }
@@ -203,23 +226,10 @@ public class Workout extends Fragment {
       mCircleContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
          @Override
          public void onGlobalLayout() {
-            mContainterWidth = mCircleContainer.getWidth();
+            mContainerWidth = mCircleContainer.getWidth();
          }
       });
-      if (mBroadcastReceiver == null) {
-         IntentFilter filter = new IntentFilter(AppController.BROADCAST_NEW_GPS_POSITION);
-
-         mBroadcastReceiver = new ReceiverHelper() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-               GpsPoint point = intent.getParcelableExtra(GpsPoint.QUADDU_GPS_POINT);
-
-               setInstantSpeed(point.getSpeed(), point.isSpeedCalculated());
-            }
-         };
-         getActivity().registerReceiver(mBroadcastReceiver, filter);
-
-      }
+   }
 
 /*
       new Thread(new Runnable() {
@@ -260,6 +270,15 @@ public class Workout extends Fragment {
       }).start();
 
 */
+
+
+   public void update() {
+      //update the UI using public service (mBinder) methods
+      setInstantSpeed(mService.getSpeed());
+      setTotalTime(mService.getTime());
+      setTotalKm(mService.getDistance());
+      setTotalSpeed(mService.getTotalSpeed());
+
    }
 
    @Override

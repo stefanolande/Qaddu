@@ -47,7 +47,7 @@ import lecho.lib.hellocharts.view.LineChartView;
 import so2.unica.qaddu.helpers.DatabaseHelper;
 import so2.unica.qaddu.models.WorkoutItem;
 import so2.unica.qaddu.models.WorkoutPoint;
-import so2.unica.qaddu.quadduFragments.History;
+import so2.unica.qaddu.quadduFragments.HistoryFragment;
 
 
 public class WorkoutDetailActivity extends AppCompatActivity {
@@ -129,7 +129,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       } else {
          //The user is opening a workout from the history
          //get the id and fetch it from the database
-         int id = bundle.getInt(History.WORKOUT_ID);
+         int id = bundle.getInt(HistoryFragment.WORKOUT_ID);
          mItem = (WorkoutItem) DatabaseHelper.getIstance().getItemById(id, WorkoutItem.class);
          mImportedWorkout = false;
       }
