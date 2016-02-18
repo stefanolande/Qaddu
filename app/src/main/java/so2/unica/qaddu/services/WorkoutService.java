@@ -20,7 +20,6 @@ import so2.unica.qaddu.helpers.ReceiverHelper;
 import so2.unica.qaddu.models.GpsPoint;
 import so2.unica.qaddu.models.WorkoutItem;
 import so2.unica.qaddu.models.WorkoutPoint;
-import so2.unica.qaddu.quadduFragments.WorkoutFragment;
 
 
 /**
@@ -37,8 +36,8 @@ public class WorkoutService extends Service {
    List<WorkoutPoint> mPoints;
    Double mDistance;
    BroadcastReceiver mBroadcastReceiver;
-   //Reference to the WorkoutFragment to update the UI
-   private WorkoutFragment workoutFragment;
+   //Reference to the updateUI to update the UI
+   private updateUI observer;
    private int mIntevalLength;
    private long mTotalTime;
 
@@ -47,12 +46,12 @@ public class WorkoutService extends Service {
       return mBinder;
    }
 
-   public void addWorkoutListener(WorkoutFragment workoutFragment) {
-      this.workoutFragment = workoutFragment;
+   public void addWorkoutListener(updateUI updateUI) {
+      this.observer = updateUI;
    }
 
    public void removeWorkoutListener() {
-      this.workoutFragment = null;
+      this.observer = null;
    }
 
    @Override
@@ -108,8 +107,8 @@ public class WorkoutService extends Service {
       mItem.setDistance(mDistance);
 
       //notify the UI
-      if (this.workoutFragment != null) {
-         this.workoutFragment.update();
+      if (this.observer != null) {
+         this.observer.update();
       }
    }
 
@@ -242,6 +241,13 @@ public class WorkoutService extends Service {
     */
    private double msTokmh(double ms) {
       return ms * 3.6; //3.6 is the conversion factor from m/s to km/h
+   }
+
+   /**
+    * Interface for listener
+    */
+   public interface updateUI {
+      void update();
    }
 
    /**

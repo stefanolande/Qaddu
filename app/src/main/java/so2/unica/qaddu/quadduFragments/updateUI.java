@@ -27,7 +27,7 @@ import so2.unica.qaddu.services.WorkoutService;
 import so2.unica.qaddu.services.WorkoutService.LocalBinder;
 
 
-public class WorkoutFragment extends Fragment {
+public class updateUI extends Fragment implements WorkoutService.updateUI {
 
    WorkoutService mService;
    boolean mBound = false;
@@ -90,7 +90,7 @@ public class WorkoutFragment extends Fragment {
       }
    };
 
-   public WorkoutFragment() {
+   public updateUI() {
       // Required empty public constructor
    }
 
@@ -205,12 +205,12 @@ public class WorkoutFragment extends Fragment {
             }
 
 
-            //when the WorkoutFragment is stopped, the user can't click stop button again
+            //when the updateUI is stopped, the user can't click stop button again
             bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stopgray));
             mWorkoutRunning = false;
             mWorkoutPaused = false;
             etNameWorkout.setEnabled(true);
-            Toast toast = Toast.makeText(getActivity().getApplicationContext(), "WorkoutFragment " + mWorkoutName + " saved.", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getActivity().getApplicationContext(), "updateUI " + mWorkoutName + " saved.", Toast.LENGTH_SHORT);
             toast.show();
          }
       });
