@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,19 +16,18 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DecimalFormat;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import so2.unica.qaddu.R;
-import so2.unica.qaddu.services.GPSService;
 import so2.unica.qaddu.services.WorkoutService;
 import so2.unica.qaddu.services.WorkoutService.LocalBinder;
+import so2.unica.qaddu.services.WorkoutService.updateUI;
 
 
-public class updateUI extends Fragment implements WorkoutService.updateUI {
+public class WorkoutFragment extends Fragment implements updateUI {
 
    WorkoutService mService;
    boolean mBound = false;
@@ -82,6 +82,7 @@ public class updateUI extends Fragment implements WorkoutService.updateUI {
          LocalBinder binder = (LocalBinder) service;
          mService = binder.getService();
          mBound = true;
+         mService.addWorkoutListener(WorkoutFragment.this);
       }
 
       @Override
@@ -90,7 +91,7 @@ public class updateUI extends Fragment implements WorkoutService.updateUI {
       }
    };
 
-   public updateUI() {
+   public WorkoutFragment() {
       // Required empty public constructor
    }
 
@@ -163,15 +164,12 @@ public class updateUI extends Fragment implements WorkoutService.updateUI {
                //when the workout is play or pause, the user can stop the workout (the stop button in enable, is blu)
                bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stop));
                bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
-               mWorkoutRunning = true;
             } else {
                bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
                mWorkoutPaused = true;
             }
 
             if (!mWorkoutRunning) {
-               Intent intent = new Intent(getActivity().getApplicationContext(), WorkoutService.class);
-
                if (!etNameWorkout.getText().equals("")) {
                   mWorkoutName = etNameWorkout.getText().toString();
                } else {
@@ -181,9 +179,12 @@ public class updateUI extends Fragment implements WorkoutService.updateUI {
                etNameWorkout.setEnabled(false);
 
                //Start and bind the workout service
+               Log.d("WorkoutFragment", "requested service");
+               Intent intent = new Intent(getActivity(), WorkoutService.class);
                intent.putExtra(WorkoutService.WORKOUT_TITLE, mWorkoutName);
+               getActivity().startService(intent);
                getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-
+               mWorkoutRunning = true;
             }
          }
       });
@@ -191,27 +192,26 @@ public class updateUI extends Fragment implements WorkoutService.updateUI {
       bStop.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
-            if (GPSService.mRunning) {
-               Intent intent = new Intent(getActivity().getApplicationContext(), GPSService.class);
-               getActivity().stopService(intent);
-               bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
-            }
-            Intent intent = new Intent(getActivity().getApplicationContext(), WorkoutService.class);
 
-            //Stop the gps service
+            //unbind the workout service
             if (mBound) {
                getActivity().unbindService(mConnection);
                mBound = false;
             }
 
+            //Stop the workout service service
+            if (WorkoutService.running) {
+               Intent intent = new Intent(getActivity().getApplicationContext(), WorkoutService.class);
+               getActivity().stopService(intent);
+               bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+            }
 
-            //when the updateUI is stopped, the user can't click stop button again
+
+            //when the workout is stopped, the user can't click stop button again
             bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stopgray));
             mWorkoutRunning = false;
             mWorkoutPaused = false;
             etNameWorkout.setEnabled(true);
-            Toast toast = Toast.makeText(getActivity().getApplicationContext(), "updateUI " + mWorkoutName + " saved.", Toast.LENGTH_SHORT);
-            toast.show();
          }
       });
 

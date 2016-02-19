@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
 import so2.unica.qaddu.AppController;
@@ -37,11 +38,13 @@ public class GPSService extends Service
    @Override
    public int onStartCommand(Intent intent, int flags, int startId) {
       mRunning = true;
+      Log.d("GPSService", "started");
       return super.onStartCommand(intent, flags, startId);
    }
 
    @Override
    public void onDestroy() {
+      Log.d("GPSService", "stopped");
       super.onDestroy();
       mRunning = false;
       mLocationManager.removeUpdates(this);

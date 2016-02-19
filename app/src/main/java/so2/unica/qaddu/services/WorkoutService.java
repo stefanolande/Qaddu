@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 import android.location.Location;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -56,6 +58,7 @@ public class WorkoutService extends Service {
 
    @Override
    public int onStartCommand(Intent intent, int flags, int startId) {
+      Log.d("WorkoutService", "started");
       running = true;
 
       mItem = new WorkoutItem();
@@ -114,12 +117,23 @@ public class WorkoutService extends Service {
 
    @Override
    public void onDestroy() {
+      Log.d("WorkoutService", "Stopped");
+
+      //Stop the gps service
+      if (GPSService.mRunning) {
+         Intent intent = new Intent(getApplicationContext(), GPSService.class);
+         stopService(intent);
+      }
+
+
       running = false;
       this.unregisterReceiver(mBroadcastReceiver);
       try {
          if (mPoints.size() > 0) {
             mItem.setPoints(mPoints);
             DatabaseHelper.getIstance().getDao().update(mItem);
+            Toast toast = Toast.makeText(getApplicationContext(), "workout " + mItem.getName() + " saved.", Toast.LENGTH_SHORT);
+            toast.show();
          } else {
             DatabaseHelper.getIstance().removeData(mItem, WorkoutItem.class);
          }
@@ -145,7 +159,7 @@ public class WorkoutService extends Service {
 
    /**
     * Returns the average speed for the workout in km/h
-    * @return double speed in km/j
+    * @return double speed in km/h
     */
    public double getTotalSpeed() {
       return msTokmh(mDistance / mTotalTime);

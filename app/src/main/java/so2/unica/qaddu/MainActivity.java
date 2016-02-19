@@ -16,7 +16,7 @@ import android.view.MenuItem;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import so2.unica.qaddu.quadduFragments.HistoryFragment;
-import so2.unica.qaddu.quadduFragments.updateUI;
+import so2.unica.qaddu.quadduFragments.WorkoutFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
          Fragment frg = new Fragment();
          switch (i) {
             case 0:
-               frg = new updateUI();
+               frg = new WorkoutFragment();
                break;
             case 1:
                frg = new HistoryFragment();
