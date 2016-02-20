@@ -95,6 +95,24 @@ public class WorkoutFragment extends Fragment implements updateUI {
       // Required empty public constructor
    }
 
+   @Override
+   public void onPause() {
+      super.onPause();
+
+      if (mBound) {
+         mService.removeWorkoutListener();
+      }
+   }
+
+   @Override
+   public void onResume() {
+      super.onResume();
+
+      if (mBound) {
+         mService.addWorkoutListener(this);
+      }
+   }
+
    private void setCircleOffset(double offset) {
       LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mCircle.getLayoutParams();
       int margin = (int) (mContainerWidth / 100 * offset);

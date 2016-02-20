@@ -64,7 +64,7 @@ public class WorkoutService extends Service {
       mItem = new WorkoutItem();
       mItem.setStartDate(new Date());
       mItem.setName(intent.getStringExtra(WORKOUT_TITLE));
-      DatabaseHelper.getIstance().addData(mItem, WorkoutItem.class);
+
       mPoints = new ArrayList<>();
 
       //start the gps service
@@ -130,12 +130,11 @@ public class WorkoutService extends Service {
       this.unregisterReceiver(mBroadcastReceiver);
       try {
          if (mPoints.size() > 0) {
+            DatabaseHelper.getIstance().addData(mItem, WorkoutItem.class);
             mItem.setPoints(mPoints);
             DatabaseHelper.getIstance().getDao().update(mItem);
             Toast toast = Toast.makeText(getApplicationContext(), "workout " + mItem.getName() + " saved.", Toast.LENGTH_SHORT);
             toast.show();
-         } else {
-            DatabaseHelper.getIstance().removeData(mItem, WorkoutItem.class);
          }
       } catch (SQLException e) {
          e.printStackTrace();
