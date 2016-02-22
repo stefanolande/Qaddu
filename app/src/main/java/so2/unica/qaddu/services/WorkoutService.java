@@ -183,7 +183,12 @@ public class WorkoutService extends Service {
     * @return double speed in km/h
     */
    public double getTotalSpeed() {
-      return msTokmh(mDistance / mTotalTime);
+      double speed = 0;
+      if (mDistance != 0) {
+         speed = msTokmh(mDistance / (mTotalTime / 1000));
+      }
+
+      return speed;
    }
 
    /**

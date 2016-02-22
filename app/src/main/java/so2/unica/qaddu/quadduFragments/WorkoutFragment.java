@@ -142,7 +142,8 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
    //This method is used to set the total speed into the TextView of the total speed
    private void setTotalSpeed(double totalKmH) {
-      tvTotalKmH.setText(Double.toString(totalKmH) + " KM/H");
+      DecimalFormat df = new DecimalFormat("#0.00");
+      tvTotalKmH.setText(df.format(totalKmH) + " KM/H");
    }
 
    //This method is used to set the total time into the TextView of the total time
@@ -154,17 +155,22 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
    //This method is used to set the total step speed into the TextView of the total step
    private void setTotalStep(float totalStep) {
-      tvTotalStep.setText(Float.toString(totalStep) + " /KM");
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("m:ss");
+      simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+      tvTotalStep.setText(simpleDateFormat.format(totalStep) + " /KM");
    }
 
    //This method is used to set the last X meter speed into the TextView of the last X meter speed
-   private void setLastSpeed(float lastSpeed) {
-      tvLastSpeed.setText(Float.toString(lastSpeed) + " KM/H");
+   private void setIntervalSpeed(float lastSpeed) {
+      DecimalFormat df = new DecimalFormat("#0.00");
+      tvLastSpeed.setText(df.format(lastSpeed) + " KM/H");
    }
 
    //This method is used to set the last X meter's step speed into the TextView of the LastStep
-   private void setLastStep(float lastStep) {
-      tvLastStep.setText(Float.toString(lastStep) + " /KM");
+   private void setIntervalStep(float lastStep) {
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("m:ss");
+      simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+      tvLastStep.setText(simpleDateFormat.format(totalStep) + " /KM");
    }
 
    @Override
@@ -188,8 +194,8 @@ public class WorkoutFragment extends Fragment implements updateUI {
                setTotalSpeed(0);
                setTotalStep(0);
 
-               setLastStep(0);
-               setLastSpeed(0);
+               setIntervalStep(0);
+               setIntervalSpeed(0);
 
                setInstantSpeed(0);
                setTotalTime(0);
@@ -285,8 +291,8 @@ public class WorkoutFragment extends Fragment implements updateUI {
                      setTotalSpeed(totalKmH);
                      setTotalTime(totalTime);
                      setTotalStep(totalStep);
-                     setLastSpeed(lastKmh);
-                     setLastStep(lastStep);
+                     setIntervalSpeed(lastKmh);
+                     setIntervalStep(lastStep);
                   }
                });
 
@@ -322,7 +328,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
          @Override
          public void run() {
             setTotalTime(mService.getTime());
-            Log.d("UpdateTime", mService.getTime() + "");
+            //Log.d("UpdateTime", mService.getTime() + "");
          }
       });
    }

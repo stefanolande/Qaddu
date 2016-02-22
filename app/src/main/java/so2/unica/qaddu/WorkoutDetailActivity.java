@@ -197,7 +197,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
       mTvWorkoutName.setText(mItem.getName());
 
-      DecimalFormat decimalFormat = new DecimalFormat("0.#");
+      DecimalFormat decimalFormat = new DecimalFormat("0.0");
       String distance = decimalFormat.format(mItem.getDistance() / 1000.0) + " KM";
       mTvWorkoutDistance.setText(distance);
 
@@ -388,7 +388,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
       Line line = new Line(values);
       line.setColor(ContextCompat.getColor(WorkoutDetailActivity.this, R.color.colorPrimary));
-      line.setCubic(true);
       line.setHasPoints(false);
       line.setFilled(true);
       List<Line> lines = new ArrayList<>();
