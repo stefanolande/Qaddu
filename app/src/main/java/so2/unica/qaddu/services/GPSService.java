@@ -22,6 +22,7 @@ import so2.unica.qaddu.models.GpsPoint;
 public class GPSService extends Service
       implements LocationListener {
 
+   public static final int MIN_TIME = 250;
    public static Boolean mRunning = false;
    private LocationManager mLocationManager;
 
@@ -101,7 +102,7 @@ public class GPSService extends Service
          Toast.makeText(this, R.string.gps_disable,
                Toast.LENGTH_LONG).show();
       }
-      this.mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+      this.mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, 0, this);
    }
 
 }
