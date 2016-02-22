@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import so2.unica.qaddu.AppController;
 import so2.unica.qaddu.helpers.DatabaseHelper;
@@ -31,6 +33,8 @@ import so2.unica.qaddu.models.WorkoutPoint;
 public class WorkoutService extends Service {
 
    public static final String WORKOUT_TITLE = "QuadduWorkout";
+   private static final int TIME_UPDATE_INTERVAL = 250; //timer update interval in milliseconds
+
    public static Boolean running = false;
    // Binder given to clients
    private final IBinder mBinder = new LocalBinder();
@@ -42,6 +46,7 @@ public class WorkoutService extends Service {
    private updateUI observer;
    private int mIntevalLength;
    private long mTotalTime;
+   private Timer mTimer = new Timer();
 
    @Override
    public IBinder onBind(Intent intent) {
@@ -85,6 +90,21 @@ public class WorkoutService extends Service {
 
       //TODO retrieve the interval length from settings and set mIntervalLength
 
+      //create a timer for the workout time
+      TimerTask timeUpdateTask = new TimerTask() {
+         @Override
+         public void run() {
+            mTotalTime += TIME_UPDATE_INTERVAL;
+
+            //if the time is multiple of 1000 ms update the UI
+            if (mTotalTime % 1000 == 0 && observer != null) {
+               observer.updateTime();
+            }
+         }
+      };
+
+      mTimer.scheduleAtFixedRate(timeUpdateTask, 0, TIME_UPDATE_INTERVAL);
+
       return super.onStartCommand(intent, flags, startId);
    }
 
@@ -111,7 +131,7 @@ public class WorkoutService extends Service {
 
       //notify the UI
       if (this.observer != null) {
-         this.observer.update();
+         this.observer.updateInfo();
       }
    }
 
@@ -124,6 +144,9 @@ public class WorkoutService extends Service {
          Intent intent = new Intent(getApplicationContext(), GPSService.class);
          stopService(intent);
       }
+
+      //stop the timer
+      mTimer.cancel();
 
 
       running = false;
@@ -158,6 +181,7 @@ public class WorkoutService extends Service {
 
    /**
     * Returns the average speed for the workout in km/h
+    *
     * @return double speed in km/h
     */
    public double getTotalSpeed() {
@@ -166,6 +190,7 @@ public class WorkoutService extends Service {
 
    /**
     * Returns the average speed for the last interval in km/h
+    *
     * @return double speed in km/h
     */
    public double getIntevalSpeed() {
@@ -192,6 +217,7 @@ public class WorkoutService extends Service {
 
    /**
     * Returns the average step for the workout in seconds to km
+    *
     * @return double step in seconds to km
     */
    public double getTotalStep() {
@@ -202,6 +228,7 @@ public class WorkoutService extends Service {
 
    /**
     * Returns the average step for the last interval in seconds to km
+    *
     * @return double seconds to km
     */
    public double getIntervalStep() {
@@ -233,6 +260,7 @@ public class WorkoutService extends Service {
 
    /**
     * Returns the distance covered during the workout in meters
+    *
     * @return double distance in meters
     */
    public double getDistance() {
@@ -241,6 +269,7 @@ public class WorkoutService extends Service {
 
    /**
     * Returns the duration of the workout in seconds
+    *
     * @return
     */
    public long getTime() {
@@ -249,6 +278,7 @@ public class WorkoutService extends Service {
 
    /**
     * Converts the speed from m/s to km/h
+    *
     * @param ms speed in m/s
     * @return double speed in km/h
     */
@@ -260,7 +290,9 @@ public class WorkoutService extends Service {
     * Interface for listener
     */
    public interface updateUI {
-      void update();
+      void updateInfo();
+
+      void updateTime();
    }
 
    /**

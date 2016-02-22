@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -145,8 +147,9 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
    //This method is used to set the total time into the TextView of the total time
    private void setTotalTime(float totalTime) {
-      //tvTotalTime.setText(Float.toString(totalTime));
-      tvTotalTime.setText("01:31:12");
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("H:mm:ss");
+      simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+      tvTotalTime.setText(simpleDateFormat.format(totalTime));
    }
 
    //This method is used to set the total step speed into the TextView of the total step
@@ -178,15 +181,32 @@ public class WorkoutFragment extends Fragment implements updateUI {
       bStart.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
+
+            //reset the infos on the UI
+            if (!mWorkoutRunning && !mWorkoutPaused) {
+               //reset the infos
+               setTotalSpeed(0);
+               setTotalStep(0);
+
+               setLastStep(0);
+               setLastSpeed(0);
+
+               setInstantSpeed(0);
+               setTotalTime(0);
+               setTotalKm(0);
+            }
+
             if (!mWorkoutRunning || mWorkoutPaused) {
                //when the workout is play or pause, the user can stop the workout (the stop button in enable, is blu)
                bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stop));
                bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
+               mWorkoutPaused = false;
             } else {
                bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
                mWorkoutPaused = true;
             }
 
+            //start the workout service if needed
             if (!mWorkoutRunning) {
                if (!etNameWorkout.getText().equals("")) {
                   mWorkoutName = etNameWorkout.getText().toString();
@@ -290,13 +310,20 @@ public class WorkoutFragment extends Fragment implements updateUI {
 */
 
 
-   public void update() {
+   public void updateInfo() {
       //update the UI using public service (mBinder) methods
       setInstantSpeed(mService.getSpeed());
-      setTotalTime(mService.getTime());
       setTotalKm(mService.getDistance());
       setTotalSpeed(mService.getTotalSpeed());
+   }
 
+   public void updateTime() {
+      getActivity().runOnUiThread(new Runnable() {
+         @Override
+         public void run() {
+            setTotalTime(mService.getTime());
+         }
+      });
    }
 
    @Override
