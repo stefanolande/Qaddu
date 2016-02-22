@@ -40,7 +40,7 @@ public class WorkoutService extends Service {
    private final IBinder mBinder = new LocalBinder();
    WorkoutItem mItem;
    List<WorkoutPoint> mPoints;
-   Double mDistance;
+   Double mDistance = 0.0;
 
    BroadcastReceiver mBroadcastReceiver;
    private IntentFilter mIntentFilter;
@@ -48,12 +48,11 @@ public class WorkoutService extends Service {
    //Reference to the updateUI to update the UI
    private updateUI observer;
    private int mIntevalLength;
-   private long mTotalTime;
+   private long mTotalTime = 0;
 
    private Timer mTimer;
    private TimerTask mTimeUpdateTask;
 
-   private int mNotificationId = 0;
 
    @Override
    public IBinder onBind(Intent intent) {
@@ -96,6 +95,7 @@ public class WorkoutService extends Service {
       this.registerReceiver(mBroadcastReceiver, mIntentFilter);
 
       //TODO retrieve the interval length from settings and set mIntervalLength
+      mIntevalLength = 100;
 
       //create a timer for the workout time
       mTimeUpdateTask = new TimerUpdateTask();

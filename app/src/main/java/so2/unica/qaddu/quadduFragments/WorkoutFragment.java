@@ -152,13 +152,13 @@ public class WorkoutFragment extends Fragment implements updateUI {
    }
 
    //This method is used to set the last X meter speed into the TextView of the last X meter speed
-   private void setIntervalSpeed(float lastSpeed) {
+   private void setIntervalSpeed(double lastSpeed) {
       DecimalFormat df = new DecimalFormat("#0.00");
       tvLastSpeed.setText(df.format(lastSpeed) + " KM/H");
    }
 
    //This method is used to set the last X meter's pace speed into the TextView of the LastPace
-   private void setIntervalPace(float lastPace) {
+   private void setIntervalPace(double lastPace) {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("m:ss");
       simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
       tvLastPace.setText(simpleDateFormat.format(lastPace) + " MIN/KM");
@@ -319,6 +319,8 @@ public class WorkoutFragment extends Fragment implements updateUI {
       setTotalKm(mService.getDistance());
       setTotalSpeed(mService.getTotalSpeed());
       setTotalPace(mService.getTotalPace());
+      setIntervalPace(mService.getIntervalPace());
+      setIntervalSpeed(mService.getIntevalSpeed());
    }
 
    public void updateTime() {
