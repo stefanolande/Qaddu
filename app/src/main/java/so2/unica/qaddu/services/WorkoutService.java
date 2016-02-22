@@ -123,8 +123,6 @@ public class WorkoutService extends Service {
          mDistance += distanceArray[0];
       }
 
-      mTotalTime = System.currentTimeMillis() - mItem.getStartDate().getTime();
-
       mPoints.add(new WorkoutPoint(mItem, point.getLatitude(), point.getLongitude(), point.getSpeed(), point.getAltitude(), mTotalTime, mDistance));
       mItem.setTotalTime(mTotalTime);
       mItem.setDistance(mDistance);

@@ -322,6 +322,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
          @Override
          public void run() {
             setTotalTime(mService.getTime());
+            Log.d("UpdateTime", mService.getTime() + "");
          }
       });
    }
