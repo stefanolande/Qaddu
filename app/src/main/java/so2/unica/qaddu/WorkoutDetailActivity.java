@@ -63,8 +63,8 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    TextView mTvWorkoutTime;
    @Bind(R.id.tvWorkoutAvgSpeed)
    TextView mTvWorkoutAvgSpeed;
-   @Bind(R.id.tvWorkoutAvgStep)
-   TextView mTvWorkoutAvgStep;
+   @Bind(R.id.tvWorkoutAvgPace)
+   TextView mTvWorkoutAvgPace;
    @Bind(R.id.tvWorkoutDate)
    TextView mTvWorkoutDate;
 
@@ -156,7 +156,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
                   mYAxis = yAxisType.SPEED;
                   break;
                case 1:
-                  mYAxis = yAxisType.STEP;
+                  mYAxis = yAxisType.PACE;
                   break;
                case 2:
                   mYAxis = yAxisType.ALTITUDE;
@@ -211,9 +211,9 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
       simpleDateFormat = new SimpleDateFormat("mm:ss");
       simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-      String avgStep = simpleDateFormat.format(mItem.getAverageStepInSeconds()) + " MIN/KM";
-      Log.d("AVGStep", mItem.getAverageStepInSeconds() + "");
-      mTvWorkoutAvgStep.setText(avgStep);
+      String avgPace = simpleDateFormat.format(mItem.getAveragePaceInSeconds()) + " MIN/KM";
+      Log.d("AVGPace", mItem.getAveragePaceInSeconds() + "");
+      mTvWorkoutAvgPace.setText(avgPace);
 
       simpleDateFormat = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
       simpleDateFormat.setTimeZone(TimeZone.getDefault());
@@ -373,9 +373,9 @@ public class WorkoutDetailActivity extends AppCompatActivity {
                y = (float) mItem.getPoints().get(i).getSpeed();
                axisY.setName("Speed");
                break;
-            case STEP:
-               y = (float) mItem.getPoints().get(i).getStep();
-               axisY.setName("Step");
+            case PACE:
+               y = (float) mItem.getPoints().get(i).getPace();
+               axisY.setName("Pace");
                break;
             case ALTITUDE:
                y = (float) mItem.getPoints().get(i).getAltitude();
@@ -408,5 +408,5 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
    private enum xAxisType {TIME, DISTANCE}
 
-   private enum yAxisType {SPEED, STEP, ALTITUDE}
+   private enum yAxisType {SPEED, PACE, ALTITUDE}
 }

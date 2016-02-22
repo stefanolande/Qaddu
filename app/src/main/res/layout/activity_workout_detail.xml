@@ -180,13 +180,13 @@
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/average_step"
+                    android:text="@string/average_pace"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/colorPrimary"
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/tvWorkoutAvgStep"
+                    android:id="@+id/tvWorkoutAvgPace"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Medium Text"

@@ -53,10 +53,10 @@
                 android:textSize="18dp"/>
 
             <TextView
-                android:id="@+id/tv_total_step"
+                android:id="@+id/tv_total_pace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/default_step"
+                android:text="@string/default_pace"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="18dp"/>
         </LinearLayout>
@@ -88,10 +88,10 @@
                 android:textSize="18dp"/>
 
             <TextView
-                android:id="@+id/tv_last_x_step"
+                android:id="@+id/tv_last_x_pace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/default_step"
+                android:text="@string/default_pace"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="18dp"/>
         </LinearLayout>
@@ -254,10 +254,10 @@
                 android:layout_alignParentEnd="false"
                 android:background="@android:color/transparent"
                 android:clickable="true"
+                android:contextClickable="false"
                 android:nestedScrollingEnabled="false"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_play"
-                android:contextClickable="false" />
+                android:src="@drawable/ic_play"/>
 
 
         </RelativeLayout>

@@ -12,14 +12,14 @@
     <string name="hint_workout_name">Insert workout name</string>
     <string name="total_info">TOTAL</string>
     <string name="default_speed">--.- KM/H</string>
-    <string name="default_step">--:-- MIN/KM</string>
+    <string name="default_pace">--:-- MIN/KM</string>
     <string name="default_interval">LAST 100M</string>
     <string name="default_target">Target --.- KM/H</string>
     <string name="empty_time">--:--:--</string>
     <string name="distance">DISTANCE</string>
     <string name="time">TIME</string>
     <string name="average_speed">AVERAGE SPEED</string>
-    <string name="average_step">AVERAGE STEP</string>
+    <string name="average_pace">AVERAGE PACE</string>
     
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="settings">Settings</string>
@@ -28,7 +28,7 @@
 
     <string-array name="y_array">
         <item>Speed</item>
-        <item>Step</item>
+        <item>Pace</item>
         <item>Altitude</item>
     </string-array>
 

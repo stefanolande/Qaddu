@@ -97,7 +97,7 @@ public class WorkoutItem {
       return speed;
    }
 
-   public double getAverageStepInSeconds() {
+   public double getAveragePaceInSeconds() {
       return (1 / getAverageSpeed()) * 3600;
    }
 }

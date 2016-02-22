@@ -184,7 +184,7 @@ public class WorkoutService extends Service {
     */
    public double getTotalSpeed() {
       double speed = 0;
-      if (mDistance != 0) {
+      if (mTotalTime != 0) {
          speed = msTokmh(mDistance / (mTotalTime / 1000));
       }
 
@@ -219,22 +219,24 @@ public class WorkoutService extends Service {
    }
 
    /**
-    * Returns the average step for the workout in seconds to km
+    * Returns the average pace for the workout in seconds to km
     *
-    * @return double step in seconds to km
+    * @return double pace in seconds to km
     */
-   public double getTotalStep() {
-      double timeKm = mTotalTime / (mDistance / 1000);
-
+   public double getTotalPace() {
+      double timeKm = 0;
+      if (mDistance != 0) {
+         timeKm = mTotalTime / (mDistance / 1000);
+      }
       return timeKm;
    }
 
    /**
-    * Returns the average step for the last interval in seconds to km
+    * Returns the average pace for the last interval in seconds to km
     *
     * @return double seconds to km
     */
-   public double getIntervalStep() {
+   public double getIntervalPace() {
       //fetch the workout point in the last *interval* meters
       ArrayList<WorkoutPoint> lastPoints = new ArrayList<>();
 
