@@ -205,7 +205,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
             //start the workout service if needed
             if (!mWorkoutRunning) {
-               if (!etNameWorkout.getText().equals("")) {
+               if (!etNameWorkout.getText().toString().equals("")) {
                   mWorkoutName = etNameWorkout.getText().toString();
                } else {
                   etNameWorkout.setText(mWorkoutName);
@@ -247,6 +247,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
             mWorkoutRunning = false;
             mWorkoutPaused = false;
             etNameWorkout.setEnabled(true);
+            etNameWorkout.setText("");
          }
       });
 
