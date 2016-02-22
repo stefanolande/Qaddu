@@ -230,15 +230,19 @@ public class WorkoutService extends Service {
          }
       }
 
-      //calculate the average speed in the last points
-      double speedSum = 0;
+      double averageSpeed = 0;
 
-      for (WorkoutPoint point : lastPoints) {
-         speedSum += point.getSpeed();
+      if (lastPoints.size() != 0) {
+         //calculate the average speed in the last points
+         double speedSum = 0;
+
+         for (WorkoutPoint point : lastPoints) {
+            speedSum += point.getSpeed();
+         }
+
+         averageSpeed = speedSum / lastPoints.size();
       }
-
-      double averageSpeed = speedSum / lastPoints.size();
-      return msTokmh(averageSpeed);
+      return averageSpeed;
    }
 
    /**
@@ -260,28 +264,14 @@ public class WorkoutService extends Service {
     * @return double seconds to km
     */
    public double getIntervalPace() {
-      //fetch the workout point in the last *interval* meters
-      ArrayList<WorkoutPoint> lastPoints = new ArrayList<>();
+      double intervalSpeed = getIntervalSpeed();
+      double sToKm = 0;
 
-      for (int i = mPoints.size() - 1; i >= 0; i--) {
-         WorkoutPoint point = mPoints.get(i);
-         if (this.mDistance - point.getDistance() <= mIntervalLength) {
-            lastPoints.add(point);
-         }
+      if (intervalSpeed != 0) {
+         //convert the speed from km/h to s/km
+         sToKm = (60 / intervalSpeed) * 60;
       }
 
-      //calculate the average speed in the last points
-      double speedSum = 0;
-
-      for (WorkoutPoint point : lastPoints) {
-         speedSum += point.getSpeed();
-      }
-
-      double averageSpeed = speedSum / lastPoints.size();
-
-      //convert the speed from m/s to s/km
-
-      double sToKm = Math.pow(averageSpeed, -1) / 1000;
 
       return sToKm;
    }

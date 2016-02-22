@@ -67,6 +67,11 @@ public class WorkoutPoint {
       this.longitude = longitude;
    }
 
+   /**
+    * Returns the speed of the current point in km/h
+    *
+    * @return double speed in km/h
+    */
    public double getSpeed() {
       return speed;
    }

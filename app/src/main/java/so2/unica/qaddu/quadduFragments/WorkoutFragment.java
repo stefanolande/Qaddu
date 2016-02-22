@@ -161,7 +161,8 @@ public class WorkoutFragment extends Fragment implements updateUI {
    private void setIntervalPace(double lastPace) {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("m:ss");
       simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-      tvLastPace.setText(simpleDateFormat.format(lastPace) + " MIN/KM");
+      Log.d("setIntervalPace", "seconds " + lastPace + " - formatted " + simpleDateFormat.format(lastPace));
+      tvLastPace.setText(simpleDateFormat.format(lastPace * 1000) + " MIN/KM");
    }
 
    @Override
