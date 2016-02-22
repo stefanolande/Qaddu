@@ -267,7 +267,7 @@ public class WorkoutService extends Service {
     * @return double distance in meters
     */
    public double getDistance() {
-      return mDistance / 1000;
+      return mDistance;
    }
 
    /**

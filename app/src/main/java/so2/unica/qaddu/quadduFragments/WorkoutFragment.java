@@ -35,15 +35,6 @@ public class WorkoutFragment extends Fragment implements updateUI {
    boolean mBound = false;
 
    int mContainerWidth;
-   int tmpOff = -100;
-   float totalKm = 0;      //It contains the total kilometers traveled
-   float totalKmH = 0;     //It contains the total speed
-   float totalTime = 0;    //It contain the time of the workout
-   float targetSpeed = 0;  //It contain the target speed
-   float lastKmh = 0;      //It contains the speed of the last X meter
-   float totalStep = 0;    //It contain the total step
-   float lastStep = 0;     //It contain the step of the last X meter
-   float instantSpeed = 0; //It contain the instant speed
 
    @Bind(R.id.circle_container)
    LinearLayout mCircleContainer;
@@ -136,8 +127,8 @@ public class WorkoutFragment extends Fragment implements updateUI {
    //This method is used to set the total Km traveled into the TextView of the total km
    private void setTotalKm(double totalMeters) {
       double km = totalMeters / 1000;
-      DecimalFormat df = new DecimalFormat("#0.0");
-      tvTotalKm.setText(df.format(totalKm) + " KM");
+      DecimalFormat df = new DecimalFormat("#0.00");
+      tvTotalKm.setText(df.format(km) + " KM");
    }
 
    //This method is used to set the total speed into the TextView of the total speed
@@ -170,7 +161,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
    private void setIntervalStep(float lastStep) {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("m:ss");
       simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-      tvLastStep.setText(simpleDateFormat.format(totalStep) + " /KM");
+      tvLastStep.setText(simpleDateFormat.format(lastStep) + " /KM");
    }
 
    @Override
