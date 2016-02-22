@@ -41,12 +41,19 @@ public class WorkoutService extends Service {
    WorkoutItem mItem;
    List<WorkoutPoint> mPoints;
    Double mDistance;
+
    BroadcastReceiver mBroadcastReceiver;
+   private IntentFilter mIntentFilter;
+
    //Reference to the updateUI to update the UI
    private updateUI observer;
    private int mIntevalLength;
    private long mTotalTime;
-   private Timer mTimer = new Timer();
+
+   private Timer mTimer;
+   private TimerTask mTimeUpdateTask;
+
+   private int mNotificationId = 0;
 
    @Override
    public IBinder onBind(Intent intent) {
@@ -77,7 +84,7 @@ public class WorkoutService extends Service {
       startService(gpsIntent);
 
 
-      IntentFilter filter = new IntentFilter(AppController.BROADCAST_NEW_GPS_POSITION);
+      mIntentFilter = new IntentFilter(AppController.BROADCAST_NEW_GPS_POSITION);
 
       mBroadcastReceiver = new ReceiverHelper() {
          @Override
@@ -86,24 +93,14 @@ public class WorkoutService extends Service {
             onReceivePoint(point);
          }
       };
-      this.registerReceiver(mBroadcastReceiver, filter);
+      this.registerReceiver(mBroadcastReceiver, mIntentFilter);
 
       //TODO retrieve the interval length from settings and set mIntervalLength
 
       //create a timer for the workout time
-      TimerTask timeUpdateTask = new TimerTask() {
-         @Override
-         public void run() {
-            mTotalTime += TIME_UPDATE_INTERVAL;
-
-            //if the time is multiple of 1000 ms update the UI
-            if (mTotalTime % 1000 == 0 && observer != null) {
-               observer.updateTime();
-            }
-         }
-      };
-
-      mTimer.scheduleAtFixedRate(timeUpdateTask, 0, TIME_UPDATE_INTERVAL);
+      mTimeUpdateTask = new TimerUpdateTask();
+      mTimer = new Timer();
+      mTimer.scheduleAtFixedRate(mTimeUpdateTask, 0, TIME_UPDATE_INTERVAL);
 
       return super.onStartCommand(intent, flags, startId);
    }
@@ -148,7 +145,12 @@ public class WorkoutService extends Service {
 
 
       running = false;
-      this.unregisterReceiver(mBroadcastReceiver);
+      try {
+         this.unregisterReceiver(mBroadcastReceiver);
+      } catch (RuntimeException e) {
+         //handle the case when the workout is in pause and the broadcastReceiver is not registered
+      }
+
       try {
          if (mPoints.size() > 0) {
             DatabaseHelper.getIstance().addData(mItem, WorkoutItem.class);
@@ -165,6 +167,27 @@ public class WorkoutService extends Service {
       intent.setAction(AppController.BROADCAST_NEW_WORKOUT);
       sendBroadcast(intent);
       super.onDestroy();
+   }
+
+   /***
+    * Puts the workout in pauseWorkout
+    */
+   public void pauseWorkout() {
+      Log.d("WorkoutService", "paused");
+      mTimer.cancel();
+      mTimeUpdateTask.cancel();
+      unregisterReceiver(mBroadcastReceiver);
+   }
+
+   /**
+    * Resume the workout
+    */
+   public void resumeWorkout() {
+      Log.d("WorkoutService", "resumed");
+      mTimer = new Timer();
+      mTimeUpdateTask = new TimerUpdateTask();
+      mTimer.scheduleAtFixedRate(mTimeUpdateTask, 0, TIME_UPDATE_INTERVAL);
+      registerReceiver(mBroadcastReceiver, mIntentFilter);
    }
 
    /**
@@ -310,4 +333,17 @@ public class WorkoutService extends Service {
       }
    }
 
+   public class TimerUpdateTask extends TimerTask {
+      @Override
+      public void run() {
+         mTotalTime += TIME_UPDATE_INTERVAL;
+
+         //if the time is multiple of 1000 ms update the UI
+         if (mTotalTime % 1000 == 0 && observer != null) {
+            observer.updateTime();
+         }
+      }
+   }
+
 }
+

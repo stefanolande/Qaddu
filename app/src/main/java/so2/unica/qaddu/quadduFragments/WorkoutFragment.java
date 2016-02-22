@@ -179,8 +179,32 @@ public class WorkoutFragment extends Fragment implements updateUI {
          @Override
          public void onClick(View v) {
 
-            //reset the infos on the UI
-            if (!mWorkoutRunning && !mWorkoutPaused) {
+            if (!mWorkoutRunning || mWorkoutPaused) {
+               //when the workout is play or pause, the user can stop the workout (the stop button in enable, is blu)
+               bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stop));
+               bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
+               mWorkoutPaused = false;
+
+               if (mBound) {
+                  mService.resumeWorkout();
+               }
+            } else {
+               bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+               mWorkoutPaused = true;
+
+               if (mBound) {
+                  mService.pauseWorkout();
+               }
+            }
+
+            //start the workout service if needed
+            if (!mWorkoutRunning) {
+               if (!etNameWorkout.getText().toString().equals("")) {
+                  mWorkoutName = etNameWorkout.getText().toString();
+               } else {
+                  etNameWorkout.setText(mWorkoutName);
+               }
+
                //reset the infos
                setTotalSpeed(0);
                setTotalPace(0);
@@ -191,25 +215,6 @@ public class WorkoutFragment extends Fragment implements updateUI {
                setInstantSpeed(0);
                setTotalTime(0);
                setTotalKm(0);
-            }
-
-            if (!mWorkoutRunning || mWorkoutPaused) {
-               //when the workout is play or pause, the user can stop the workout (the stop button in enable, is blu)
-               bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stop));
-               bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
-               mWorkoutPaused = false;
-            } else {
-               bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
-               mWorkoutPaused = true;
-            }
-
-            //start the workout service if needed
-            if (!mWorkoutRunning) {
-               if (!etNameWorkout.getText().toString().equals("")) {
-                  mWorkoutName = etNameWorkout.getText().toString();
-               } else {
-                  etNameWorkout.setText(mWorkoutName);
-               }
 
                etNameWorkout.setEnabled(false);
 
