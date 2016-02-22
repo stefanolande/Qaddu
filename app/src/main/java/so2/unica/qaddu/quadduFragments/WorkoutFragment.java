@@ -320,7 +320,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
       setTotalSpeed(mService.getTotalSpeed());
       setTotalPace(mService.getTotalPace());
       setIntervalPace(mService.getIntervalPace());
-      setIntervalSpeed(mService.getIntevalSpeed());
+      setIntervalSpeed(mService.getIntervalSpeed());
    }
 
    public void updateTime() {

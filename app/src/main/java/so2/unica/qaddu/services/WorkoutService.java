@@ -47,7 +47,7 @@ public class WorkoutService extends Service {
 
    //Reference to the updateUI to update the UI
    private updateUI observer;
-   private int mIntevalLength;
+   private int mIntervalLength;
    private long mTotalTime = 0;
 
    private Timer mTimer;
@@ -95,7 +95,7 @@ public class WorkoutService extends Service {
       this.registerReceiver(mBroadcastReceiver, mIntentFilter);
 
       //TODO retrieve the interval length from settings and set mIntervalLength
-      mIntevalLength = 100;
+      mIntervalLength = 100;
 
       //create a timer for the workout time
       mTimeUpdateTask = new TimerUpdateTask();
@@ -207,10 +207,10 @@ public class WorkoutService extends Service {
     */
    public double getTotalSpeed() {
       double speed = 0;
-      if (mTotalTime != 0) {
+      if (mTotalTime != 0 && mDistance != 0) {
          speed = msTokmh(mDistance / (mTotalTime / 1000));
       }
-
+      Log.d("WorkoutService", "Total speed " + speed + " " + mTotalTime + " " + mDistance);
       return speed;
    }
 
@@ -219,13 +219,13 @@ public class WorkoutService extends Service {
     *
     * @return double speed in km/h
     */
-   public double getIntevalSpeed() {
+   public double getIntervalSpeed() {
       //fetch the workout point in the last *interval* meters
       ArrayList<WorkoutPoint> lastPoints = new ArrayList<>();
 
       for (int i = mPoints.size() - 1; i >= 0; i--) {
          WorkoutPoint point = mPoints.get(i);
-         if (this.mDistance - point.getDistance() <= mIntevalLength) {
+         if (this.mDistance - point.getDistance() <= mIntervalLength) {
             lastPoints.add(point);
          }
       }
@@ -265,7 +265,7 @@ public class WorkoutService extends Service {
 
       for (int i = mPoints.size() - 1; i >= 0; i--) {
          WorkoutPoint point = mPoints.get(i);
-         if (this.mDistance - point.getDistance() <= mIntevalLength) {
+         if (this.mDistance - point.getDistance() <= mIntervalLength) {
             lastPoints.add(point);
          }
       }
