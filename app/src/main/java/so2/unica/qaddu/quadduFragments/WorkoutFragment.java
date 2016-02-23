@@ -220,7 +220,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
                   mService.pauseWorkout();
                }
             } else if (!GPSEnabled) {
-               Toast toast = Toast.makeText(getActivity().getApplicationContext(), "GPS still disabled, enable it before resuming the workout", Toast.LENGTH_SHORT);
+               Toast toast = Toast.makeText(getActivity().getApplicationContext(), R.string.gps_disabled_on_resume, Toast.LENGTH_LONG);
                toast.show();
             }
 
@@ -384,7 +384,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
                   mWorkoutPaused = true;
                   GPSEnabled = false;
 
-                  Toast toast = Toast.makeText(getActivity().getApplicationContext(), "The workout is paused because the GPS is turned off. Turn on the GPS and resume the workout", Toast.LENGTH_SHORT);
+                  Toast toast = Toast.makeText(getActivity().getApplicationContext(), R.string.gps_disabled_during_workout, Toast.LENGTH_LONG);
                   toast.show();
                }
                break;
@@ -395,7 +395,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
                   mWorkoutPaused = false;
                   GPSEnabled = true;
 
-                  Toast toast = Toast.makeText(getActivity().getApplicationContext(), "GPS enabled. Workout resumed.", Toast.LENGTH_SHORT);
+                  Toast toast = Toast.makeText(getActivity().getApplicationContext(), R.string.workout_resumed_with_gps_off, Toast.LENGTH_SHORT);
                   toast.show();
                }
                break;

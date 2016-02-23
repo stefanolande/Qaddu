@@ -51,4 +51,7 @@
     <string name="delete">Delete</string>
     <string name="workout_delete_confirmation">Are you sure you want to delete the workout?</string>
     <string name="untitled_workout">Untitled workout</string>
+    <string name="gps_disabled_on_resume">GPS still disabled, enable it before resuming the workout</string>
+    <string name="gps_disabled_during_workout">The workout is paused because the GPS is turned off. Turn on the GPS and resume the workout</string>
+    <string name="workout_resumed_with_gps_off">GPS enabled. Workout resumed.</string>
 </resources>
