@@ -72,6 +72,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
    private String mWorkoutName;
    private boolean mWorkoutRunning = false;
    private boolean mWorkoutPaused = false;
+   private double mTargetSpeed;
    /**
     * Defines callbacks for service binding, passed to bindService()
     */
@@ -97,7 +98,6 @@ public class WorkoutFragment extends Fragment implements updateUI {
    @Override
    public void onPause() {
       super.onPause();
-
       if (mBound) {
          mService.removeWorkoutListener();
       }
@@ -114,7 +114,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
    private void setCircleOffset(double offset) {
       LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mCircle.getLayoutParams();
-      int margin = (int) (mContainerWidth / 100 * offset);
+      int margin = (int) (mContainerWidth / 30 * offset);
       params.setMargins(margin, 0, 0, 0); //substitute parameters for left, top, right, bottom
       mCircle.setLayoutParams(params);
    }
@@ -123,6 +123,22 @@ public class WorkoutFragment extends Fragment implements updateUI {
    private void setInstantSpeed(double instantSpeed) {
       DecimalFormat df = new DecimalFormat("#0.00");
       tvInstantSpeed.setText(df.format(instantSpeed) + " KM/H");
+
+      Double offset = ((instantSpeed / mTargetSpeed) - 1) * 100;
+
+      if (offset <= -20) {
+         offset = -30.0;
+      } else if (offset <= -7.5) {
+         offset = -15.0;
+      } else if (offset <= 7.5) {
+         offset = 0.0;
+      } else if (offset <= 20) {
+         offset = 15.0;
+      } else {
+         offset = 30.0;
+      }
+
+      setCircleOffset(offset);
    }
 
    //This method is used to set the target speed into the TextView of the target speed
@@ -287,7 +303,10 @@ public class WorkoutFragment extends Fragment implements updateUI {
       });
 
       //TODO retrieve the target speed from settings and setTargetSpeed()
-
+      mTargetSpeed = 10;
+      DecimalFormat decimalFormat = new DecimalFormat("0.0");
+      tvTargetSpeed.setText(getActivity().getString(R.string.target) + decimalFormat.format(mTargetSpeed) + " KM/H");
+            
       return view;
    }
 

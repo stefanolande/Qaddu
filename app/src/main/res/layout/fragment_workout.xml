@@ -125,8 +125,8 @@
 
         <View
             android:id="@+id/main_circle"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:background="@drawable/circle_gray"/>
