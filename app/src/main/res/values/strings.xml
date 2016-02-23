@@ -14,7 +14,7 @@
     <string name="default_pace">--:-- MIN/KM</string>
     <string name="default_interval">LAST 100M</string>
     <string name="default_target">Target --.- KM/H</string>
-    <string name="empty_time">--:--:--</string>
+    <string name="empty_time" translatable="false">--:--:--</string>
     <string name="distance">DISTANCE</string>
     <string name="time">TIME</string>
     <string name="average_speed">AVERAGE SPEED</string>
@@ -43,9 +43,9 @@
 
     <!-- Example settings for Notifications -->
 
-    <string name="pref_ringtone_silent">Silent</string>
+    <string name="pref_ringtone_silent" translatable="false">Silent</string>
 
-    <string name="gps_disable">Turn on the gps before starting a workout.</string>
+    <string name="gps_disable">Turn on the gps before starting a workout!</string>
     <string name="workout_detail">Workout detail</string>
     <string name="no">No</string>
     <string name="delete">Delete</string>
