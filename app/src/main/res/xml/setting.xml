@@ -9,6 +9,7 @@
                             android:defaultValue="100"
                             android:inputType="number"
                             android:key="setting_meters"
+                            android:maxLength="3"
                             android:summary="Metri di stocazzo"
                             android:title="@string/setting_meters"/>
 
