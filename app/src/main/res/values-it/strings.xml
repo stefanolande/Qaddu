@@ -6,7 +6,6 @@
     <string name="default_interval">ULTIMI 100M</string>
     <string name="default_pace">--:-- MIN/KM</string>
     <string name="default_speed">--.- KM/H</string>
-    <string name="default_target">Obiettivo --.- KM/H</string>
     <string name="delete">Elimina</string>
     <string name="delete_all">Elimina tutto</string>
     <string name="delete_workout">Elimina allenamento</string>

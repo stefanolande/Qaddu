@@ -13,7 +13,7 @@
     <string name="default_speed">--.- KM/H</string>
     <string name="default_pace">--:-- MIN/KM</string>
     <string name="default_interval">LAST 100M</string>
-    <string name="default_target">Target --.- KM/H</string>
+    <string name="default_target" translatable="false">Target --.- KM/H</string>
     <string name="empty_time" translatable="false">--:--:--</string>
     <string name="distance">DISTANCE</string>
     <string name="time">TIME</string>

@@ -194,7 +194,6 @@ public class WorkoutService extends Service {
       try {
          mTimer.cancel();
          mTimeUpdateTask.cancel();
-         unregisterReceiver(mBroadcastReceiver);
       } catch (IllegalArgumentException e) {
          //the actions were not necessary
       }
