@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="prima azione" >
+        <MultiSelectListPreference
+            android:title="Setting GPS"
+            android:summary="sommario"
+            android:key="prefUsername"/>
+    </PreferenceCategory>
+
+
+
+
+
+
+
+</PreferenceScreen>
