@@ -10,10 +10,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
 import so2.unica.qaddu.AppController;
-import so2.unica.qaddu.R;
 import so2.unica.qaddu.models.GpsPoint;
 
 /**
@@ -83,10 +81,16 @@ public class GPSService extends Service
 
    @Override
    public void onProviderDisabled(String provider) {
+      Intent intent = new Intent();
+      intent.setAction(AppController.GPS_TURNED_OFF);
+      sendBroadcast(intent);
    }
 
    @Override
    public void onProviderEnabled(String provider) {
+      Intent intent = new Intent();
+      intent.setAction(AppController.GPS_TURNED_ON);
+      sendBroadcast(intent);
    }
 
    @Override
@@ -98,10 +102,10 @@ public class GPSService extends Service
             (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
       //Notify the user if the GPS is disabled
-      if (!mLocationManager.isProviderEnabled("gps")) {
+      /*if (!mLocationManager.isProviderEnabled("gps")) {
          Toast.makeText(this, R.string.gps_disable,
                Toast.LENGTH_LONG).show();
-      }
+      }*/
       this.mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, 0, this);
    }
 
