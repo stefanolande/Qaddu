@@ -4,9 +4,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import butterknife.Bind;
@@ -63,7 +67,8 @@ public class WorkoutFragment extends Fragment implements updateUI {
    @Bind(R.id.btn_start)
    ImageButton bStart;
 
-   private String mWorkoutName = "Untitled workout";
+   Locale myLocale;
+   private String mWorkoutName;
    private boolean mWorkoutRunning = false;
    private boolean mWorkoutPaused = false;
    /**
@@ -100,7 +105,6 @@ public class WorkoutFragment extends Fragment implements updateUI {
    @Override
    public void onResume() {
       super.onResume();
-
       if (mBound) {
          mService.addWorkoutListener(this);
       }
@@ -168,13 +172,14 @@ public class WorkoutFragment extends Fragment implements updateUI {
    @Override
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
-
    }
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       View view = inflater.inflate(R.layout.fragment_workout, container, false);
       ButterKnife.bind(this, view);
+
+      mWorkoutName = getActivity().getString(R.string.untitled_workout);
 
       bStart.setOnClickListener(new View.OnClickListener() {
          @Override

@@ -26,4 +26,5 @@
     <string name="workout_date">DATA ALLENAMENTO</string>
     <string name="workout_delete_confirmation">Sei sicuro di voler eliminare l\'allenamento?</string>
     <string name="workout_detail">Dettaglio allenamento</string>
+    <string name="untitled_workout">Allenamento senza nome</string>
 </resources>

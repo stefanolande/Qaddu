@@ -50,4 +50,5 @@
     <string name="no">No</string>
     <string name="delete">Delete</string>
     <string name="workout_delete_confirmation">Are you sure you want to delete the workout?</string>
+    <string name="untitled_workout">Untitled workout</string>
 </resources>
