@@ -4,11 +4,15 @@
     <string name="title_fragment_history">History</string>
     <string name="title_fragment_workout">Workout</string>
     <string name="setting_gps">Setting Gps</string>
+    <string name="setting_gps_summary">Sets enable/disable gps</string>
     <string name="setting_meters">Setting Meters</string>
-    <string name="setting_meters_description">Sets the last meters</string>
+    <string name="setting_meters_summary">Sets the last meters</string>
     <string name="setting_target">Setting Target</string>
+    <string name="setting_target_summary">Sets your target speed</string>
     <string name="delete_all">Delete All</string>
+    <string name="setting_delete_summary">Delete all workouts</string>
     <string name="setting_language">Language</string>
+    <string name="setting_language_summary">Sets your application language</string>
     <string name="setting_workout">WORKOUT SETTINGS</string>
     <string name="setting_device">DEVICE SETTINGS</string>
     <string name="setting_advances">ADVANCED</string>
