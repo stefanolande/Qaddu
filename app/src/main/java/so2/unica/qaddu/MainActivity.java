@@ -1,8 +1,6 @@
 package so2.unica.qaddu;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,12 +9,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,51 +42,6 @@ public class MainActivity extends AppCompatActivity {
       mSamplePagerAdapter = new SamplePagerAdapter(getSupportFragmentManager());
       mViewPager.setAdapter(mSamplePagerAdapter);
       mTabLayout.setupWithViewPager(mViewPager);
-
-      //DatabaseHelper.initialize(this);
-/*
-      WorkoutItem workout = new WorkoutItem();
-      workout.setTotalTime(300l);
-      workout.setStartDate(new Date(1455138110000l));
-      workout.setDistance(700.0);
-      workout.setName("Molentargius");
-
-      DatabaseHelper.getIstance().addData(workout, WorkoutItem.class);
-
-      List<WorkoutPoint> entries = new ArrayList<>();
-      entries.add(new WorkoutPoint(workout, 3.2, 9.0, 0, 26.0, 1455138110, 0));
-      entries.add(new WorkoutPoint(workout, 2.2, 9.0, 3.6, 20.0, 1455138170, 60));
-      entries.add(new WorkoutPoint(workout, 2.2, 9.0, 10, 25.0, 1455138230, 326));
-      entries.add(new WorkoutPoint(workout, 2.2, 9.0, 9.8, 21.2, 1455138290, 570));
-      entries.add(new WorkoutPoint(workout, 2.2, 9.0, 4.1, 22.0, 1455138350, 660));
-      entries.add(new WorkoutPoint(workout, 2.2, 9.0, 0, 22.0, 1455138410, 700));
-
-      try {
-         workout.setPoints(entries);
-      } catch (SQLException e) {
-         e.printStackTrace();
-      }
-
-      try {
-         DatabaseHelper.getIstance().getDao().update(workout);
-      } catch (SQLException e) {
-         e.printStackTrace();
-      }
-
-      List<WorkoutItem> data = DatabaseHelper.getIstance().GetData(WorkoutItem.class);
-      List<WorkoutPoint> points = data.get(0).getPoints();*/
-
-        /*workout.setTotalTime(5345345435l);
-        workout.setStart(new Date());
-        workout.setDistance(25300.6);
-        workout.setName("monte claro");
-        DatabaseHelper.getIstance(this).addData(workout,WorkoutItem.class);
-        workout.setTotalTime(34434l);
-        workout.setStart(new Date());
-        workout.setDistance(1300.6);
-        workout.setName("cunnix");
-        DatabaseHelper.getIstance(this).addData(workout,WorkoutItem.class);*/
-
    }
 
    @Override

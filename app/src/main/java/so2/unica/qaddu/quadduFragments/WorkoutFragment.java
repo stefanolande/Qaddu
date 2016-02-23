@@ -302,47 +302,6 @@ public class WorkoutFragment extends Fragment implements updateUI {
       });
    }
 
-/*
-      new Thread(new Runnable() {
-         public void run() {
-            int sum = 1;
-            while (true) {
-               tmpOff += sum;
-
-               getActivity().runOnUiThread(new Runnable() {
-                  public void run() {
-                     setCircleOffset(tmpOff);
-                     setInstantSpeed(((tmpOff / 10 + 9) + 0.1f) + instantSpeed);
-                     setTargetSpeed(targetSpeed);
-                     setTotalKm(totalKm);
-                     setTotalSpeed(totalKmH);
-                     setTotalTime(totalTime);
-                     setTotalPace(totalPace);
-                     setIntervalSpeed(lastKmh);
-                     setIntervalPace(lastPace);
-                  }
-               });
-
-
-               if (tmpOff == 100) {
-                  sum = -1;
-
-               }
-               if (tmpOff == -100) {
-                  sum = 1;
-               }
-               try {
-                  Thread.sleep(150);
-               } catch (InterruptedException e) {
-                  e.printStackTrace();
-               }
-            }
-         }
-      }).start();
-
-*/
-
-
    public void updateInfo() {
       //update the UI using public service (mBinder) methods
       setInstantSpeed(mService.getSpeed());
