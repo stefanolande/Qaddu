@@ -305,7 +305,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
       mTargetSpeed = 10;
       DecimalFormat decimalFormat = new DecimalFormat("0.0");
       tvTargetSpeed.setText(getActivity().getString(R.string.target) + decimalFormat.format(mTargetSpeed) + " KM/H");
-            
+
       return view;
    }
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference xmlns:android="http://schemas.android.com/apk/res/android"
+        android:key="pref_key_gpsStatus"
+        android:title="@string/setting_gps">
+        <intent android:action="android.settings.LOCATION_SOURCE_SETTINGS" />
+    </Preference>
+
+    <EditTextPreference xmlns:android="http://schemas.android.com/apk/res/android"
+        android:defaultValue="100"
+        android:inputType="number"
+        android:key="setting_meters"
+        android:title="@string/setting_meters"></EditTextPreference>
+
+    <EditTextPreference xmlns:android="http://schemas.android.com/apk/res/android"
+        android:inputType="number"
+        android:key="setting_target"
+        android:title="@string/setting_target"></EditTextPreference>
+
+    <ListPreference
+        android:entries="@array/Language"
+        android:entryValues="@array/Language"
+        android:key="language_preference"
+        android:title="Language"></ListPreference>
+
+
+    <Preference xmlns:android="http://schemas.android.com/apk/res/android"
+        android:key="delete_all"
+        android:title="@string/delete_all"></Preference>
+
+</PreferenceScreen>
