@@ -194,6 +194,12 @@ public class WorkoutService extends Service {
       try {
          mTimer.cancel();
          mTimeUpdateTask.cancel();
+
+         //remove the intent to receive GPS point
+         mIntentFilter = new IntentFilter(AppController.GPS_TURNED_ON);
+         mIntentFilter.addAction(AppController.GPS_TURNED_OFF);
+         unregisterReceiver(mBroadcastReceiver);
+         registerReceiver(mBroadcastReceiver, mIntentFilter);
       } catch (IllegalArgumentException e) {
          //the actions were not necessary
       }
@@ -209,6 +215,10 @@ public class WorkoutService extends Service {
       mTimer = new Timer();
       mTimeUpdateTask = new TimerUpdateTask();
       mTimer.scheduleAtFixedRate(mTimeUpdateTask, 0, TIME_UPDATE_INTERVAL);
+
+      //add the intent to receive GPS points
+      unregisterReceiver(mBroadcastReceiver);
+      mIntentFilter.addAction(AppController.BROADCAST_NEW_GPS_POSITION);
       registerReceiver(mBroadcastReceiver, mIntentFilter);
       this.running = true;
    }
