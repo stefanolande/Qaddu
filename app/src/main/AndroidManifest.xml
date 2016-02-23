@@ -21,7 +21,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustNothing">
-
         </activity>
         <activity
             android:name=".WorkoutDetailActivity"
@@ -51,7 +50,8 @@
                     android:scheme="file"/>
             </intent-filter>
         </activity>
-        <activity android:name=".SplashActivity">
+        <activity android:name=".SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
