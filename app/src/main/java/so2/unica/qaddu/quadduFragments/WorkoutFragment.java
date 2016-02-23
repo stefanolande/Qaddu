@@ -183,7 +183,6 @@ public class WorkoutFragment extends Fragment implements updateUI {
    private void setIntervalPace(double lastPace) {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("m:ss");
       simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-      Log.d("setIntervalPace", "seconds " + lastPace + " - formatted " + simpleDateFormat.format(lastPace));
       tvLastPace.setText(simpleDateFormat.format(lastPace * 1000) + " MIN/KM");
    }
 
@@ -260,7 +259,6 @@ public class WorkoutFragment extends Fragment implements updateUI {
                setTotalKm(0);
 
                etNameWorkout.setEnabled(false);
-               mWorkoutName = "";
 
                //Start and bind the workout service
                Log.d("WorkoutFragment", "requested service");
@@ -299,6 +297,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
             mWorkoutPaused = false;
             etNameWorkout.setEnabled(true);
             etNameWorkout.setText("");
+            mWorkoutName = getActivity().getString(R.string.untitled_workout);
          }
       });
 
