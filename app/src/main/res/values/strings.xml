@@ -3,6 +3,7 @@
     <string name="title_activity_main">Qaddu</string>
     <string name="title_fragment_history">History</string>
     <string name="title_fragment_workout">Workout</string>
+    <string name="title_workoutservice_workout">QuadduWorkout</string>
     <string name="setting_gps">Setting Gps</string>
     <string name="setting_gps_summary">Sets enable/disable gps</string>
     <string name="setting_meters">Setting Meters</string>
