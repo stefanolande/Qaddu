@@ -2,7 +2,6 @@
     <string name="app_name">Qaddu</string>
     <string name="title_activity_main">Qaddu</string>
     <string name="title_fragment_history">History</string>
-    <string name="title_fragment_settings">Settings</string>
     <string name="title_fragment_workout">Workout</string>
     <string name="setting_gps">Setting Gps</string>
     <string name="setting_meters">Setting Meters</string>
@@ -12,23 +11,22 @@
     <string name="hint_workout_name">Insert workout name</string>
     <string name="total_info">TOTAL</string>
     <string name="default_speed">--.- KM/H</string>
-    <string name="default_step">--:-- MIN/KM</string>
+    <string name="default_pace">--:-- MIN/KM</string>
     <string name="default_interval">LAST 100M</string>
-    <string name="default_target">Target --.- KM/H</string>
-    <string name="empty_time">--:--:--</string>
+    <string name="default_target" translatable="false">Target --.- KM/H</string>
+    <string name="empty_time" translatable="false">--:--:--</string>
     <string name="distance">DISTANCE</string>
     <string name="time">TIME</string>
     <string name="average_speed">AVERAGE SPEED</string>
-    <string name="average_step">AVERAGE STEP</string>
-    
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="average_pace">AVERAGE PACE</string>
+
     <string name="settings">Settings</string>
     <string name="delete_workout">Delete workout</string>
     <string name="workout_date">WORKOUT DATE</string>
 
     <string-array name="y_array">
         <item>Speed</item>
-        <item>Step</item>
+        <item>Pace</item>
         <item>Altitude</item>
     </string-array>
 
@@ -36,71 +34,25 @@
         <item>Time</item>
         <item>Distance</item>
     </string-array>
-    <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
-
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
-    </string>
-
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
 
     <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
-    </string-array>
-
-    <string name="colorPrimaryHex">#2196F3</string>
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
 
     <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
 
-    <string name="pref_title_new_message_notifications">New message notifications</string>
+    <string name="pref_ringtone_silent" translatable="false">Silent</string>
 
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
-
-    <string name="pref_title_vibrate">Vibrate</string>
-    <string name="gps_disable">Turn on the gps before starting a workout.</string>
+    <string name="gps_disable">Turn on the gps before starting a workout!</string>
     <string name="workout_detail">Workout detail</string>
     <string name="no">No</string>
     <string name="delete">Delete</string>
     <string name="workout_delete_confirmation">Are you sure you want to delete the workout?</string>
-    <string name="enable">enable</string>
+    <string name="untitled_workout">Untitled workout</string>
+    <string name="gps_disabled_on_resume">GPS still disabled, enable it before resuming the workout</string>
+    <string name="gps_disabled_during_workout">The workout is paused because the GPS is turned off. Turn on the GPS and resume the workout</string>
+    <string name="workout_resumed_with_gps_off">GPS enabled. Workout resumed.</string>
+    <string name="target" translatable="false">"Target "</string>
 </resources>
