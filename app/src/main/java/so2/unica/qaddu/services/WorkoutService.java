@@ -19,6 +19,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import so2.unica.qaddu.AppController;
+import so2.unica.qaddu.R;
 import so2.unica.qaddu.helpers.DatabaseHelper;
 import so2.unica.qaddu.helpers.ReceiverHelper;
 import so2.unica.qaddu.models.GpsPoint;
@@ -173,7 +174,7 @@ public class WorkoutService extends Service {
             DatabaseHelper.getIstance().addData(mItem, WorkoutItem.class);
             mItem.setPoints(mPoints);
             DatabaseHelper.getIstance().getDao().update(mItem);
-            Toast toast = Toast.makeText(getApplicationContext(), "workout " + mItem.getName() + " saved.", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_workout_workout) + " \"" + mItem.getName() + "\" " + getResources().getString(R.string.toast_workout_saved), Toast.LENGTH_SHORT);
             toast.show();
          }
       } catch (SQLException e) {
