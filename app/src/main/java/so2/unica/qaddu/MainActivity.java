@@ -2,6 +2,7 @@ package so2.unica.qaddu;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,16 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import so2.unica.qaddu.helpers.DatabaseHelper;
-import so2.unica.qaddu.models.WorkoutItem;
-import so2.unica.qaddu.models.WorkoutPoint;
 import so2.unica.qaddu.quadduFragments.History;
 import so2.unica.qaddu.quadduFragments.Workout;
 
@@ -37,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
    @Bind(R.id.tool_bar)
    Toolbar mToolBar;
    Menu mMenu;
+   private EditTextPreference preference;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
       mSamplePagerAdapter = new SamplePagerAdapter(getSupportFragmentManager());
       mViewPager.setAdapter(mSamplePagerAdapter);
       mTabLayout.setupWithViewPager(mViewPager);
+
 
       //DatabaseHelper.initialize(this);
 /*
@@ -168,5 +163,6 @@ public class MainActivity extends AppCompatActivity {
 
       }
    }
+
 }
 
