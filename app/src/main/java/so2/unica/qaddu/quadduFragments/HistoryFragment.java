@@ -28,7 +28,7 @@ import so2.unica.qaddu.helpers.ReceiverHelper;
 import so2.unica.qaddu.models.WorkoutItem;
 
 
-public class History extends Fragment {
+public class HistoryFragment extends Fragment {
 
    public static final String WORKOUT_ID = "WorkoutID";
 
@@ -37,7 +37,7 @@ public class History extends Fragment {
 
    BroadcastReceiver mBroadcastReceiver;
 
-   public History() {
+   public HistoryFragment() {
       // Required empty public constructor
    }
 

@@ -47,7 +47,7 @@ import lecho.lib.hellocharts.view.LineChartView;
 import so2.unica.qaddu.helpers.DatabaseHelper;
 import so2.unica.qaddu.models.WorkoutItem;
 import so2.unica.qaddu.models.WorkoutPoint;
-import so2.unica.qaddu.quadduFragments.History;
+import so2.unica.qaddu.quadduFragments.HistoryFragment;
 
 
 public class WorkoutDetailActivity extends AppCompatActivity {
@@ -63,8 +63,8 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    TextView mTvWorkoutTime;
    @Bind(R.id.tvWorkoutAvgSpeed)
    TextView mTvWorkoutAvgSpeed;
-   @Bind(R.id.tvWorkoutAvgStep)
-   TextView mTvWorkoutAvgStep;
+   @Bind(R.id.tvWorkoutAvgPace)
+   TextView mTvWorkoutAvgPace;
    @Bind(R.id.tvWorkoutDate)
    TextView mTvWorkoutDate;
 
@@ -82,6 +82,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    xAxisType mXAxis;
    yAxisType mYAxis;
    Boolean mImportedWorkout;
+
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +130,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       } else {
          //The user is opening a workout from the history
          //get the id and fetch it from the database
-         int id = bundle.getInt(History.WORKOUT_ID);
+         int id = bundle.getInt(HistoryFragment.WORKOUT_ID);
          mItem = (WorkoutItem) DatabaseHelper.getIstance().getItemById(id, WorkoutItem.class);
          mImportedWorkout = false;
       }
@@ -156,7 +157,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
                   mYAxis = yAxisType.SPEED;
                   break;
                case 1:
-                  mYAxis = yAxisType.STEP;
+                  mYAxis = yAxisType.PACE;
                   break;
                case 2:
                   mYAxis = yAxisType.ALTITUDE;
@@ -197,7 +198,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
       mTvWorkoutName.setText(mItem.getName());
 
-      DecimalFormat decimalFormat = new DecimalFormat("0.#");
+      DecimalFormat decimalFormat = new DecimalFormat("0.0");
       String distance = decimalFormat.format(mItem.getDistance() / 1000.0) + " KM";
       mTvWorkoutDistance.setText(distance);
 
@@ -211,9 +212,9 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
       simpleDateFormat = new SimpleDateFormat("mm:ss");
       simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-      String avgStep = simpleDateFormat.format(mItem.getAverageStepInSeconds()) + " MIN/KM";
-      Log.d("AVGStep", mItem.getAverageStepInSeconds() + "");
-      mTvWorkoutAvgStep.setText(avgStep);
+      String avgPace = simpleDateFormat.format(mItem.getAveragePaceInSeconds() * 1000) + " MIN/KM";
+      Log.d("AVGPace", mItem.getAveragePaceInSeconds() + "");
+      mTvWorkoutAvgPace.setText(avgPace);
 
       simpleDateFormat = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
       simpleDateFormat.setTimeZone(TimeZone.getDefault());
@@ -227,6 +228,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
             WorkoutDetailActivity.this.finish();
          }
       });
+
    }
 
    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -373,9 +375,9 @@ public class WorkoutDetailActivity extends AppCompatActivity {
                y = (float) mItem.getPoints().get(i).getSpeed();
                axisY.setName("Speed");
                break;
-            case STEP:
-               y = (float) mItem.getPoints().get(i).getStep();
-               axisY.setName("Step");
+            case PACE:
+               y = (float) mItem.getPoints().get(i).getPace();
+               axisY.setName("Pace");
                break;
             case ALTITUDE:
                y = (float) mItem.getPoints().get(i).getAltitude();
@@ -388,7 +390,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
       Line line = new Line(values);
       line.setColor(ContextCompat.getColor(WorkoutDetailActivity.this, R.color.colorPrimary));
-      line.setCubic(true);
       line.setHasPoints(false);
       line.setFilled(true);
       List<Line> lines = new ArrayList<>();
@@ -409,5 +410,5 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
    private enum xAxisType {TIME, DISTANCE}
 
-   private enum yAxisType {SPEED, STEP, ALTITUDE}
+   private enum yAxisType {SPEED, PACE, ALTITUDE}
 }

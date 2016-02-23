@@ -23,7 +23,7 @@ public class WorkoutPoint {
    @DatabaseField
    private double speed;
    @DatabaseField
-   private double step;
+   private double pace;
    @DatabaseField
    private double altitude;
    @DatabaseField
@@ -43,11 +43,11 @@ public class WorkoutPoint {
       this.time = time;
       this.distance = distance;
 
-      //calculate the step from the speed
+      //calculate the pace from the speed
       if (speed == 0) {
-         this.step = 0;
+         this.pace = 0;
       } else {
-         this.step = (1 / speed) * 60;
+         this.pace = (1 / speed) * 60;
       }
    }
 
@@ -67,6 +67,11 @@ public class WorkoutPoint {
       this.longitude = longitude;
    }
 
+   /**
+    * Returns the speed of the current point in km/h
+    *
+    * @return double speed in km/h
+    */
    public double getSpeed() {
       return speed;
    }
@@ -83,8 +88,8 @@ public class WorkoutPoint {
       this.latitude = latitude;
    }
 
-   public double getStep() {
-      return step;
+   public double getPace() {
+      return pace;
    }
 
    public double getAltitude() {
