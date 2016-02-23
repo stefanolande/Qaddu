@@ -1,15 +1,14 @@
 package so2.unica.qaddu.quadduFragments;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,15 +18,17 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import so2.unica.qaddu.AppController;
 import so2.unica.qaddu.R;
+import so2.unica.qaddu.helpers.ReceiverHelper;
 import so2.unica.qaddu.services.WorkoutService;
 import so2.unica.qaddu.services.WorkoutService.LocalBinder;
 import so2.unica.qaddu.services.WorkoutService.updateUI;
@@ -37,7 +38,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
    WorkoutService mService;
    boolean mBound = false;
-
+   boolean GPSEnabled = true;
    int mContainerWidth;
 
    @Bind(R.id.circle_container)
@@ -66,8 +67,8 @@ public class WorkoutFragment extends Fragment implements updateUI {
    ImageButton bStop;
    @Bind(R.id.btn_start)
    ImageButton bStart;
-
-   Locale myLocale;
+   private BroadcastReceiver mBroadcastReceiver;
+   private IntentFilter mIntentFilter;
    private String mWorkoutName;
    private boolean mWorkoutRunning = false;
    private boolean mWorkoutPaused = false;
@@ -105,6 +106,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
    @Override
    public void onResume() {
       super.onResume();
+
       if (mBound) {
          mService.addWorkoutListener(this);
       }
@@ -172,6 +174,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
    @Override
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
+
    }
 
    @Override
@@ -181,26 +184,44 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
       mWorkoutName = getActivity().getString(R.string.untitled_workout);
 
+      mIntentFilter = new IntentFilter(AppController.GPS_TURNED_ON);
+      mIntentFilter.addAction(AppController.GPS_TURNED_OFF);
+
       bStart.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
 
-            if (!mWorkoutRunning || mWorkoutPaused) {
+            if ((!mWorkoutRunning || mWorkoutPaused) && GPSEnabled) {
                //when the workout is play or pause, the user can stop the workout (the stop button in enable, is blu)
                bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stop));
                bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
                mWorkoutPaused = false;
 
+               //register the broadcast receiver to handle the gps status change
+               mBroadcastReceiver = new WorkoutBroadcastReceiverHelper();
+               getActivity().registerReceiver(mBroadcastReceiver, mIntentFilter);
+
+
                if (mBound) {
                   mService.resumeWorkout();
                }
-            } else {
+            } else if (GPSEnabled) {
                bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
                mWorkoutPaused = true;
+
+               //unregister the broadcast receiver to handle the gps status change
+               try {
+                  getActivity().unregisterReceiver(mBroadcastReceiver);
+               } catch (RuntimeException e) {
+                  //the receiver was not registered
+               }
 
                if (mBound) {
                   mService.pauseWorkout();
                }
+            } else if (!GPSEnabled) {
+               Toast toast = Toast.makeText(getActivity().getApplicationContext(), "GPS still disabled, enable it before resuming the workout", Toast.LENGTH_SHORT);
+               toast.show();
             }
 
             //start the workout service if needed
@@ -223,6 +244,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
                setTotalKm(0);
 
                etNameWorkout.setEnabled(false);
+               mWorkoutName = "";
 
                //Start and bind the workout service
                Log.d("WorkoutFragment", "requested service");
@@ -244,6 +266,8 @@ public class WorkoutFragment extends Fragment implements updateUI {
                getActivity().unbindService(mConnection);
                mBound = false;
             }
+
+            //unregister the broadcast receiver to handle the gps status change
 
             //Stop the workout service service
             if (WorkoutService.running) {
@@ -347,5 +371,35 @@ public class WorkoutFragment extends Fragment implements updateUI {
    @Override
    public void onDetach() {
       super.onDetach();
+   }
+
+   private class WorkoutBroadcastReceiverHelper extends ReceiverHelper {
+      @Override
+      public void onReceive(Context context, Intent intent) {
+         switch (intent.getAction()) {
+            case AppController.GPS_TURNED_OFF:
+               // pause a workout if it is running and the gps is turned off
+               if (mWorkoutRunning && !mWorkoutPaused) {
+                  bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+                  mWorkoutPaused = true;
+                  GPSEnabled = false;
+
+                  Toast toast = Toast.makeText(getActivity().getApplicationContext(), "The workout is paused because the GPS is turned off. Turn on the GPS and resume the workout", Toast.LENGTH_SHORT);
+                  toast.show();
+               }
+               break;
+            case AppController.GPS_TURNED_ON:
+               //resume the workout if the GPS is turned on during the pause
+               if (mWorkoutRunning && mWorkoutPaused) {
+                  bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
+                  mWorkoutPaused = false;
+                  GPSEnabled = true;
+
+                  Toast toast = Toast.makeText(getActivity().getApplicationContext(), "GPS enabled. Workout resumed.", Toast.LENGTH_SHORT);
+                  toast.show();
+               }
+               break;
+         }
+      }
    }
 }

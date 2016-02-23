@@ -84,12 +84,29 @@ public class WorkoutService extends Service {
 
 
       mIntentFilter = new IntentFilter(AppController.BROADCAST_NEW_GPS_POSITION);
+      mIntentFilter.addAction(AppController.GPS_TURNED_ON);
+      mIntentFilter.addAction(AppController.GPS_TURNED_OFF);
 
       mBroadcastReceiver = new ReceiverHelper() {
          @Override
          public void onReceive(Context context, Intent intent) {
-            GpsPoint point = intent.getParcelableExtra(GpsPoint.QUADDU_GPS_POINT);
-            onReceivePoint(point);
+            switch (intent.getAction()) {
+               case AppController.BROADCAST_NEW_GPS_POSITION:
+                  GpsPoint point = intent.getParcelableExtra(GpsPoint.QUADDU_GPS_POINT);
+                  onReceivePoint(point);
+                  break;
+               case AppController.GPS_TURNED_OFF:
+                  if (running) {
+                     pauseWorkout();
+                  }
+                  break;
+               case AppController.GPS_TURNED_ON:
+                  if (!running) {
+                     resumeWorkout();
+                  }
+                  break;
+            }
+
          }
       };
       this.registerReceiver(mBroadcastReceiver, mIntentFilter);
@@ -174,9 +191,15 @@ public class WorkoutService extends Service {
     */
    public void pauseWorkout() {
       Log.d("WorkoutService", "paused");
-      mTimer.cancel();
-      mTimeUpdateTask.cancel();
-      unregisterReceiver(mBroadcastReceiver);
+      try {
+         mTimer.cancel();
+         mTimeUpdateTask.cancel();
+         unregisterReceiver(mBroadcastReceiver);
+      } catch (IllegalArgumentException e) {
+         //the actions were not necessary
+      }
+
+      this.running = false;
    }
 
    /**
@@ -188,6 +211,7 @@ public class WorkoutService extends Service {
       mTimeUpdateTask = new TimerUpdateTask();
       mTimer.scheduleAtFixedRate(mTimeUpdateTask, 0, TIME_UPDATE_INTERVAL);
       registerReceiver(mBroadcastReceiver, mIntentFilter);
+      this.running = true;
    }
 
    /**
