@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Qaddu</string>
+    <string name="average_pace">PASSO MEDIO</string>
+    <string name="average_speed">VELOCITÀ MEDIA</string>
+    <string name="default_interval">ULTIMI 100M</string>
+    <string name="default_pace">--:-- MIN/KM</string>
+    <string name="default_speed">--.- KM/H</string>
+    <string name="default_target">Obiettivo --.- KM/H</string>
+    <string name="delete">Elimina</string>
+    <string name="delete_all">Elimina tutto</string>
+    <string name="delete_workout">Elimina allenamento</string>
+    <string name="distance">DISTANZA</string>
+    <string name="gps_disable">Attiva il gps prima di iniziare l\'allenamento!</string>
+    <string name="hint_workout_name">Inserisci il nome dell\'allenamento</string>
+    <string name="no">No</string>
+    <string name="setting_gps">Impostazioni Gps</string>
+    <string name="setting_meters">Imposta Metri</string>
+    <string name="settings">Impostazioni</string>
+    <string name="setting_target">Imposta Obiettivo</string>
+    <string name="time">TEMPO</string>
+    <string name="title_activity_main">Qaddu</string>
+    <string name="title_fragment_history">Storico</string>
+    <string name="title_fragment_workout">Allenamento</string>
+    <string name="total_info">TOTALE</string>
+    <string name="workout_date">DATA ALLENAMENTO</string>
+    <string name="workout_delete_confirmation">Sei sicuro di voler eliminare l\'allenamento?</string>
+    <string name="workout_detail">Dettaglio allenamento</string>
 </resources>
