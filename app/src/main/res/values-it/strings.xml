@@ -46,4 +46,9 @@
     <string name="axisY_speed">Velocità</string>
     <string name="axisY_pace">Passo</string>
     <string name="axisY_altitude">Altitudine</string>
+    <string name="spinner_altitude">Altitudine</string>
+    <string name="spinner_speed">Velocità</string>
+    <string name="spinner_pace">Passo</string>
+    <string name="spinner_time">Tempo</string>
+    <string name="spinner_distance">Distanza</string>
 </resources>
