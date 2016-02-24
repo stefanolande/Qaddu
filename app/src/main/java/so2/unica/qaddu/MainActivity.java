@@ -1,11 +1,7 @@
 package so2.unica.qaddu;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,12 +9,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,9 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
-      String lang = changeLang();
-      setLanguage(lang);
-      Log.d("Dio-> Cane", lang);
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_main);
       ButterKnife.bind(this);
@@ -67,9 +57,6 @@ public class MainActivity extends AppCompatActivity {
    @Override
    public void onResume() {
       super.onResume();
-      String lang = changeLang();
-      setLanguage(lang);
-
    }
 
    @Override
@@ -90,35 +77,6 @@ public class MainActivity extends AppCompatActivity {
       return super.onOptionsItemSelected(item);
    }
 
-   public String changeLang() {
-      SharedPreferences preferences_language = PreferenceManager.getDefaultSharedPreferences(this);
-      String lang = preferences_language.getString("language_preference", "DEFAULT");
-      switch (lang) {
-         case "Italian":
-            lang = "it";
-            break;
-         default:
-            lang = "en";
-            break;
-      }
-      return lang;
-   }
-
-   /**
-    * This method change the language of the application
-    */
-   public void setLanguage(String language) {
-      Locale myLocale = new Locale(language);
-      Resources res = getBaseContext().getResources();
-      DisplayMetrics dm = res.getDisplayMetrics();
-      Configuration conf = res.getConfiguration();
-      conf.locale = myLocale;
-
-      res.updateConfiguration(conf, dm);
-      getBaseContext().getResources().updateConfiguration(
-            getBaseContext().getResources().getConfiguration(),
-            getBaseContext().getResources().getDisplayMetrics());
-   }
 
    public class SamplePagerAdapter extends FragmentStatePagerAdapter {
       public SamplePagerAdapter(FragmentManager fm) {
