@@ -46,9 +46,14 @@
     <string name="axisY_speed">Velocità</string>
     <string name="axisY_pace">Passo</string>
     <string name="axisY_altitude">Altitudine</string>
-    <string name="spinner_altitude">Altitudine</string>
-    <string name="spinner_speed">Velocità</string>
-    <string name="spinner_pace">Passo</string>
-    <string name="spinner_time">Tempo</string>
-    <string name="spinner_distance">Distanza</string>
+    <string-array name="x_array">
+        <item>Tempo</item>
+        <item>Distanza</item>
+    </string-array>
+
+    <string-array name="y_array">
+        <item>Altitudine</item>
+        <item>Passo</item>
+        <item>Velocità</item>
+    </string-array>
 </resources>

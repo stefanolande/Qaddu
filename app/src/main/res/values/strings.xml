@@ -36,20 +36,15 @@
     <string name="delete_workout">Delete workout</string>
     <string name="workout_date">WORKOUT DATE</string>
 
-    <string name="spinner_altitude">Altitude</string>
-    <string name="spinner_pace">Pace</string>
-    <string name="spinner_speed">Speed</string>
     <string-array name="y_array">
-        <item>@string/spinner_speed</item>
-        <item>@string/spinner_pace</item>
-        <item>@string/spinner_altitude</item>
+        <item>Altitude</item>
+        <item>Pace</item>
+        <item>Speed</item>
     </string-array>
 
-    <string name="spinner_time">Time</string>
-    <string name="spinner_distance">Distance</string>
     <string-array name="x_array">
-        <item>@string/spinner_time</item>
-        <item>@string/spinner_distance</item>
+        <item>Time</item>
+        <item>Distance</item>
     </string-array>
 
     <!-- Strings related to Settings -->
