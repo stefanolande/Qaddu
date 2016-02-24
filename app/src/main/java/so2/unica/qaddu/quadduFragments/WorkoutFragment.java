@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
 import android.util.Log;
@@ -37,6 +39,8 @@ import so2.unica.qaddu.services.WorkoutService.updateUI;
 
 public class WorkoutFragment extends Fragment implements updateUI {
 
+   @Bind(R.id.tvIntervalLength)
+   TextView tvIntervalLength;
    @Bind(R.id.circle_container)
    LinearLayout mCircleContainer;
    @Bind(R.id.min_circle)
@@ -115,6 +119,18 @@ public class WorkoutFragment extends Fragment implements updateUI {
    @Override
    public void onResume() {
       super.onResume();
+
+      SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+      String targ1 = preferences.getString("setting_target", "DEFAULT");
+      Double targ = Double.parseDouble(targ1);
+      mTargetSpeed = targ;
+      DecimalFormat decimalFormat = new DecimalFormat("0.0");
+      tvTargetSpeed.setText(getActivity().getString(R.string.target) + decimalFormat.format(mTargetSpeed) + " KM/H");
+
+      SharedPreferences preferences_meters = PreferenceManager.getDefaultSharedPreferences(getContext());
+      String meter = preferences_meters.getString("setting_meters", "DEFAULT");
+      int meter1 = Integer.parseInt(meter);
+      tvIntervalLength.setText(getActivity().getString(R.string.default_interval) + " " + meter1 + " M");
 
       //attach the listener to the service to resume UI update
       if (mBound) {
@@ -330,10 +346,6 @@ public class WorkoutFragment extends Fragment implements updateUI {
          }
       });
 
-      //TODO retrieve the target speed from settings and setTargetSpeed()
-      mTargetSpeed = 4;
-      DecimalFormat decimalFormat = new DecimalFormat("0.0");
-      tvTargetSpeed.setText(getActivity().getString(R.string.target) + decimalFormat.format(mTargetSpeed) + " KM/H");
 
       return view;
    }
