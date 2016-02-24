@@ -139,6 +139,7 @@ public class WorkoutService extends Service {
                distanceArray);
 
          mDistance += distanceArray[0];
+
       }
 
       mPoints.add(new WorkoutPoint(mItem, point.getLatitude(), point.getLongitude(), point.getSpeed(), point.getAltitude(), mTotalTime, mDistance));

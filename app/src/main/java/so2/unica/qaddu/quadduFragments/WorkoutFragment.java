@@ -9,6 +9,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -298,7 +299,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
             GPSEnabled = true;
             etNameWorkout.setEnabled(true);
             etNameWorkout.setText("");
-            mWorkoutName = getActivity().getString(R.string.untitled_workout);
+            mWorkoutName = getActivity().getString(R.string.untitled_workout) + Time.HOUR;
          }
       });
 
