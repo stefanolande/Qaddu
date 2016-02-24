@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -139,7 +138,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
    /**
     * Set the length of the interval for the partial counters and show it on the UI
     *
-    * @param interval
+    * @param interval int interval length
     */
    private void setTvIntervalLength(int interval) {
 
@@ -230,11 +229,6 @@ public class WorkoutFragment extends Fragment implements updateUI {
       tvLastPace.setText(simpleDateFormat.format(lastPace * 1000) + " MIN/KM");
    }
 
-   @Override
-   public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-
-   }
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -298,7 +292,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
                   etNameWorkout.setText(mWorkoutName);
                }
 
-               //reset the infos
+               //reset the UI
                setTotalSpeed(0);
                setTotalPace(0);
 
@@ -358,7 +352,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
             mGPSEnabled = true;
             etNameWorkout.setEnabled(true);
             etNameWorkout.setText("");
-            mWorkoutName = getActivity().getString(R.string.untitled_workout) + Time.HOUR;
+            mWorkoutName = getActivity().getString(R.string.untitled_workout);
          }
       });
 
@@ -398,16 +392,6 @@ public class WorkoutFragment extends Fragment implements updateUI {
             //Log.d("UpdateTime", mService.getTime() + "");
          }
       });
-   }
-
-   @Override
-   public void onAttach(Context context) {
-      super.onAttach(context);
-   }
-
-   @Override
-   public void onDetach() {
-      super.onDetach();
    }
 
    /**

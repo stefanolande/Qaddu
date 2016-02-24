@@ -77,4 +77,6 @@
     <string name="default_target_speed">10</string>
     <string name="default_interval">1000</string>
     <string name="settings_interval_wrong_value">Insert a value between %1$d and %2$d.</string>
+    <string name="workout_share_text">Check out my workout!</string>
+    <string name="share_workout">Share the workout</string>
 </resources>

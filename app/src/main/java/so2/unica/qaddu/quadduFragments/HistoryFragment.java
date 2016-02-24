@@ -42,14 +42,6 @@ public class HistoryFragment extends Fragment {
    }
 
    @Override
-   public void onCreate(Bundle savedInstanceState) {
-
-
-
-      super.onCreate(savedInstanceState);
-   }
-
-   @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       View view = inflater.inflate(R.layout.fragment_history, container, false);
       ButterKnife.bind(this, view);
@@ -58,8 +50,9 @@ public class HistoryFragment extends Fragment {
 
    @Override
    public void onStart() {
-      IntentFilter filter = new IntentFilter(AppController.BROADCAST_NEW_WORKOUT);
 
+      //intent filter and receiver used to update the list when a new workout is generated
+      IntentFilter filter = new IntentFilter(AppController.BROADCAST_NEW_WORKOUT);
       mBroadcastReceiver = new ReceiverHelper() {
          @Override
          public void onReceive(Context context, Intent intent) {
@@ -122,16 +115,6 @@ public class HistoryFragment extends Fragment {
 
          mListView.setAdapter(listAdapter);
       }
-   }
-
-   @Override
-   public void onAttach(Context context) {
-      super.onAttach(context);
-   }
-
-   @Override
-   public void onDetach() {
-      super.onDetach();
    }
 
    @Override

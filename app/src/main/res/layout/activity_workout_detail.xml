@@ -25,7 +25,7 @@
     <TextView
         android:id="@+id/tvWorkoutName"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:text="Name Workout"
