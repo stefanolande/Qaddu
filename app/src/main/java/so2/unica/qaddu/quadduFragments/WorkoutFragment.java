@@ -284,7 +284,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
             //unregister the broadcast receiver to handle the gps status change
 
             //Stop the workout service service
-            if (WorkoutService.running) {
+            if (mService.isRunning() || mService.isPaused()) {
                Intent intent = new Intent(getActivity().getApplicationContext(), WorkoutService.class);
                getActivity().stopService(intent);
                bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
@@ -295,6 +295,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
             bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stopgray));
             mWorkoutRunning = false;
             mWorkoutPaused = false;
+            GPSEnabled = true;
             etNameWorkout.setEnabled(true);
             etNameWorkout.setText("");
             mWorkoutName = getActivity().getString(R.string.untitled_workout);

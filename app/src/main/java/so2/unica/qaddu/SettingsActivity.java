@@ -36,7 +36,24 @@ public class SettingsActivity extends PreferenceActivity {
              });
           }
        }
+
+       final Preference preferencetarg = (Preference) findPreference("setting_target");
+       if (preferencetarg instanceof EditTextPreference) {
+          EditTextPreference editTargetPreference = (EditTextPreference) preferencetarg;
+          editTargetPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+             @Override
+             public boolean onPreferenceChange(Preference preference, Object newValue) {
+                int val = Integer.parseInt(newValue.toString());
+                if (val != 0 && val <= 30) {
+                   return true;
+                } else {
+                   // invalid you can show invalid message
+                   Toast.makeText(getApplicationContext(), "il valore non può essere 0", Toast.LENGTH_LONG).show();
+                   return false;
+                }
+             }
+          });
+       }
+    }
     }
 
-
-}

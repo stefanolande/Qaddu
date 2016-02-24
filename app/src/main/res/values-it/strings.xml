@@ -26,4 +26,34 @@
     <string name="workout_delete_confirmation">Sei sicuro di voler eliminare l\'allenamento?</string>
     <string name="workout_detail">Dettaglio allenamento</string>
     <string name="untitled_workout">Allenamento senza nome</string>
+    <string name="gps_disabled_during_workout">L\'allenamento è stato messo in pausa perchè il GPS è spento. Attiva il GPS e avvia l\'allenamento</string>
+    <string name="gps_disabled_on_resume">GPS è ancora disabilitato. Attiva il GPS prima di riavviare l\'allenamento.</string>
+    <string name="setting_advances">AVANZATO</string>
+    <string name="setting_delete_summary">Elimina tutti gli allenamenti</string>
+    <string name="setting_device">IMPOSTAZIONI DISPOSITIVO</string>
+    <string name="setting_gps_summary">Attiva/disattiva gps</string>
+    <string name="setting_language">Lingua</string>
+    <string name="setting_language_summary">Imposta la lingua dell\'applicazione</string>
+    <string name="setting_meters_summary">Imposta gli ultimi metri</string>
+    <string name="setting_target_summary">Imposta il tuo obiettivo</string>
+    <string name="setting_workout">IMPOSTAZIONI ALLENAMENTO</string>
+    <string name="workout_resumed_with_gps_off">GPS abilitato. Allenamento riavviato.</string>
+    <string name="title_workoutservice_workout">QadduAllenamento</string>
+    <string name="toast_workout_saved">salvato.</string>
+    <string name="toast_workout_workout">Allenamento</string>
+    <string name="axisX_distance">Distanza</string>
+    <string name="axisX_time">Tempo</string>
+    <string name="axisY_speed">Velocità</string>
+    <string name="axisY_pace">Passo</string>
+    <string name="axisY_altitude">Altitudine</string>
+    <string-array name="x_array">
+        <item>Tempo</item>
+        <item>Distanza</item>
+    </string-array>
+
+    <string-array name="y_array">
+        <item>Altitudine</item>
+        <item>Passo</item>
+        <item>Velocità</item>
+    </string-array>
 </resources>

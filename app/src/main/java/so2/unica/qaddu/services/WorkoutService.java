@@ -19,6 +19,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import so2.unica.qaddu.AppController;
+import so2.unica.qaddu.R;
 import so2.unica.qaddu.helpers.DatabaseHelper;
 import so2.unica.qaddu.helpers.ReceiverHelper;
 import so2.unica.qaddu.models.GpsPoint;
@@ -34,15 +35,14 @@ public class WorkoutService extends Service {
 
    public static final String WORKOUT_TITLE = "QuadduWorkout";
    private static final int TIME_UPDATE_INTERVAL = 250; //timer update interval in milliseconds
-
-   public static Boolean running = false;
    // Binder given to clients
    private final IBinder mBinder = new LocalBinder();
    WorkoutItem mItem;
    List<WorkoutPoint> mPoints;
    Double mDistance = 0.0;
-
    BroadcastReceiver mBroadcastReceiver;
+   private Boolean running = false;
+   private boolean paused = false;
    private IntentFilter mIntentFilter;
 
    //Reference to the updateUI to update the UI
@@ -52,6 +52,10 @@ public class WorkoutService extends Service {
 
    private Timer mTimer;
    private TimerTask mTimeUpdateTask;
+
+   public boolean isRunning() {
+      return running;
+   }
 
 
    @Override
@@ -96,12 +100,12 @@ public class WorkoutService extends Service {
                   onReceivePoint(point);
                   break;
                case AppController.GPS_TURNED_OFF:
-                  if (running) {
+                  if (isRunning()) {
                      pauseWorkout();
                   }
                   break;
                case AppController.GPS_TURNED_ON:
-                  if (!running) {
+                  if (!isRunning()) {
                      resumeWorkout();
                   }
                   break;
@@ -173,7 +177,7 @@ public class WorkoutService extends Service {
             DatabaseHelper.getIstance().addData(mItem, WorkoutItem.class);
             mItem.setPoints(mPoints);
             DatabaseHelper.getIstance().getDao().update(mItem);
-            Toast toast = Toast.makeText(getApplicationContext(), "workout " + mItem.getName() + " saved.", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_workout_workout) + " \"" + mItem.getName() + "\" " + getResources().getString(R.string.toast_workout_saved), Toast.LENGTH_SHORT);
             toast.show();
          }
       } catch (SQLException e) {
@@ -205,6 +209,7 @@ public class WorkoutService extends Service {
       }
 
       this.running = false;
+      this.paused = true;
    }
 
    /**
@@ -221,6 +226,7 @@ public class WorkoutService extends Service {
       mIntentFilter.addAction(AppController.BROADCAST_NEW_GPS_POSITION);
       registerReceiver(mBroadcastReceiver, mIntentFilter);
       this.running = true;
+      this.paused = false;
    }
 
    /**
@@ -335,6 +341,10 @@ public class WorkoutService extends Service {
     */
    private double msTokmh(double ms) {
       return ms * 3.6; //3.6 is the conversion factor from m/s to km/h
+   }
+
+   public boolean isPaused() {
+      return paused;
    }
 
    /**

@@ -2,41 +2,47 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:background="@null"
-        android:title="WORKOUT SETTINGS"
-        >
+        android:title="@string/setting_workout">
         <EditTextPreference xmlns:android="http://schemas.android.com/apk/res/android"
                             android:background="@null"
                             android:defaultValue="100"
                             android:inputType="number"
                             android:key="setting_meters"
-                            android:maxLength="3"
-                            android:summary="Metri di stocazzo"
+                            android:maxLength="@string/maxlenght"
+                            android:summary="@string/setting_meters_summary"
                             android:title="@string/setting_meters"/>
 
         <EditTextPreference xmlns:android="http://schemas.android.com/apk/res/android"
                             android:background="@null"
+                            android:defaultValue="10"
                             android:inputType="number"
                             android:key="setting_target"
+                            android:summary="@string/setting_target_summary"
                             android:title="@string/setting_target"/>
         <ListPreference
             android:entries="@array/Language"
             android:entryValues="@array/Language"
             android:key="language_preference"
-            android:title="Language"/>
+            android:summary="@string/setting_language_summary"
+            android:title="@string/setting_language">
+
+        </ListPreference>>
     </PreferenceCategory>
     <PreferenceCategory
-        android:title="DEVICE SETTINGS">
+        android:title="@string/setting_device">
         <Preference xmlns:android="http://schemas.android.com/apk/res/android"
                     android:key="pref_key_gpsStatus"
+                    android:summary="@string/setting_gps_summary"
                     android:title="@string/setting_gps">
             <intent android:action="android.settings.LOCATION_SOURCE_SETTINGS"/>
         </Preference>
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="ADVANCED">
+        android:title="@string/setting_advances">
         <Preference xmlns:android="http://schemas.android.com/apk/res/android"
                     android:key="delete_all"
+                    android:summary="@string/setting_delete_summary"
                     android:title="@string/delete_all"/>
     </PreferenceCategory>
 
