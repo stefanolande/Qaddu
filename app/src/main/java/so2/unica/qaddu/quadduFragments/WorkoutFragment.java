@@ -153,7 +153,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
          tvIntervalLength.setText(getActivity().getString(R.string.interval_length_m, interval));
       } else {
          interval = interval / 1000;
-         tvIntervalLength.setText(getActivity().getString(R.string.interval_length_m, interval));
+         tvIntervalLength.setText(getActivity().getString(R.string.interval_length_km, interval));
       }
 
    }
@@ -258,7 +258,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
             if ((!mWorkoutRunning || mWorkoutPaused) && mGPSEnabled) {
                //first start of the workout or restart
                //when the workout is play or pause, the user can stop the workout (the stop button in enable, is blu)
-               bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stop));
+               bStop.setImageDrawable(getResources().getDrawable(R.mipmap.ic_stop));
                bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
 
                mWorkoutPaused = false;
@@ -376,7 +376,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
             mNotifyMgr.cancel(NOTIFICATION_ID);
 
             //when the workout is stopped, the user can't click stop button again
-            bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stopgray));
+            bStop.setImageDrawable(getResources().getDrawable(R.mipmap.ic_stopgray));
             //reset the state of the workout
             mWorkoutRunning = false;
             mWorkoutPaused = false;

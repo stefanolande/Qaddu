@@ -228,15 +228,15 @@
 
             <ImageButton
                 android:id="@+id/btn_stop"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
                 android:clickable="true"
                 android:nestedScrollingEnabled="false"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_stopgray"/>
+                android:src="@mipmap/ic_stopgray"/>
         </RelativeLayout>
 
         <RelativeLayout
