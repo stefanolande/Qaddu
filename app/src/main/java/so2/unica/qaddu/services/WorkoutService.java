@@ -41,12 +41,16 @@ public class WorkoutService extends Service {
    List<WorkoutPoint> mPoints;
    Double mDistance = 0.0;
    BroadcastReceiver mBroadcastReceiver;
-   private Boolean running = false;
+
+   private boolean running = false;
    private boolean paused = false;
+   private boolean pausedByGPSOff = false;
+
    private IntentFilter mIntentFilter;
 
    //Reference to the updateUI to update the UI
    private updateUI observer;
+
    private int mIntervalLength;
    private long mTotalTime = 0;
 
@@ -102,11 +106,13 @@ public class WorkoutService extends Service {
                case AppController.GPS_TURNED_OFF:
                   if (isRunning()) {
                      pauseWorkout();
+                     pausedByGPSOff = true;
                   }
                   break;
                case AppController.GPS_TURNED_ON:
-                  if (!isRunning()) {
+                  if (!isRunning() && pausedByGPSOff) {
                      resumeWorkout();
+                     pausedByGPSOff = false;
                   }
                   break;
             }
