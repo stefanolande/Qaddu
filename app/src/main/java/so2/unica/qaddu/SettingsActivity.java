@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 
 public class SettingsActivity extends PreferenceActivity {
-
+   String targ = "";
     @Override
     public void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
@@ -26,6 +26,7 @@ public class SettingsActivity extends PreferenceActivity {
                    int val = Integer.parseInt(newValue.toString());
                    if ((val > 10) && (val < 1000)) {
 
+
                       return true;
                    } else {
                       // invalid you can show invalid message
@@ -39,21 +40,24 @@ public class SettingsActivity extends PreferenceActivity {
 
        final Preference preferencetarg = (Preference) findPreference("setting_target");
        if (preferencetarg instanceof EditTextPreference) {
-          EditTextPreference editTargetPreference = (EditTextPreference) preferencetarg;
+          final EditTextPreference editTargetPreference = (EditTextPreference) preferencetarg;
           editTargetPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
              @Override
              public boolean onPreferenceChange(Preference preference, Object newValue) {
-                int val = Integer.parseInt(newValue.toString());
-                if (val != 0 && val <= 30) {
+                targ = editTargetPreference.getText();
+
+                int val1 = Integer.parseInt(newValue.toString());
+                if (val1 != 0 && val1 <= 30) {
                    return true;
                 } else {
                    // invalid you can show invalid message
-                   Toast.makeText(getApplicationContext(), "il valore non può essere 0", Toast.LENGTH_LONG).show();
+                   Toast.makeText(getApplicationContext(), "il valore non può essere 0 o maggiore di 30", Toast.LENGTH_LONG).show();
                    return false;
                 }
              }
           });
        }
     }
-    }
+
+}
 
