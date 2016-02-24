@@ -68,4 +68,9 @@
     <string name="gps_disabled_during_workout">The workout is paused because the GPS is turned off. Turn on the GPS and resume the workout</string>
     <string name="workout_resumed_with_gps_off">GPS enabled. Workout resumed.</string>
     <string name="target" translatable="false">"Target "</string>
+    <string name="axisX_time">Time</string>
+    <string name="axisX_distance">Distance</string>
+    <string name="axisY_speed">Speed</string>
+    <string name="axisY_pace">Pace</string>
+    <string name="axisY_altitude">Altitude</string>
 </resources>

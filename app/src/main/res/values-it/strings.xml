@@ -38,4 +38,12 @@
     <string name="setting_target_summary">Imposta il tuo obiettivo</string>
     <string name="setting_workout">IMPOSTAZIONI ALLENAMENTO</string>
     <string name="workout_resumed_with_gps_off">GPS abilitato. Allenamento riavviato.</string>
+    <string name="title_workoutservice_workout">QadduAllenamento</string>
+    <string name="toast_workout_saved">salvato.</string>
+    <string name="toast_workout_workout">Allenamento</string>
+    <string name="axisX_distance">Distanza</string>
+    <string name="axisX_time">Tempo</string>
+    <string name="axisY_speed">Velocità</string>
+    <string name="axisY_pace">Passo</string>
+    <string name="axisY_altitude">Altitudine</string>
 </resources>

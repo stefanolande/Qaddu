@@ -364,24 +364,24 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
          if (mXAxis == xAxisType.TIME) {
             x = (float) mItem.getPoints().get(i).getTime();
-            axisX.setName("Time");
+            axisX.setName(getString(R.string.axisX_time));
          } else {
             x = (float) mItem.getPoints().get(i).getDistance();
-            axisX.setName("Distance");
+            axisX.setName(getString(R.string.axisX_distance));
          }
 
          switch (mYAxis) {
             case SPEED:
                y = (float) mItem.getPoints().get(i).getSpeed();
-               axisY.setName("Speed");
+               axisY.setName(getString(R.string.axisY_speed));
                break;
             case PACE:
                y = (float) mItem.getPoints().get(i).getPace();
-               axisY.setName("Pace");
+               axisY.setName(getString(R.string.axisY_pace));
                break;
             case ALTITUDE:
                y = (float) mItem.getPoints().get(i).getAltitude();
-               axisY.setName("Altitude");
+               axisY.setName(getString(R.string.axisY_altitude));
                break;
          }
 
