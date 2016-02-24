@@ -35,15 +35,14 @@ public class WorkoutService extends Service {
 
    public static final String WORKOUT_TITLE = "QuadduWorkout";
    private static final int TIME_UPDATE_INTERVAL = 250; //timer update interval in milliseconds
-
-   public static Boolean running = false;
    // Binder given to clients
    private final IBinder mBinder = new LocalBinder();
    WorkoutItem mItem;
    List<WorkoutPoint> mPoints;
    Double mDistance = 0.0;
-
    BroadcastReceiver mBroadcastReceiver;
+   private Boolean running = false;
+   private boolean paused = false;
    private IntentFilter mIntentFilter;
 
    //Reference to the updateUI to update the UI
@@ -53,6 +52,10 @@ public class WorkoutService extends Service {
 
    private Timer mTimer;
    private TimerTask mTimeUpdateTask;
+
+   public boolean isRunning() {
+      return running;
+   }
 
 
    @Override
@@ -97,12 +100,12 @@ public class WorkoutService extends Service {
                   onReceivePoint(point);
                   break;
                case AppController.GPS_TURNED_OFF:
-                  if (running) {
+                  if (isRunning()) {
                      pauseWorkout();
                   }
                   break;
                case AppController.GPS_TURNED_ON:
-                  if (!running) {
+                  if (!isRunning()) {
                      resumeWorkout();
                   }
                   break;
@@ -206,6 +209,7 @@ public class WorkoutService extends Service {
       }
 
       this.running = false;
+      this.paused = true;
    }
 
    /**
@@ -222,6 +226,7 @@ public class WorkoutService extends Service {
       mIntentFilter.addAction(AppController.BROADCAST_NEW_GPS_POSITION);
       registerReceiver(mBroadcastReceiver, mIntentFilter);
       this.running = true;
+      this.paused = false;
    }
 
    /**
@@ -336,6 +341,10 @@ public class WorkoutService extends Service {
     */
    private double msTokmh(double ms) {
       return ms * 3.6; //3.6 is the conversion factor from m/s to km/h
+   }
+
+   public boolean isPaused() {
+      return paused;
    }
 
    /**
