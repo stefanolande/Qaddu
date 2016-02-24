@@ -80,4 +80,6 @@
     <string name="workout_share_text">Check out my workout!</string>
     <string name="share_workout">Share the workout</string>
     <string name="workout_running_notification">A workout is running</string>
+    <string name="delete_all_workout_confirmation">Do you want to delete ALL the workouts?</string>
+    <string name="all_workout_deleted">All workouts have been deleted</string>
 </resources>

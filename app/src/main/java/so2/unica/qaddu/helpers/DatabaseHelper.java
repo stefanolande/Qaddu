@@ -85,7 +85,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
    }
 
-   public <K> void DeleteAll(Class<K> name) {
+   public <K> void deleteAll(Class<K> name) {
       try {
          TableUtils.clearTable(getConnectionSource(), name);
       } catch (SQLException e) {

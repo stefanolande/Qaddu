@@ -1,11 +1,17 @@
 package so2.unica.qaddu;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
+
+import so2.unica.qaddu.helpers.DatabaseHelper;
+import so2.unica.qaddu.models.WorkoutItem;
+import so2.unica.qaddu.models.WorkoutPoint;
 
 
 public class SettingsActivity extends PreferenceActivity {
@@ -63,6 +69,39 @@ public class SettingsActivity extends PreferenceActivity {
                }
                Toast.makeText(getApplicationContext(), getString(R.string.settings_interval_wrong_value, MIN_TARGET_SPEED, MAX_TARGET_SPEED), Toast.LENGTH_LONG).show();
                return false;
+            }
+         });
+
+         final Preference deleteWorkouts = findPreference("delete_all");
+         deleteWorkouts.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+               //create a dialog to request the confirmation to the user
+               AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+               // Add the buttons
+               builder.setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int id) {
+                     //delete all the workoutItem and workoutPoints from the db
+                     DatabaseHelper.getIstance().deleteAll(WorkoutItem.class);
+                     DatabaseHelper.getIstance().deleteAll(WorkoutPoint.class);
+
+                     Toast.makeText(getApplicationContext(), R.string.all_workout_deleted, Toast.LENGTH_SHORT).show();
+                  }
+               });
+
+               builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int id) {
+                     // User cancelled the dialog
+                  }
+               });
+
+               // Create the AlertDialog
+               AlertDialog dialog = builder.create();
+               dialog.setTitle(getString(R.string.delete_all_workout_confirmation));
+               dialog.show();
+
+               return true;
             }
          });
       }
