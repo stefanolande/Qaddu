@@ -35,26 +35,33 @@ public class WorkoutService extends Service {
 
    public static final String WORKOUT_TITLE = "QuadduWorkout";
    private static final int TIME_UPDATE_INTERVAL = 250; //timer update interval in milliseconds
+
    // Binder given to clients
    private final IBinder mBinder = new LocalBinder();
-   WorkoutItem mItem;
-   List<WorkoutPoint> mPoints;
-   Double mDistance = 0.0;
-   BroadcastReceiver mBroadcastReceiver;
-   private Boolean running = false;
+
+   private WorkoutItem mItem; //workout in progress
+   private List<WorkoutPoint> mPoints; //points generated during the workout
+   private Double mDistance = 0.0; //total distance covered
+   private int mIntervalLength; //length of the interval used by the partial counter
+   private long mTotalTime = 0; //total duration of the workout
+
+   //state of the workout
+   private boolean mWorkoutRunning = false;
    private boolean paused = false;
+   private boolean pausedByGPSOff = false;
+
    private IntentFilter mIntentFilter;
+   private BroadcastReceiver mBroadcastReceiver;
 
    //Reference to the updateUI to update the UI
    private updateUI observer;
-   private int mIntervalLength;
-   private long mTotalTime = 0;
 
+   //Timer and task used for the time update
    private Timer mTimer;
    private TimerTask mTimeUpdateTask;
 
    public boolean isRunning() {
-      return running;
+      return mWorkoutRunning;
    }
 
 
@@ -74,19 +81,19 @@ public class WorkoutService extends Service {
    @Override
    public int onStartCommand(Intent intent, int flags, int startId) {
       Log.d("WorkoutService", "started");
-      running = true;
+      mWorkoutRunning = true;
 
+      //create a new workout item
       mItem = new WorkoutItem();
       mItem.setStartDate(new Date());
       mItem.setName(intent.getStringExtra(WORKOUT_TITLE));
-
       mPoints = new ArrayList<>();
 
       //start the gps service
       Intent gpsIntent = new Intent(getApplicationContext(), GPSService.class);
       startService(gpsIntent);
 
-
+      //register the intent filters and the receiver for the gps points and status
       mIntentFilter = new IntentFilter(AppController.BROADCAST_NEW_GPS_POSITION);
       mIntentFilter.addAction(AppController.GPS_TURNED_ON);
       mIntentFilter.addAction(AppController.GPS_TURNED_OFF);
@@ -102,11 +109,13 @@ public class WorkoutService extends Service {
                case AppController.GPS_TURNED_OFF:
                   if (isRunning()) {
                      pauseWorkout();
+                     pausedByGPSOff = true;
                   }
                   break;
                case AppController.GPS_TURNED_ON:
-                  if (!isRunning()) {
+                  if (!isRunning() && pausedByGPSOff) {
                      resumeWorkout();
+                     pausedByGPSOff = false;
                   }
                   break;
             }
@@ -128,10 +137,11 @@ public class WorkoutService extends Service {
 
    public void onReceivePoint(GpsPoint point) {
       if (mPoints.size() == 0) {
+         //if its the first point, the distance covered is 0
          mDistance = 0.0;
       } else {
+         //otherwise, calculate the distance between the nre point and the last
          float[] distanceArray = new float[1];
-
          Location.distanceBetween(mPoints.get(mPoints.size() - 1).getLatitude(),
                mPoints.get(mPoints.size() - 1).getLongitude(),
                point.getLatitude(),
@@ -142,8 +152,8 @@ public class WorkoutService extends Service {
 
       }
 
+      //add the new point to the list and update the distance in the workout item
       mPoints.add(new WorkoutPoint(mItem, point.getLatitude(), point.getLongitude(), point.getSpeed(), point.getAltitude(), mTotalTime, mDistance));
-      mItem.setTotalTime(mTotalTime);
       mItem.setDistance(mDistance);
 
       //notify the UI
@@ -152,9 +162,13 @@ public class WorkoutService extends Service {
       }
    }
 
+   /**
+    * Responsible for ending the workout and saving it into the DB
+    */
    @Override
    public void onDestroy() {
       Log.d("WorkoutService", "Stopped");
+      mWorkoutRunning = false;
 
       //Stop the gps service
       if (GPSService.mRunning) {
@@ -165,8 +179,7 @@ public class WorkoutService extends Service {
       //stop the timer
       mTimer.cancel();
 
-
-      running = false;
+      //deregister the broadcast receiver
       try {
          this.unregisterReceiver(mBroadcastReceiver);
       } catch (RuntimeException e) {
@@ -174,10 +187,14 @@ public class WorkoutService extends Service {
       }
 
       try {
+         //save workout into the db if it has at least one pint
          if (mPoints.size() > 0) {
+
             DatabaseHelper.getIstance().addData(mItem, WorkoutItem.class);
             mItem.setPoints(mPoints);
             DatabaseHelper.getIstance().getDao().update(mItem);
+
+            //notify the user
             Toast toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_workout_workout) + " \"" + mItem.getName() + "\" " + getResources().getString(R.string.toast_workout_saved), Toast.LENGTH_SHORT);
             toast.show();
          }
@@ -185,6 +202,7 @@ public class WorkoutService extends Service {
          e.printStackTrace();
       }
 
+      //send intent to notify the need to update the history
       Intent intent = new Intent();
       intent.setAction(AppController.BROADCAST_NEW_WORKOUT);
       sendBroadcast(intent);
@@ -197,6 +215,7 @@ public class WorkoutService extends Service {
    public void pauseWorkout() {
       Log.d("WorkoutService", "paused");
       try {
+         //stop the timer
          mTimer.cancel();
          mTimeUpdateTask.cancel();
 
@@ -209,7 +228,7 @@ public class WorkoutService extends Service {
          //the actions were not necessary
       }
 
-      this.running = false;
+      this.mWorkoutRunning = false;
       this.paused = true;
    }
 
@@ -218,6 +237,8 @@ public class WorkoutService extends Service {
     */
    public void resumeWorkout() {
       Log.d("WorkoutService", "resumed");
+
+      //resume the timer
       mTimer = new Timer();
       mTimeUpdateTask = new TimerUpdateTask();
       mTimer.scheduleAtFixedRate(mTimeUpdateTask, 0, TIME_UPDATE_INTERVAL);
@@ -226,7 +247,7 @@ public class WorkoutService extends Service {
       unregisterReceiver(mBroadcastReceiver);
       mIntentFilter.addAction(AppController.BROADCAST_NEW_GPS_POSITION);
       registerReceiver(mBroadcastReceiver, mIntentFilter);
-      this.running = true;
+      this.mWorkoutRunning = true;
       this.paused = false;
    }
 
@@ -262,7 +283,6 @@ public class WorkoutService extends Service {
    public double getIntervalSpeed() {
       //fetch the workout point in the last *interval* meters
       ArrayList<WorkoutPoint> lastPoints = new ArrayList<>();
-
       for (int i = mPoints.size() - 1; i >= 0; i--) {
          WorkoutPoint point = mPoints.get(i);
          if (this.mDistance - point.getDistance() <= mIntervalLength) {
@@ -371,6 +391,7 @@ public class WorkoutService extends Service {
       @Override
       public void run() {
          mTotalTime += TIME_UPDATE_INTERVAL;
+         mItem.setTotalTime(mTotalTime);
 
          //if the time is multiple of 1000 ms update the UI
          if (mTotalTime % 1000 == 0 && observer != null) {

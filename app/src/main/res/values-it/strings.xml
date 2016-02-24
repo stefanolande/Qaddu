@@ -26,7 +26,7 @@
     <string name="workout_delete_confirmation">Sei sicuro di voler eliminare l\'allenamento?</string>
     <string name="workout_detail">Dettaglio allenamento</string>
     <string name="untitled_workout">Allenamento senza nome</string>
-    <string name="gps_disabled_during_workout">L\'allenamento è stato messo in pausa perchè il GPS è spento. Attiva il GPS e avvia l\'allenamento</string>
+    <string name="gps_disabled_during_workout">L\'allenamento è stato messo in pausa perchè il GPS è spento. Attiva il GPS per riavviare l\'allenamento</string>
     <string name="gps_disabled_on_resume">GPS è ancora disabilitato. Attiva il GPS prima di riavviare l\'allenamento.</string>
     <string name="setting_advances">AVANZATO</string>
     <string name="setting_delete_summary">Elimina tutti gli allenamenti</string>
