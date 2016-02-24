@@ -348,7 +348,7 @@ public class WorkoutService extends Service {
    /**
     * Returns the duration of the workout in seconds
     *
-    * @return
+    * @return long duration of the workout in seconds
     */
    public long getTime() {
       return mTotalTime;

@@ -8,6 +8,17 @@ import android.os.Parcelable;
  */
 public class GpsPoint implements Parcelable{
     public static final String QUADDU_GPS_POINT = "QuadduGpsPoint";
+    public static final Creator<GpsPoint> CREATOR = new Creator<GpsPoint>() {
+        @Override
+        public GpsPoint createFromParcel(Parcel in) {
+            return new GpsPoint(in);
+        }
+
+        @Override
+        public GpsPoint[] newArray(int size) {
+            return new GpsPoint[size];
+        }
+    };
     private double latitude;
     private double longitude;
     private double speed;
@@ -22,56 +33,28 @@ public class GpsPoint implements Parcelable{
         isSpeedCalculated = in.readByte() != 0;
     }
 
-    public static final Creator<GpsPoint> CREATOR = new Creator<GpsPoint>() {
-        @Override
-        public GpsPoint createFromParcel(Parcel in) {
-            return new GpsPoint(in);
-        }
-
-        @Override
-        public GpsPoint[] newArray(int size) {
-            return new GpsPoint[size];
-        }
-    };
+    public GpsPoint(double latitude, double longitude, double speed, double altitude, boolean isSpeedCalculated) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.speed = speed;
+        this.altitude = altitude;
+        this.isSpeedCalculated = isSpeedCalculated;
+    }
 
     public double getLatitude() {
         return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
     }
 
     public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
     public double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(double speed) {
-        this.speed = speed;
-    }
-
     public double getAltitude() {
         return altitude;
-    }
-
-    public void setAltitude(double altitude) {
-        this.altitude = altitude;
-    }
-
-    public boolean isSpeedCalculated() {
-        return isSpeedCalculated;
-    }
-
-    public void setSpeedCalculated(boolean speedCalculated) {
-        isSpeedCalculated = speedCalculated;
     }
 
     @Override
@@ -86,13 +69,5 @@ public class GpsPoint implements Parcelable{
         dest.writeDouble(speed);
         dest.writeDouble(altitude);
         dest.writeByte((byte) (isSpeedCalculated ? 1 : 0));
-    }
-
-    public GpsPoint(double latitude, double longitude, double speed, double altitude, boolean isSpeedCalculated) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.speed = speed;
-        this.altitude = altitude;
-        this.isSpeedCalculated = isSpeedCalculated;
     }
 }

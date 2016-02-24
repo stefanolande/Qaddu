@@ -70,10 +70,10 @@
 
 
             <TextView
-                android:id="@+id/tv_nameLast"
+                android:id="@+id/tvIntervalLength"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/default_interval"
+                android:text="@string/interval_length_m"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20dp"

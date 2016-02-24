@@ -52,6 +52,7 @@ import so2.unica.qaddu.quadduFragments.HistoryFragment;
 
 public class WorkoutDetailActivity extends AppCompatActivity {
 
+   public static final int REQUEST_CODE = 1222;
    @Bind(R.id.tool_bar)
    Toolbar mToolBar;
 
@@ -303,8 +304,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
                File myFile = new File(Environment.getExternalStorageDirectory().getPath() + "/" + filename);
                myFile.createNewFile();
                FileOutputStream fOut = new FileOutputStream(myFile);
-               OutputStreamWriter myOutWriter =
-                     new OutputStreamWriter(fOut);
+               OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
                myOutWriter.append(string);
                myOutWriter.close();
                fOut.close();
@@ -312,9 +312,9 @@ public class WorkoutDetailActivity extends AppCompatActivity {
                Uri path = Uri.fromFile(myFile);
                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
                intent.setType("application/octet-stream");
-               intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Guarda il mio allenamento");
+               intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.workout_share_text));
                intent.putExtra(Intent.EXTRA_STREAM, path);
-               startActivityForResult(Intent.createChooser(intent, "Send mail..."), 1222);
+               startActivityForResult(Intent.createChooser(intent, getString(R.string.share_workout)), REQUEST_CODE);
             } catch (Exception e) {
                Toast.makeText(getBaseContext(), e.getMessage(),
                      Toast.LENGTH_SHORT).show();
@@ -343,7 +343,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
                //The library need the label string at the end of the formattedValue array
                label.getChars(0, label.length(), formattedValue, formattedValue.length - label.length());
-               Log.d("Formatter", new String(formattedValue));
+               //Log.d("Formatter", new String(formattedValue));
 
                return label.length();
             }
