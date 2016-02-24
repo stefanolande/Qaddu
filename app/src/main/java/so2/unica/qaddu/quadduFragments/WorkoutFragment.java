@@ -120,22 +120,36 @@ public class WorkoutFragment extends Fragment implements updateUI {
    public void onResume() {
       super.onResume();
 
-      SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-      String targ1 = preferences.getString("setting_target", "DEFAULT");
-      Double targ = Double.parseDouble(targ1);
-      mTargetSpeed = targ;
-      DecimalFormat decimalFormat = new DecimalFormat("0.0");
-      tvTargetSpeed.setText(getActivity().getString(R.string.target) + decimalFormat.format(mTargetSpeed) + " KM/H");
 
-      SharedPreferences preferences_meters = PreferenceManager.getDefaultSharedPreferences(getContext());
-      String meter = preferences_meters.getString("setting_meters", "DEFAULT");
-      int meter1 = Integer.parseInt(meter);
-      tvIntervalLength.setText(getActivity().getString(R.string.default_interval) + " " + meter1 + " M");
+      SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+      //fetch the target speed from the preferences and set it
+      setTargetSpeed(Double.parseDouble(preferences.getString("setting_target", getActivity().getString(R.string.default_target_speed))));
+
+      //fetch the length of the interval for the partial from the preferences and set it
+      setTvIntervalLength(Integer.parseInt(preferences.getString("setting_meters", getActivity().getString(R.string.default_interval))));
+
 
       //attach the listener to the service to resume UI update
       if (mBound) {
          mService.addWorkoutListener(this);
       }
+   }
+
+   /**
+    * Set the length of the interval for the partial counters and show it on the UI
+    *
+    * @param interval
+    */
+   private void setTvIntervalLength(int interval) {
+
+      if (interval < 1000) {
+         tvIntervalLength.setText(getActivity().getString(R.string.interval_length_m, interval));
+      } else {
+         interval = interval / 1000;
+         tvIntervalLength.setText(getActivity().getString(R.string.interval_length_m, interval));
+      }
+
    }
 
    private void setCircleOffset(double offset) {
@@ -170,8 +184,10 @@ public class WorkoutFragment extends Fragment implements updateUI {
    }
 
    //This method is used to set the target speed into the TextView of the target speed
-   private void setTargetSpeed(float targetSpeed) {
-      tvTargetSpeed.setText(Float.toString(targetSpeed) + " KM/H");
+   private void setTargetSpeed(double targetSpeed) {
+      mTargetSpeed = targetSpeed;
+      DecimalFormat decimalFormat = new DecimalFormat("0.0");
+      tvTargetSpeed.setText(getActivity().getString(R.string.target) + decimalFormat.format(targetSpeed) + " KM/H");
    }
 
    //This method is used to set the total Km traveled into the TextView of the total km

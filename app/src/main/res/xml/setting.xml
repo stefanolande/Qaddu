@@ -8,7 +8,7 @@
                             android:defaultValue="100"
                             android:inputType="number"
                             android:key="setting_meters"
-                            android:maxLength="@string/maxlenght"
+                            android:maxLength="@string/max_length"
                             android:summary="@string/setting_meters_summary"
                             android:title="@string/setting_meters"/>
 

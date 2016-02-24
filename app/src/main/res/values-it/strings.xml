@@ -3,7 +3,8 @@
     <string name="app_name">Qaddu</string>
     <string name="average_pace">PASSO MEDIO</string>
     <string name="average_speed">VELOCITÀ MEDIA</string>
-    <string name="default_interval">ULTIMI 100M</string>
+    <string name="interval_length_m">ULTIMI %1$dM</string>
+    <string name="interval_length_km">ULTIMI %1$dKM</string>
     <string name="default_pace">--:-- MIN/KM</string>
     <string name="default_speed">--.- KM/H</string>
     <string name="delete">Elimina</string>
