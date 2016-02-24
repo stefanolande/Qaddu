@@ -19,14 +19,6 @@
                             android:key="setting_target"
                             android:summary="@string/setting_target_summary"
                             android:title="@string/setting_target"/>
-        <ListPreference
-            android:entries="@array/Language"
-            android:entryValues="@array/Language"
-            android:key="language_preference"
-            android:summary="@string/setting_language_summary"
-            android:title="@string/setting_language">
-
-        </ListPreference>>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/setting_device">

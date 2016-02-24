@@ -1,5 +1,7 @@
 package so2.unica.qaddu.quadduFragments;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -7,10 +9,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +33,7 @@ import java.util.TimeZone;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import so2.unica.qaddu.AppController;
+import so2.unica.qaddu.MainActivity;
 import so2.unica.qaddu.R;
 import so2.unica.qaddu.helpers.ReceiverHelper;
 import so2.unica.qaddu.services.WorkoutService;
@@ -38,6 +43,7 @@ import so2.unica.qaddu.services.WorkoutService.updateUI;
 
 public class WorkoutFragment extends Fragment implements updateUI {
 
+   public static final int NOTIFICATION_ID = 42;
    @Bind(R.id.tvIntervalLength)
    TextView tvIntervalLength;
    @Bind(R.id.circle_container)
@@ -282,7 +288,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
                toast.show();
             }
 
-            //start the workout service if needed
+            //the user is starting a workout for the first time
             if (!mWorkoutRunning) {
 
                //get the workout name from the editText if it is not empty
@@ -312,6 +318,28 @@ public class WorkoutFragment extends Fragment implements updateUI {
                getActivity().startService(intent);
                getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
+               //notify the user with a notification
+               NotificationCompat.Builder mBuilder =
+                     new NotificationCompat.Builder(getActivity())
+                           .setSmallIcon(R.drawable.qaddu_notification)
+                           .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                           .setContentTitle(getString(R.string.app_name))
+                           .setOngoing(true)
+                           .setContentText(getActivity().getString(R.string.workout_running_notification));
+               Intent resultIntent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
+               PendingIntent resultPendingIntent =
+                     PendingIntent.getActivity(
+                           getActivity(),
+                           0,
+                           resultIntent,
+                           PendingIntent.FLAG_UPDATE_CURRENT
+                     );
+               mBuilder.setContentIntent(resultPendingIntent);
+               // Gets an instance of the NotificationManager service
+               NotificationManager mNotifyMgr = (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+               // Builds the notification and issues it.
+               mNotifyMgr.notify(NOTIFICATION_ID, mBuilder.build());
+
                mWorkoutRunning = true;
             }
          }
@@ -322,17 +350,17 @@ public class WorkoutFragment extends Fragment implements updateUI {
          @Override
          public void onClick(View v) {
 
-            //unbind the workout service
-            if (mBound) {
-               getActivity().unbindService(mConnection);
-               mBound = false;
-            }
-
             //Stop the workout service service
             if (mService.isRunning() || mService.ismPaused()) {
                Intent intent = new Intent(getActivity().getApplicationContext(), WorkoutService.class);
                getActivity().stopService(intent);
                bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+            }
+
+            //unbind the workout service
+            if (mBound) {
+               getActivity().unbindService(mConnection);
+               mBound = false;
             }
 
             //unregister the broadcast receiver to handle the gps status change
@@ -342,6 +370,9 @@ public class WorkoutFragment extends Fragment implements updateUI {
                //the receiver was not registered
             }
 
+            //remove the notification
+            NotificationManager mNotifyMgr = (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+            mNotifyMgr.cancel(NOTIFICATION_ID);
 
             //when the workout is stopped, the user can't click stop button again
             bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stopgray));
