@@ -63,16 +63,22 @@ public class WorkoutFragment extends Fragment implements updateUI {
    ImageButton bStop;
    @Bind(R.id.btn_start)
    ImageButton bStart;
+
    private WorkoutService mService;
    private boolean mBound = false;
-   private boolean mGPSEnabled = true;
-   private int mContainerWidth;
+
+
    private BroadcastReceiver mBroadcastReceiver;
    private IntentFilter mIntentFilter;
-   private String mWorkoutName;
+
    private boolean mWorkoutRunning = false;
    private boolean mWorkoutPaused = false;
+   private boolean mWorkoutPausedByUser = false;
+
    private double mTargetSpeed;
+   private String mWorkoutName;
+   private boolean mGPSEnabled = true;
+   private int mContainerWidth;
 
    /**
     * Defines callbacks for service binding, passed to bindService()
@@ -223,6 +229,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
                bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
 
                mWorkoutPaused = false;
+               mWorkoutPausedByUser = false;
 
                //register the broadcast receiver to handle the gps status change
                mBroadcastReceiver = new WorkoutBroadcastReceiverHelper();
@@ -237,12 +244,14 @@ public class WorkoutFragment extends Fragment implements updateUI {
                bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
 
                mWorkoutPaused = true;
+               mWorkoutPausedByUser = true;
 
                if (mBound) {
                   mService.pauseWorkout();
                }
             } else if (!mGPSEnabled) {
                //the user is trying to restart a paused workout when the gps is disabled
+               mWorkoutPausedByUser = false;
                Toast toast = Toast.makeText(getActivity().getApplicationContext(), R.string.gps_disabled_on_resume, Toast.LENGTH_LONG);
                toast.show();
             }
@@ -313,6 +322,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
             //reset the state of the workout
             mWorkoutRunning = false;
             mWorkoutPaused = false;
+            mWorkoutPausedByUser = false;
             mGPSEnabled = true;
             etNameWorkout.setEnabled(true);
             etNameWorkout.setText("");
@@ -395,7 +405,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
                mGPSEnabled = true;
 
                //resume the workout if the GPS is turned on during the pause
-               if (mWorkoutRunning && mWorkoutPaused) {
+               if (mWorkoutRunning && mWorkoutPaused && !mWorkoutPausedByUser) {
                   bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
                   mWorkoutPaused = false;
 
