@@ -47,14 +47,14 @@ public class WorkoutService extends Service {
 
    //state of the workout
    private boolean mWorkoutRunning = false;
-   private boolean paused = false;
-   private boolean pausedByGPSOff = false;
+   private boolean mPaused = false;
+   private boolean mPausedByGPSOff = false;
 
    private IntentFilter mIntentFilter;
    private BroadcastReceiver mBroadcastReceiver;
 
    //Reference to the updateUI to update the UI
-   private updateUI observer;
+   private updateUI mObserver;
 
    //Timer and task used for the time update
    private Timer mTimer;
@@ -71,11 +71,11 @@ public class WorkoutService extends Service {
    }
 
    public void addWorkoutListener(updateUI updateUI) {
-      this.observer = updateUI;
+      this.mObserver = updateUI;
    }
 
    public void removeWorkoutListener() {
-      this.observer = null;
+      this.mObserver = null;
    }
 
    @Override
@@ -109,13 +109,13 @@ public class WorkoutService extends Service {
                case AppController.GPS_TURNED_OFF:
                   if (isRunning()) {
                      pauseWorkout();
-                     pausedByGPSOff = true;
+                     mPausedByGPSOff = true;
                   }
                   break;
                case AppController.GPS_TURNED_ON:
-                  if (!isRunning() && pausedByGPSOff) {
+                  if (!isRunning() && mPausedByGPSOff) {
                      resumeWorkout();
-                     pausedByGPSOff = false;
+                     mPausedByGPSOff = false;
                   }
                   break;
             }
@@ -157,8 +157,8 @@ public class WorkoutService extends Service {
       mItem.setDistance(mDistance);
 
       //notify the UI
-      if (this.observer != null) {
-         this.observer.updateInfo();
+      if (this.mObserver != null) {
+         this.mObserver.updateInfo();
       }
    }
 
@@ -229,7 +229,7 @@ public class WorkoutService extends Service {
       }
 
       this.mWorkoutRunning = false;
-      this.paused = true;
+      this.mPaused = true;
    }
 
    /**
@@ -248,7 +248,7 @@ public class WorkoutService extends Service {
       mIntentFilter.addAction(AppController.BROADCAST_NEW_GPS_POSITION);
       registerReceiver(mBroadcastReceiver, mIntentFilter);
       this.mWorkoutRunning = true;
-      this.paused = false;
+      this.mPaused = false;
    }
 
    /**
@@ -364,8 +364,8 @@ public class WorkoutService extends Service {
       return ms * 3.6; //3.6 is the conversion factor from m/s to km/h
    }
 
-   public boolean isPaused() {
-      return paused;
+   public boolean ismPaused() {
+      return mPaused;
    }
 
    /**
@@ -394,8 +394,8 @@ public class WorkoutService extends Service {
          mItem.setTotalTime(mTotalTime);
 
          //if the time is multiple of 1000 ms update the UI
-         if (mTotalTime % 1000 == 0 && observer != null) {
-            observer.updateTime();
+         if (mTotalTime % 1000 == 0 && mObserver != null) {
+            mObserver.updateTime();
          }
       }
    }

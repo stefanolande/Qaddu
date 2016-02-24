@@ -37,38 +37,36 @@ import so2.unica.qaddu.services.WorkoutService.updateUI;
 
 public class WorkoutFragment extends Fragment implements updateUI {
 
+   @Bind(R.id.circle_container)
+   LinearLayout mCircleContainer;
+   @Bind(R.id.min_circle)
+   View mCircle;
+   @Bind(R.id.tv_instant_speed)
+   TextView tvInstantSpeed;
+   @Bind(R.id.tv_target)
+   TextView tvTargetSpeed;
+   @Bind(R.id.tv_total_km)
+   TextView tvTotalKm;
+   @Bind(R.id.tv_total_speed)
+   TextView tvTotalKmH;
+   @Bind(R.id.tv_total_time)
+   TextView tvTotalTime;
+   @Bind(R.id.tv_total_pace)
+   TextView tvTotalPace;
+   @Bind(R.id.tv_last_x_speed)
+   TextView tvLastSpeed;
+   @Bind(R.id.tv_last_x_pace)
+   TextView tvLastPace;
+   @Bind(R.id.nameWorkout)
+   EditText etNameWorkout;
+   @Bind(R.id.btn_stop)
+   ImageButton bStop;
+   @Bind(R.id.btn_start)
+   ImageButton bStart;
    private WorkoutService mService;
    private boolean mBound = false;
    private boolean mGPSEnabled = true;
    private int mContainerWidth;
-
-   @Bind(R.id.circle_container)
-   private LinearLayout mCircleContainer;
-   @Bind(R.id.min_circle)
-   private View mCircle;
-   @Bind(R.id.tv_instant_speed)
-   private TextView tvInstantSpeed;
-   @Bind(R.id.tv_target)
-   private TextView tvTargetSpeed;
-   @Bind(R.id.tv_total_km)
-   private TextView tvTotalKm;
-   @Bind(R.id.tv_total_speed)
-   private TextView tvTotalKmH;
-   @Bind(R.id.tv_total_time)
-   private TextView tvTotalTime;
-   @Bind(R.id.tv_total_pace)
-   private TextView tvTotalPace;
-   @Bind(R.id.tv_last_x_speed)
-   private TextView tvLastSpeed;
-   @Bind(R.id.tv_last_x_pace)
-   private TextView tvLastPace;
-   @Bind(R.id.nameWorkout)
-   private EditText etNameWorkout;
-   @Bind(R.id.btn_stop)
-   private ImageButton bStop;
-   @Bind(R.id.btn_start)
-   private ImageButton bStart;
-
    private BroadcastReceiver mBroadcastReceiver;
    private IntentFilter mIntentFilter;
    private String mWorkoutName;
@@ -218,8 +216,8 @@ public class WorkoutFragment extends Fragment implements updateUI {
          @Override
          public void onClick(View v) {
 
-            //first start of the workout or restart
             if ((!mWorkoutRunning || mWorkoutPaused) && mGPSEnabled) {
+               //first start of the workout or restart
                //when the workout is play or pause, the user can stop the workout (the stop button in enable, is blu)
                bStop.setImageDrawable(getResources().getDrawable(R.drawable.ic_stop));
                bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
@@ -296,7 +294,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
             }
 
             //Stop the workout service service
-            if (mService.isRunning() || mService.isPaused()) {
+            if (mService.isRunning() || mService.ismPaused()) {
                Intent intent = new Intent(getActivity().getApplicationContext(), WorkoutService.class);
                getActivity().stopService(intent);
                bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
