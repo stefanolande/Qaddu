@@ -3,17 +3,14 @@
     <string name="title_activity_main">Qaddu</string>
     <string name="title_fragment_history">History</string>
     <string name="title_fragment_workout">Workout</string>
-    <string name="title_workoutservice_workout">QuadduWorkout</string>
     <string name="setting_gps">Setting Gps</string>
     <string name="setting_gps_summary">Sets enable/disable gps</string>
-    <string name="setting_meters">Setting Meters</string>
-    <string name="setting_meters_summary">Sets the last meters</string>
-    <string name="setting_target">Setting Target</string>
-    <string name="setting_target_summary">Sets your target speed</string>
-    <string name="delete_all">Delete All</string>
+    <string name="setting_meters">Interval length</string>
+    <string name="setting_meters_summary">Interval in meters for the partial counters</string>
+    <string name="setting_target">Target speed</string>
+    <string name="setting_target_summary">Set the speed in km/h you want to achieve</string>
+    <string name="delete_all">Delete history</string>
     <string name="setting_delete_summary">Delete all workouts</string>
-    <string name="setting_language">Language</string>
-    <string name="setting_language_summary">Sets your application language</string>
     <string name="setting_workout">WORKOUT SETTINGS</string>
     <string name="setting_device">DEVICE SETTINGS</string>
     <string name="setting_advances">ADVANCED</string>
@@ -30,8 +27,7 @@
     <string name="time">TIME</string>
     <string name="average_speed">AVERAGE SPEED</string>
     <string name="average_pace">AVERAGE PACE</string>
-    <string name="toast_workout_workout">Workout</string>
-    <string name="toast_workout_saved">saved.</string>
+    <string name="toast_workout_saved">Workout \"%1$s\" saved</string>
 
     <string name="settings">Settings</string>
     <string name="delete_workout">Delete workout</string>
@@ -73,11 +69,11 @@
     <string name="axisY_speed">Speed</string>
     <string name="axisY_pace">Pace</string>
     <string name="axisY_altitude">Altitude</string>
-    <string name="max_length">5</string>
-    <string name="default_target_speed">10</string>
-    <string name="default_interval">1000</string>
-    <string name="settings_interval_wrong_value">Insert a value between %1$d and %2$d.</string>
-    <string name="workout_share_text">Check out my workout!</string>
+    <string name="max_length" translatable="false">5</string>
+    <string name="default_target_speed" translatable="false">10</string>
+    <string name="default_interval" translatable="false">1000</string>
+    <string name="settings_interval_wrong_value">Insert a value between %1$d and %2$d</string>
+    <string name="workout_share_text">Check my workout!</string>
     <string name="share_workout">Share the workout</string>
     <string name="workout_running_notification">A workout is running</string>
     <string name="delete_all_workout_confirmation">Do you want to delete ALL the workouts?</string>

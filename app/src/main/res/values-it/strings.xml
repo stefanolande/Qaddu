@@ -8,16 +8,16 @@
     <string name="default_pace">--:-- MIN/KM</string>
     <string name="default_speed">--.- KM/H</string>
     <string name="delete">Elimina</string>
-    <string name="delete_all">Elimina tutto</string>
+    <string name="delete_all">Elimina storico</string>
     <string name="delete_workout">Elimina allenamento</string>
     <string name="distance">DISTANZA</string>
     <string name="gps_disable">Attiva il gps prima di iniziare l\'allenamento!</string>
     <string name="hint_workout_name">Inserisci il nome dell\'allenamento</string>
     <string name="no">No</string>
     <string name="setting_gps">Impostazioni Gps</string>
-    <string name="setting_meters">Imposta Metri</string>
+    <string name="setting_meters">Lunghezza intervallo</string>
     <string name="settings">Impostazioni</string>
-    <string name="setting_target">Imposta Obiettivo</string>
+    <string name="setting_target">Velocità target</string>
     <string name="time">TEMPO</string>
     <string name="title_activity_main">Qaddu</string>
     <string name="title_fragment_history">Storico</string>
@@ -33,15 +33,10 @@
     <string name="setting_delete_summary">Elimina tutti gli allenamenti</string>
     <string name="setting_device">IMPOSTAZIONI DISPOSITIVO</string>
     <string name="setting_gps_summary">Attiva/disattiva gps</string>
-    <string name="setting_language">Lingua</string>
-    <string name="setting_language_summary">Imposta la lingua dell\'applicazione</string>
-    <string name="setting_meters_summary">Imposta gli ultimi metri</string>
-    <string name="setting_target_summary">Imposta il tuo obiettivo</string>
+    <string name="setting_meters_summary">Intervallo in metri per i contatori parziali</string>
+    <string name="setting_target_summary">Imposta la velocità in km/h che vuoi mantenere</string>
     <string name="setting_workout">IMPOSTAZIONI ALLENAMENTO</string>
     <string name="workout_resumed_with_gps_off">GPS abilitato. Allenamento riavviato.</string>
-    <string name="title_workoutservice_workout">QadduAllenamento</string>
-    <string name="toast_workout_saved">salvato.</string>
-    <string name="toast_workout_workout">Allenamento</string>
     <string name="axisX_distance">Distanza</string>
     <string name="axisX_time">Tempo</string>
     <string name="axisY_speed">Velocità</string>
@@ -57,4 +52,11 @@
         <item>Passo</item>
         <item>Velocità</item>
     </string-array>
+    <string name="all_workout_deleted">Tutti gli allenamenti sono stati eliminati</string>
+    <string name="delete_all_workout_confirmation">Sei sicuro di voler eliminare TUTTI gli allenamenti?</string>
+    <string name="settings_interval_wrong_value">Inserisci un valore tra %1$d and %2$d</string>
+    <string name="share_workout">Condividi l\'allenamento</string>
+    <string name="toast_workout_saved">Allenamento \"%1$s\" salvato</string>
+    <string name="workout_running_notification">Allenamento in corso</string>
+    <string name="workout_share_text">Guarda il mio allenamento!</string>
 </resources>

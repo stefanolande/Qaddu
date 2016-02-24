@@ -1,5 +1,6 @@
 package so2.unica.qaddu.quadduFragments;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -336,7 +337,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
                      );
                mBuilder.setContentIntent(resultPendingIntent);
                // Gets an instance of the NotificationManager service
-               NotificationManager mNotifyMgr = (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+               NotificationManager mNotifyMgr = (NotificationManager) getActivity().getSystemService(Activity.NOTIFICATION_SERVICE);
                // Builds the notification and issues it.
                mNotifyMgr.notify(NOTIFICATION_ID, mBuilder.build());
 
@@ -371,7 +372,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
             }
 
             //remove the notification
-            NotificationManager mNotifyMgr = (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+            NotificationManager mNotifyMgr = (NotificationManager) getActivity().getSystemService(Activity.NOTIFICATION_SERVICE);
             mNotifyMgr.cancel(NOTIFICATION_ID);
 
             //when the workout is stopped, the user can't click stop button again

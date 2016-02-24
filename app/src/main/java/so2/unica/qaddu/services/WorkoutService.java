@@ -33,7 +33,7 @@ import so2.unica.qaddu.models.WorkoutPoint;
 
 public class WorkoutService extends Service {
 
-   public static final String WORKOUT_TITLE = "QuadduWorkout";
+   public static final String WORKOUT_TITLE = "QadduWorkout";
    private static final int TIME_UPDATE_INTERVAL = 250; //timer update interval in milliseconds
 
    // Binder given to clients
@@ -195,7 +195,7 @@ public class WorkoutService extends Service {
             DatabaseHelper.getIstance().getDao().update(mItem);
 
             //notify the user
-            Toast toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_workout_workout) + " \"" + mItem.getName() + "\" " + getResources().getString(R.string.toast_workout_saved), Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_workout_saved, mItem.getName()), Toast.LENGTH_SHORT);
             toast.show();
          }
       } catch (SQLException e) {
@@ -269,7 +269,7 @@ public class WorkoutService extends Service {
    public double getTotalSpeed() {
       double speed = 0;
       if (mTotalTime != 0 && mDistance != 0) {
-         speed = msTokmh(mDistance / (mTotalTime / 1000));
+         speed = msToKmh(mDistance / (mTotalTime / 1000));
       }
       Log.d("WorkoutService", "Total speed " + speed + " " + mTotalTime + " " + mDistance);
       return speed;
@@ -360,7 +360,7 @@ public class WorkoutService extends Service {
     * @param ms speed in m/s
     * @return double speed in km/h
     */
-   private double msTokmh(double ms) {
+   private double msToKmh(double ms) {
       return ms * 3.6; //3.6 is the conversion factor from m/s to km/h
    }
 
