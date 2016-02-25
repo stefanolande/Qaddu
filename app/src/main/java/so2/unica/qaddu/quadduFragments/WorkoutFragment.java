@@ -132,7 +132,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
       SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-      //fetch the target speed from the preferences and set it
+      //fetch the target speed from the prpreferenceseferences and set it
       setTargetSpeed(Double.parseDouble(preferences.getString("setting_target", getActivity().getString(R.string.default_target_speed))));
 
       //fetch the length of the interval for the partial from the preferences and set it

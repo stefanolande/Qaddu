@@ -27,6 +27,9 @@ public class SettingsActivity extends PreferenceActivity {
       super.onCreate(savedInstanceState);
 
       addPreferencesFromResource(R.xml.setting);
+
+      // Control text input in EditTextPrecefernce
+
       final Preference preference = findPreference("setting_meters");
 
       if (preference instanceof EditTextPreference) {
@@ -51,7 +54,7 @@ public class SettingsActivity extends PreferenceActivity {
          });
 
       }
-
+      // Control text input in EditTextPrecefernce
       final Preference preferenceTarget = findPreference("setting_target");
       if (preferenceTarget instanceof EditTextPreference) {
          final EditTextPreference editTargetPreference = (EditTextPreference) preferenceTarget;
