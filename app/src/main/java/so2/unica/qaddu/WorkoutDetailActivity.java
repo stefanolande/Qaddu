@@ -85,6 +85,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    Boolean mImportedWorkout;
 
 
+
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
@@ -130,6 +131,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          }
 
 
+
       } else {
          //The user is opening a workout from the history
          //get the id and fetch it from the database
@@ -150,6 +152,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       adapterX.setDropDownViewResource(R.layout.spinner_center_item);
       mSpinnerX.setAdapter(adapterX);
 
+
       //choose the list of Y data to show and call plot to re-draw the graph
       mSpinnerY.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
          @Override
@@ -169,10 +172,14 @@ public class WorkoutDetailActivity extends AppCompatActivity {
             plot();
          }
 
+         /**
+          * The onNothingSelected is a callback method to be invoked when the selection disappears from this view
+          *
+          * @param parent
+          */
+
          @Override
-         public void onNothingSelected(AdapterView<?> parent) {
-            mYAxis = yAxisType.SPEED;
-         }
+         public void onNothingSelected(AdapterView<?> parent) { mYAxis = yAxisType.SPEED; }
       });
 
 
@@ -190,6 +197,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
             }
             plot();
          }
+
 
          @Override
          public void onNothingSelected(AdapterView<?> parent) {
@@ -246,9 +254,14 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
    }
 
+   /**
+    * The onCreateOptionsMenu is a metod utilised to add itmems to the action bar
+    * @param menu
+    * @return
+    */
    @Override
    public boolean onCreateOptionsMenu(Menu menu) {
-      // Inflate the menu; this adds items to the action bar if it is present.
+      // Inflate the menu; this adds items to the action bar if exist.
       this.mMenu = menu;
 
       //do not create the delete icon if the interface is showing an imported workout
@@ -259,6 +272,11 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       return true;
    }
 
+   /**
+    *This hook is called whenever an item in your options menu is selected
+    * @param item
+    * @return
+    */
    @Override
    public boolean onOptionsItemSelected(MenuItem item) {
       // Handle action bar item clicks here. The action bar will
@@ -299,6 +317,9 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       return super.onOptionsItemSelected(item);
    }
 
+   /**
+    *The addFloatingButtonAction method manages the send of the workout
+    */
    private void addFloatingButtonAction() {
       //share a workout
       mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -337,6 +358,10 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          }
       });
    }
+
+   /**
+    * the plot method creates the plot
+    */
 
    private void plot() {
       //plot the graph with the axis determined by the spinners
