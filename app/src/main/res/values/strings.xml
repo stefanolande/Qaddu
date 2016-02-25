@@ -75,4 +75,6 @@
     <string name="workout_running_notification">A workout is running</string>
     <string name="delete_all_workout_confirmation">Do you want to delete ALL the workouts?</string>
     <string name="all_workout_deleted">All workouts have been deleted</string>
+    <string name="workout_stop">STOP</string>
+    <string name="workout_stop_confirmation">Do you want to stop the workout?</string>
 </resources>

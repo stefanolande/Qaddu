@@ -58,4 +58,6 @@
     <string name="toast_workout_saved">Allenamento \"%1$s\" salvato</string>
     <string name="workout_running_notification">Allenamento in corso</string>
     <string name="workout_share_text">Guarda il mio allenamento!</string>
+    <string name="workout_stop_confirmation">Vuoi interrompere l\'allenamento?</string>
+    <string name="workout_stop">STOP</string>
 </resources>

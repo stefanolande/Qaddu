@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -17,6 +18,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -252,6 +254,19 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
 
       //Set the action of the button play/pause
+      setPlayButtonAction();
+
+      //Set the action of the button stop
+      setStopButtonAction();
+
+
+      return view;
+   }
+
+   /**
+    * Adds the listener that handles the action og the play/pause button
+    */
+   private void setPlayButtonAction() {
       bStart.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
@@ -327,49 +342,69 @@ public class WorkoutFragment extends Fragment implements updateUI {
             }
          }
       });
+   }
 
-      //Set the action of the button stop
+   /**
+    * Adds the listener that handles the action of the stop button
+    */
+   private void setStopButtonAction() {
       bStop.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
+            if (mWorkoutRunning) {
+               //ask the user the confirmation to end the workout
+               AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+               // Add the buttons
+               builder.setPositiveButton(getActivity().getString(R.string.workout_stop), new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int id) {
+                     //Stop the workout service service
+                     if (mService.isRunning() || mService.ismPaused()) {
+                        Intent intent = new Intent(getActivity().getApplicationContext(), WorkoutService.class);
+                        getActivity().stopService(intent);
+                        bStart.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_play));
+                     }
 
-            //Stop the workout service service
-            if (mService.isRunning() || mService.ismPaused()) {
-               Intent intent = new Intent(getActivity().getApplicationContext(), WorkoutService.class);
-               getActivity().stopService(intent);
-               bStart.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_play));
+                     //unbind the workout service
+                     if (mBound) {
+                        getActivity().unbindService(mConnection);
+                        mBound = false;
+                     }
+
+                     //unregister the broadcast receiver to handle the gps status change
+                     try {
+                        getActivity().unregisterReceiver(mBroadcastReceiver);
+                     } catch (RuntimeException e) {
+                        //the receiver was not registered
+                     }
+
+                     removeNotification();
+
+                     //when the workout is stopped, the user can't click stop button again
+                     bStop.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.ic_stopgray));
+                     //reset the state of the workout
+                     mWorkoutRunning = false;
+                     mWorkoutPaused = false;
+                     mWorkoutPausedByUser = false;
+                     mGPSEnabled = true;
+                     etNameWorkout.setEnabled(true);
+                     etNameWorkout.setText("");
+                     mWorkoutName = getActivity().getString(R.string.untitled_workout);
+
+                  }
+               });
+               builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int id) {
+                     // User cancelled the dialog
+                  }
+               });
+
+               // Create the AlertDialog
+               AlertDialog dialog = builder.create();
+               dialog.setTitle(getActivity().getString(R.string.workout_stop_confirmation));
+               dialog.show();
             }
-
-            //unbind the workout service
-            if (mBound) {
-               getActivity().unbindService(mConnection);
-               mBound = false;
-            }
-
-            //unregister the broadcast receiver to handle the gps status change
-            try {
-               getActivity().unregisterReceiver(mBroadcastReceiver);
-            } catch (RuntimeException e) {
-               //the receiver was not registered
-            }
-
-            removeNotification();
-
-            //when the workout is stopped, the user can't click stop button again
-            bStop.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.ic_stopgray));
-            //reset the state of the workout
-            mWorkoutRunning = false;
-            mWorkoutPaused = false;
-            mWorkoutPausedByUser = false;
-            mGPSEnabled = true;
-            etNameWorkout.setEnabled(true);
-            etNameWorkout.setText("");
-            mWorkoutName = getActivity().getString(R.string.untitled_workout);
          }
       });
-
-
-      return view;
    }
 
    /**
