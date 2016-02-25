@@ -50,7 +50,7 @@ import so2.unica.qaddu.models.WorkoutPoint;
 import so2.unica.qaddu.quadduFragments.HistoryFragment;
 
 /**
- * WorkoutDetailActivity shows the details of a save workout
+ * WorkoutDetailActivity shows the details of a saved workout
  */
 
 public class WorkoutDetailActivity extends AppCompatActivity {

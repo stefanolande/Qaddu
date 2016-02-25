@@ -44,7 +44,7 @@ import so2.unica.qaddu.services.WorkoutService.LocalBinder;
 import so2.unica.qaddu.services.WorkoutService.updateUI;
 
 /**
- * Fragment that displays all parameters and the training's perform
+ * Fragment used to perform a workout. Allow the user to start, pause, resume, and stop a workout and displays the information during the progress.
  */
 public class WorkoutFragment extends Fragment implements updateUI {
 
