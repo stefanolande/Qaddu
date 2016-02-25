@@ -16,6 +16,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -258,8 +259,8 @@ public class WorkoutFragment extends Fragment implements updateUI {
             if ((!mWorkoutRunning || mWorkoutPaused) && mGPSEnabled) {
                //first start of the workout or restart
                //when the workout is play or pause, the user can stop the workout (the stop button in enable, is blu)
-               bStop.setImageDrawable(getResources().getDrawable(R.mipmap.ic_stop));
-               bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
+               bStop.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.ic_stop));
+               bStart.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_pause));
 
                mWorkoutPaused = false;
                mWorkoutPausedByUser = false;
@@ -274,7 +275,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
                }
             } else if (mGPSEnabled) {
                //the workout state is changing from running to paused
-               bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+               bStart.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_play));
 
                mWorkoutPaused = true;
                mWorkoutPausedByUser = true;
@@ -355,7 +356,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
             if (mService.isRunning() || mService.ismPaused()) {
                Intent intent = new Intent(getActivity().getApplicationContext(), WorkoutService.class);
                getActivity().stopService(intent);
-               bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+               bStart.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_play));
             }
 
             //unbind the workout service
@@ -376,7 +377,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
             mNotifyMgr.cancel(NOTIFICATION_ID);
 
             //when the workout is stopped, the user can't click stop button again
-            bStop.setImageDrawable(getResources().getDrawable(R.mipmap.ic_stopgray));
+            bStop.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.ic_stopgray));
             //reset the state of the workout
             mWorkoutRunning = false;
             mWorkoutPaused = false;
@@ -438,7 +439,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
                // pause a workout if it is running and the gps is turned off
                if (mWorkoutRunning && !mWorkoutPaused) {
-                  bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
+                  bStart.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_play));
                   mWorkoutPaused = true;
 
                   Toast toast = Toast.makeText(getActivity().getApplicationContext(), R.string.gps_disabled_during_workout, Toast.LENGTH_LONG);
@@ -450,7 +451,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
                //resume the workout if the GPS is turned on during the pause
                if (mWorkoutRunning && mWorkoutPaused && !mWorkoutPausedByUser) {
-                  bStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
+                  bStart.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_pause));
                   mWorkoutPaused = false;
 
                   Toast toast = Toast.makeText(getActivity().getApplicationContext(), R.string.workout_resumed_with_gps_off, Toast.LENGTH_SHORT);
