@@ -350,7 +350,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
       bStop.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
-            if (mWorkoutRunning) {
+            if (mWorkoutRunning && mService != null) {
                //ask the user the confirmation to end the workout
                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                // Add the buttons
