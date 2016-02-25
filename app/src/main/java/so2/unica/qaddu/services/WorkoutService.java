@@ -21,7 +21,6 @@ import java.util.TimerTask;
 import so2.unica.qaddu.AppController;
 import so2.unica.qaddu.R;
 import so2.unica.qaddu.helpers.DatabaseHelper;
-import so2.unica.qaddu.helpers.ReceiverHelper;
 import so2.unica.qaddu.models.GpsPoint;
 import so2.unica.qaddu.models.WorkoutItem;
 import so2.unica.qaddu.models.WorkoutPoint;
@@ -98,7 +97,7 @@ public class WorkoutService extends Service {
       mIntentFilter.addAction(AppController.GPS_TURNED_ON);
       mIntentFilter.addAction(AppController.GPS_TURNED_OFF);
 
-      mBroadcastReceiver = new ReceiverHelper() {
+      mBroadcastReceiver = new BroadcastReceiver() {
          @Override
          public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {

@@ -39,7 +39,6 @@ import butterknife.ButterKnife;
 import so2.unica.qaddu.AppController;
 import so2.unica.qaddu.MainActivity;
 import so2.unica.qaddu.R;
-import so2.unica.qaddu.helpers.ReceiverHelper;
 import so2.unica.qaddu.services.WorkoutService;
 import so2.unica.qaddu.services.WorkoutService.LocalBinder;
 import so2.unica.qaddu.services.WorkoutService.updateUI;
@@ -479,7 +478,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
    /**
     * Broadcast receiver user for handling the GPS status change
     */
-   private class WorkoutBroadcastReceiverHelper extends ReceiverHelper {
+   private class WorkoutBroadcastReceiverHelper extends BroadcastReceiver {
       @Override
       public void onReceive(Context context, Intent intent) {
          switch (intent.getAction()) {
