@@ -321,26 +321,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
                getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
                //notify the user with a notification
-               NotificationCompat.Builder mBuilder =
-                     new NotificationCompat.Builder(getActivity())
-                           .setSmallIcon(R.drawable.qaddu_notification)
-                           .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                           .setContentTitle(getString(R.string.app_name))
-                           .setOngoing(true)
-                           .setContentText(getActivity().getString(R.string.workout_running_notification));
-               Intent resultIntent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
-               PendingIntent resultPendingIntent =
-                     PendingIntent.getActivity(
-                           getActivity(),
-                           0,
-                           resultIntent,
-                           PendingIntent.FLAG_UPDATE_CURRENT
-                     );
-               mBuilder.setContentIntent(resultPendingIntent);
-               // Gets an instance of the NotificationManager service
-               NotificationManager mNotifyMgr = (NotificationManager) getActivity().getSystemService(Activity.NOTIFICATION_SERVICE);
-               // Builds the notification and issues it.
-               mNotifyMgr.notify(NOTIFICATION_ID, mBuilder.build());
+               createNotification();
 
                mWorkoutRunning = true;
             }
@@ -372,9 +353,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
                //the receiver was not registered
             }
 
-            //remove the notification
-            NotificationManager mNotifyMgr = (NotificationManager) getActivity().getSystemService(Activity.NOTIFICATION_SERVICE);
-            mNotifyMgr.cancel(NOTIFICATION_ID);
+            removeNotification();
 
             //when the workout is stopped, the user can't click stop button again
             bStop.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.ic_stopgray));
@@ -391,6 +370,41 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
 
       return view;
+   }
+
+   /**
+    * Creates a permanent notification to inform the user that a workout is running
+    */
+   private void createNotification() {
+      NotificationCompat.Builder mBuilder =
+            new NotificationCompat.Builder(getActivity())
+                  .setSmallIcon(R.drawable.qaddu_notification)
+                  .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                  .setContentTitle(getString(R.string.app_name))
+                  .setOngoing(true)
+                  .setContentText(getActivity().getString(R.string.workout_running_notification));
+      Intent resultIntent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
+      PendingIntent resultPendingIntent =
+            PendingIntent.getActivity(
+                  getActivity(),
+                  0,
+                  resultIntent,
+                  PendingIntent.FLAG_UPDATE_CURRENT
+            );
+      mBuilder.setContentIntent(resultPendingIntent);
+      // Gets an instance of the NotificationManager service
+      NotificationManager mNotifyMgr = (NotificationManager) getActivity().getSystemService(Activity.NOTIFICATION_SERVICE);
+      // Builds the notification and issues it.
+      mNotifyMgr.notify(NOTIFICATION_ID, mBuilder.build());
+   }
+
+   /**
+    * Removes the "workout running" notification
+    */
+   private void removeNotification() {
+      //remove the notification
+      NotificationManager mNotifyMgr = (NotificationManager) getActivity().getSystemService(Activity.NOTIFICATION_SERVICE);
+      mNotifyMgr.cancel(NOTIFICATION_ID);
    }
 
    @Override
