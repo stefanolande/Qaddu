@@ -63,9 +63,6 @@ public class WorkoutPoint {
       return longitude;
    }
 
-   public void setLongitude(double longitude) {
-      this.longitude = longitude;
-   }
 
    /**
     * Returns the speed of the current point in km/h
@@ -76,16 +73,8 @@ public class WorkoutPoint {
       return speed;
    }
 
-   public void setSpeed(double speed) {
-      this.speed = speed;
-   }
-
    public double getLatitude() {
       return latitude;
-   }
-
-   public void setLatitude(double latitude) {
-      this.latitude = latitude;
    }
 
    public double getPace() {
@@ -94,10 +83,6 @@ public class WorkoutPoint {
 
    public double getAltitude() {
       return altitude;
-   }
-
-   public void setAltitude(double altitude) {
-      this.altitude = altitude;
    }
 
    public long getTime() {
@@ -112,7 +97,4 @@ public class WorkoutPoint {
       return distance;
    }
 
-   public void setDistance(double distance) {
-      this.distance = distance;
-   }
 }

@@ -98,7 +98,12 @@ public class WorkoutItem {
    }
 
    public double getAveragePaceInSeconds() {
-      return (1 / getAverageSpeed()) * 3600;
+      double speed = getAverageSpeed();
+      if (speed != 0) {
+         return (1 / speed) * 3600;
+      } else {
+         return 0;
+      }
    }
 }
 

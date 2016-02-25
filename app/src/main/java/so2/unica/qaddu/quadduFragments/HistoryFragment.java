@@ -24,7 +24,6 @@ import so2.unica.qaddu.AppController;
 import so2.unica.qaddu.R;
 import so2.unica.qaddu.WorkoutDetailActivity;
 import so2.unica.qaddu.helpers.DatabaseHelper;
-import so2.unica.qaddu.helpers.ReceiverHelper;
 import so2.unica.qaddu.models.WorkoutItem;
 
 
@@ -53,7 +52,7 @@ public class HistoryFragment extends Fragment {
 
       //intent filter and receiver used to update the list when a new workout is generated
       IntentFilter filter = new IntentFilter(AppController.BROADCAST_NEW_WORKOUT);
-      mBroadcastReceiver = new ReceiverHelper() {
+      mBroadcastReceiver = new BroadcastReceiver() {
          @Override
          public void onReceive(Context context, Intent intent) {
             populateList();

@@ -39,7 +39,6 @@ import butterknife.ButterKnife;
 import so2.unica.qaddu.AppController;
 import so2.unica.qaddu.MainActivity;
 import so2.unica.qaddu.R;
-import so2.unica.qaddu.helpers.ReceiverHelper;
 import so2.unica.qaddu.services.WorkoutService;
 import so2.unica.qaddu.services.WorkoutService.LocalBinder;
 import so2.unica.qaddu.services.WorkoutService.updateUI;
@@ -132,7 +131,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
       SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-      //fetch the target speed from the prpreferenceseferences and set it
+      //fetch the target speed from the preferences and set it
       setTargetSpeed(Double.parseDouble(preferences.getString("setting_target", getActivity().getString(R.string.default_target_speed))));
 
       //fetch the length of the interval for the partial from the preferences and set it
@@ -351,7 +350,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
       bStop.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
-            if (mWorkoutRunning) {
+            if (mWorkoutRunning && mService != null) {
                //ask the user the confirmation to end the workout
                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                // Add the buttons
@@ -479,7 +478,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
    /**
     * Broadcast receiver user for handling the GPS status change
     */
-   private class WorkoutBroadcastReceiverHelper extends ReceiverHelper {
+   private class WorkoutBroadcastReceiverHelper extends BroadcastReceiver {
       @Override
       public void onReceive(Context context, Intent intent) {
          switch (intent.getAction()) {
