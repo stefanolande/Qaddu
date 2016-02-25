@@ -234,8 +234,8 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
       super.onActivityResult(requestCode, resultCode, data);
-      if (requestCode == 1222) {
-         String filename = "workout.qaddu";
+      if (requestCode == REQUEST_CODE) {
+         String filename = mTvWorkoutName.getText() + ".qaddu";
          File myFile = new File(Environment.getExternalStorageDirectory().getPath() + filename);
          myFile.delete();
       }
@@ -326,7 +326,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    }
 
    private void plot() {
-      List<PointValue> values = new ArrayList<PointValue>();
+      List<PointValue> values = new ArrayList<>();
       Axis axisX = new Axis();
       Axis axisY = new Axis().setHasLines(true);
 

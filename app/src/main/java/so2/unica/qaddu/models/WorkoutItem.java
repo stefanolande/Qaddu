@@ -74,7 +74,7 @@ public class WorkoutItem {
    }
 
    public List<WorkoutPoint> getPoints() {
-      List<WorkoutPoint> notesArray = new ArrayList<WorkoutPoint>();
+      List<WorkoutPoint> notesArray = new ArrayList<>();
       for (WorkoutPoint note : points) {
          notesArray.add(note);
       }

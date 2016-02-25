@@ -22,6 +22,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 
    @Override
+   @SuppressWarnings("deprecation")
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
 

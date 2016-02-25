@@ -11,7 +11,6 @@
     <string name="delete_all">Elimina storico</string>
     <string name="delete_workout">Elimina allenamento</string>
     <string name="distance">DISTANZA</string>
-    <string name="gps_disable">Attiva il gps prima di iniziare l\'allenamento!</string>
     <string name="hint_workout_name">Inserisci il nome dell\'allenamento</string>
     <string name="no">No</string>
     <string name="setting_gps">Impostazioni Gps</string>
