@@ -240,7 +240,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       super.onActivityResult(requestCode, resultCode, data);
       if (requestCode == REQUEST_CODE) {
          String filename = mTvWorkoutName.getText() + ".qaddu";
-         File myFile = new File(Environment.getExternalStorageDirectory().getPath() + filename);
+         File myFile = new File(Environment.getExternalStorageDirectory().getPath() + "/" + filename);
          myFile.delete();
       }
 
