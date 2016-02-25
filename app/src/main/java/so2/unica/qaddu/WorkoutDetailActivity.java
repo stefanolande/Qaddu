@@ -53,9 +53,9 @@ import so2.unica.qaddu.quadduFragments.HistoryFragment;
 public class WorkoutDetailActivity extends AppCompatActivity {
 
    public static final int REQUEST_CODE = 1222;
+
    @Bind(R.id.tool_bar)
    Toolbar mToolBar;
-
    @Bind(R.id.tvWorkoutName)
    TextView mTvWorkoutName;
    @Bind(R.id.tvWorkoutDistance)
@@ -68,7 +68,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    TextView mTvWorkoutAvgPace;
    @Bind(R.id.tvWorkoutDate)
    TextView mTvWorkoutDate;
-
    @Bind(R.id.spinnerX)
    Spinner mSpinnerY;
    @Bind(R.id.spinnerY)
@@ -77,12 +76,14 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    FloatingActionButton mFloatingActionButton;
    @Bind(R.id.chart)
    LineChartView mChart;
-   Menu mMenu;
-   WorkoutItem mItem;
-   ArrayList<Double> mListYAxis;
-   xAxisType mXAxis;
-   yAxisType mYAxis;
-   Boolean mImportedWorkout;
+
+   private Menu mMenu;
+
+   private xAxisType mXAxis;
+   private yAxisType mYAxis;
+
+   private WorkoutItem mItem;
+   private Boolean mImportedWorkout;
 
 
    @Override
@@ -154,7 +155,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       mSpinnerY.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
          @Override
          public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            mListYAxis = new ArrayList<>();
             switch (position) {
                case 0:
                   mYAxis = yAxisType.SPEED;
@@ -427,10 +427,14 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    /**
     * Enum used for memorizing the x axis data type
     */
-   private enum xAxisType {TIME, DISTANCE}
+   private enum xAxisType {
+      TIME, DISTANCE
+   }
 
    /**
     * Enum used for memorizing the y axis data type
     */
-   private enum yAxisType {SPEED, PACE, ALTITUDE}
+   private enum yAxisType {
+      SPEED, PACE, ALTITUDE
+   }
 }
