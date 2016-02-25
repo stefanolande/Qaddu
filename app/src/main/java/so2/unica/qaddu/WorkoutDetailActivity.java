@@ -106,6 +106,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          try {
             StringBuilder text = new StringBuilder();
 
+            //read the file passed in the intent
             BufferedReader br = new BufferedReader(new FileReader(new File(filePath)));
             String line;
 
@@ -115,6 +116,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
             }
             br.close();
 
+            //convert the json file in a WorkoutItem object
             Gson gson = new Gson();
             mItem = gson.fromJson(text.toString(), WorkoutItem.class);
 
@@ -195,8 +197,10 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          }
       });
 
+      //create the floating action button to share the workout
       addFloatingButtonAction();
 
+      //set the informations on the UI
       mTvWorkoutName.setText(mItem.getName());
 
       DecimalFormat decimalFormat = new DecimalFormat("0.0");
@@ -262,15 +266,20 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       // as you specify a parent activity in AndroidManifest.xml.
       int id = item.getItemId();
 
+      //handle the press on the delete button
       if (id == R.id.action_delete_workout) {
          AlertDialog.Builder builder = new AlertDialog.Builder(WorkoutDetailActivity.this);
          // Add the buttons
          builder.setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+               //end the workout detail activity
                WorkoutDetailActivity.this.finish();
+
+               //remove each workout point associated with the workout item
                for (WorkoutPoint point : mItem.getPoints()) {
                   DatabaseHelper.getIstance().removeData(point, WorkoutPoint.class);
                }
+               //remove the workout item
                DatabaseHelper.getIstance().removeData(mItem, WorkoutItem.class);
             }
          });
@@ -291,16 +300,19 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    }
 
    private void addFloatingButtonAction() {
+      //share a workout
       mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
 
-            Gson gson = new Gson();
-
             String filename = mTvWorkoutName.getText() + ".qaddu";
+
+            //convert the workout object in json string
+            Gson gson = new Gson();
             String string = gson.toJson(mItem);
 
             try {
+               //save the json string in a file
                File myFile = new File(Environment.getExternalStorageDirectory().getPath() + "/" + filename);
                myFile.createNewFile();
                FileOutputStream fOut = new FileOutputStream(myFile);
@@ -309,6 +321,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
                myOutWriter.close();
                fOut.close();
 
+               //share the file
                Uri path = Uri.fromFile(myFile);
                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
                intent.setType("application/octet-stream");
@@ -326,6 +339,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    }
 
    private void plot() {
+      //plot the graph with the axis determined by the spinners
       List<PointValue> values = new ArrayList<>();
       Axis axisX = new Axis();
       Axis axisY = new Axis().setHasLines(true);
@@ -388,6 +402,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          values.add(new PointValue(x, y));
       }
 
+      //create a line and set the proprieties
       Line line = new Line(values);
       line.setColor(ContextCompat.getColor(WorkoutDetailActivity.this, R.color.colorPrimary));
       line.setHasPoints(false);
@@ -398,6 +413,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       axisX.setTextColor(Color.BLACK);
       axisY.setTextColor(Color.BLACK);
 
+      //plot the data
       LineChartData data = new LineChartData();
       data.setLines(lines);
       data.setAxisXBottom(axisX);
@@ -408,7 +424,13 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       mChart.setInteractive(true);
    }
 
+   /**
+    * Enum used for memorizing the x axis data type
+    */
    private enum xAxisType {TIME, DISTANCE}
 
+   /**
+    * Enum used for memorizing the y axis data type
+    */
    private enum yAxisType {SPEED, PACE, ALTITUDE}
 }
