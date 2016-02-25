@@ -119,8 +119,7 @@
                 android:id="@+id/min_circle"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:background="@drawable/circle_gray"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:background="@drawable/circle_blue"/>
         </LinearLayout>
 
         <View
