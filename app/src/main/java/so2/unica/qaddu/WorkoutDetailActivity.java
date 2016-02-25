@@ -49,6 +49,9 @@ import so2.unica.qaddu.models.WorkoutItem;
 import so2.unica.qaddu.models.WorkoutPoint;
 import so2.unica.qaddu.quadduFragments.HistoryFragment;
 
+/**
+ * WorkoutDetailActivity shows the details of a save workout
+ */
 
 public class WorkoutDetailActivity extends AppCompatActivity {
 
@@ -172,12 +175,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
             plot();
          }
 
-         /**
-          * The onNothingSelected is a callback method to be invoked when the selection disappears from this view
-          *
-          * @param parent
-          */
-
          @Override
          public void onNothingSelected(AdapterView<?> parent) { mYAxis = yAxisType.SPEED; }
       });
@@ -254,11 +251,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
    }
 
-   /**
-    * The onCreateOptionsMenu is a metod utilised to add itmems to the action bar
-    * @param menu
-    * @return
-    */
    @Override
    public boolean onCreateOptionsMenu(Menu menu) {
       // Inflate the menu; this adds items to the action bar if exist.
@@ -272,11 +264,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
       return true;
    }
 
-   /**
-    *This hook is called whenever an item in your options menu is selected
-    * @param item
-    * @return
-    */
    @Override
    public boolean onOptionsItemSelected(MenuItem item) {
       // Handle action bar item clicks here. The action bar will
@@ -360,7 +347,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    }
 
    /**
-    * the plot method creates the plot
+    * the plot method creates the graph
     */
 
    private void plot() {

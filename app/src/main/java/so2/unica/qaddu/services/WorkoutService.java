@@ -27,7 +27,7 @@ import so2.unica.qaddu.models.WorkoutPoint;
 
 
 /**
- * Created by Stefano on 14/02/2016.
+ *
  */
 
 public class WorkoutService extends Service {

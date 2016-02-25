@@ -13,6 +13,10 @@ import so2.unica.qaddu.helpers.DatabaseHelper;
 import so2.unica.qaddu.models.WorkoutItem;
 import so2.unica.qaddu.models.WorkoutPoint;
 
+/**
+ * This activity manages the user's preferences
+ */
+
 
 public class SettingsActivity extends PreferenceActivity {
    public static final int MIN_INTERVAL_LENGTH = 1;

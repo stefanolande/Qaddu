@@ -26,7 +26,9 @@ import so2.unica.qaddu.WorkoutDetailActivity;
 import so2.unica.qaddu.helpers.DatabaseHelper;
 import so2.unica.qaddu.models.WorkoutItem;
 
-
+/**
+ * Fragment that displays the workout history
+ */
 public class HistoryFragment extends Fragment {
 
    public static final String WORKOUT_ID = "WorkoutID";

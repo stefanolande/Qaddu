@@ -18,7 +18,9 @@ import butterknife.ButterKnife;
 import so2.unica.qaddu.quadduFragments.HistoryFragment;
 import so2.unica.qaddu.quadduFragments.WorkoutFragment;
 
-
+/**
+ * The main activity of the application. It contains the workout and history fragment
+ */
 public class MainActivity extends AppCompatActivity {
 
    SamplePagerAdapter mSamplePagerAdapter;

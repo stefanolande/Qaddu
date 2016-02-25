@@ -43,7 +43,9 @@ import so2.unica.qaddu.services.WorkoutService;
 import so2.unica.qaddu.services.WorkoutService.LocalBinder;
 import so2.unica.qaddu.services.WorkoutService.updateUI;
 
-
+/**
+ * Fragment that displays all parameters and the training's perform
+ */
 public class WorkoutFragment extends Fragment implements updateUI {
 
    public static final int NOTIFICATION_ID = 42;

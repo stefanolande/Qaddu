@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by Riccardo on 14/02/2016.
+ * Created by Stefano on 14/02/2016.
  */
 public class GpsPoint implements Parcelable{
     public static final String QUADDU_GPS_POINT = "QuadduGpsPoint";
