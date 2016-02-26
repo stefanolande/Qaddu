@@ -251,12 +251,23 @@ public class WorkoutFragment extends Fragment implements updateUI {
    }
 
    //This method is used to set the last X meter speed into the TextView of the last X meter speed
+
+   /**
+    * Sets the last X meter speed into the TextView of the last X meter speed
+    *
+    * @param lastSpeed double Speed calculating by the last X meters
+    */
    private void setIntervalSpeed(double lastSpeed) {
       DecimalFormat df = new DecimalFormat("#0.00");
       tvLastSpeed.setText(df.format(lastSpeed) + " KM/H");
    }
 
    //This method is used to set the last X meter's pace speed into the TextView of the LastPace
+
+   /**
+    * Sets the last X meter pace into the TextView of the last X meter pace
+    * @param lastPace double Pace calculating by the last X meters
+    */
    private void setIntervalPace(double lastPace) {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("m:ss");
       simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
