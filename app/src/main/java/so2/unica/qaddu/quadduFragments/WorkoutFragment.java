@@ -1,8 +1,5 @@
 package so2.unica.qaddu.quadduFragments;
 
-import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -11,12 +8,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -37,8 +32,8 @@ import java.util.TimeZone;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import so2.unica.qaddu.AppController;
-import so2.unica.qaddu.MainActivity;
 import so2.unica.qaddu.R;
+import so2.unica.qaddu.helpers.NotificationHelper;
 import so2.unica.qaddu.services.WorkoutService;
 import so2.unica.qaddu.services.WorkoutService.LocalBinder;
 import so2.unica.qaddu.services.WorkoutService.updateUI;
@@ -48,7 +43,6 @@ import so2.unica.qaddu.services.WorkoutService.updateUI;
  */
 public class WorkoutFragment extends Fragment implements updateUI {
 
-   public static final int NOTIFICATION_ID = 42;
    @Bind(R.id.tvIntervalLength)
    TextView tvIntervalLength;
    @Bind(R.id.circle_container)
@@ -371,7 +365,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
                getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
                //notify the user with a notification
-               createNotification();
+               NotificationHelper.createWokrkoutNotification(getActivity());
 
                mWorkoutRunning = true;
             }
@@ -412,7 +406,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
                         //the receiver was not registered
                      }
 
-                     removeNotification();
+                     NotificationHelper.removeWorkoutNotification(getActivity());
 
                      //when the workout is stopped, the user can't click stop button again
                      bStop.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.ic_stopgray));
@@ -440,41 +434,6 @@ public class WorkoutFragment extends Fragment implements updateUI {
             }
          }
       });
-   }
-
-   /**
-    * Creates a permanent notification to inform the user that a workout is running
-    */
-   private void createNotification() {
-      NotificationCompat.Builder mBuilder =
-            new NotificationCompat.Builder(getActivity())
-                  .setSmallIcon(R.drawable.qaddu_notification)
-                  .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                  .setContentTitle(getString(R.string.app_name))
-                  .setOngoing(true)
-                  .setContentText(getActivity().getString(R.string.workout_running_notification));
-      Intent resultIntent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
-      PendingIntent resultPendingIntent =
-            PendingIntent.getActivity(
-                  getActivity(),
-                  0,
-                  resultIntent,
-                  PendingIntent.FLAG_UPDATE_CURRENT
-            );
-      mBuilder.setContentIntent(resultPendingIntent);
-      // Gets an instance of the NotificationManager service
-      NotificationManager mNotifyMgr = (NotificationManager) getActivity().getSystemService(Activity.NOTIFICATION_SERVICE);
-      // Builds the notification and issues it.
-      mNotifyMgr.notify(NOTIFICATION_ID, mBuilder.build());
-   }
-
-   /**
-    * Removes the "workout running" notification
-    */
-   private void removeNotification() {
-      //remove the notification
-      NotificationManager mNotifyMgr = (NotificationManager) getActivity().getSystemService(Activity.NOTIFICATION_SERVICE);
-      mNotifyMgr.cancel(NOTIFICATION_ID);
    }
 
    @Override
