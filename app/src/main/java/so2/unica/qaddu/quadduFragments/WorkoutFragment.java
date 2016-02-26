@@ -500,6 +500,9 @@ public class WorkoutFragment extends Fragment implements updateUI {
       setIntervalSpeed(mService.getIntervalSpeed());
    }
 
+   /**
+    * Sets the time shown on screen, called by the service
+    */
    public void updateTime() {
       //update the time shown on screen, called by the service
       getActivity().runOnUiThread(new Runnable() {

@@ -71,6 +71,9 @@ public class HistoryFragment extends Fragment {
       super.onResume();
    }
 
+   /**
+    * Populate the list of workouts
+    */
    private void populateList(){
 
       ArrayAdapter<WorkoutItem> listAdapter;
