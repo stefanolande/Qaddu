@@ -147,7 +147,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
    }
 
    /**
-    * Set the length of the interval for the partial counters and show it on the UI
+    * Sets the length of the interval for the partial counters and show it on the UI
     *
     * @param interval int interval length
     */
@@ -162,6 +162,11 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
    }
 
+   /**
+    * Sets the position of the floating circle (The Ball) and show it on the UI
+    *
+    * @param offset double Offset for the position's ball
+    */
    private void setCircleOffset(double offset) {
       LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mCircle.getLayoutParams();
       int margin = (int) (mContainerWidth / 30 * offset);
@@ -169,7 +174,10 @@ public class WorkoutFragment extends Fragment implements updateUI {
       mCircle.setLayoutParams(params);
    }
 
-   //This method is used to set the speed into the TextView of the instant speed
+   /**
+    * Sets the speed into TextView of the instant speed, calculating the offset and calling the setCircleOffset method
+    * @param instantSpeed double Instant speed
+    */
    private void setInstantSpeed(double instantSpeed) {
       DecimalFormat df = new DecimalFormat("#0.00");
       tvInstantSpeed.setText(df.format(instantSpeed) + " KM/H");
@@ -193,34 +201,49 @@ public class WorkoutFragment extends Fragment implements updateUI {
       setCircleOffset(offset);
    }
 
-   //This method is used to set the target speed into the TextView of the target speed
+   /**
+    * Sets the target speed into TextView of the target speed
+    * @param targetSpeed double Target Speed
+    */
    private void setTargetSpeed(double targetSpeed) {
       mTargetSpeed = targetSpeed;
       DecimalFormat decimalFormat = new DecimalFormat("0.0");
       tvTargetSpeed.setText(getActivity().getString(R.string.target) + decimalFormat.format(targetSpeed) + " KM/H");
    }
 
-   //This method is used to set the total Km traveled into the TextView of the total km
+   /**
+    * Sets the total km traveled into the TextView of the total km
+    * @param totalMeters double Total meters
+    */
    private void setTotalKm(double totalMeters) {
       double km = totalMeters / 1000;
       DecimalFormat df = new DecimalFormat("#0.00");
       tvTotalKm.setText(df.format(km) + " KM");
    }
 
-   //This method is used to set the total speed into the TextView of the total speed
+   /**
+    * Sets the total speed into the TextView of the total speed
+    * @param totalKmH double Total speed (The average speed from the start until the current)
+    */
    private void setTotalSpeed(double totalKmH) {
       DecimalFormat df = new DecimalFormat("#0.00");
       tvTotalKmH.setText(df.format(totalKmH) + " KM/H");
    }
 
-   //This method is used to set the total time into the TextView of the total time
+   /**
+    * Sets the total time into the TextView of the total time
+    * @param totalTime double Total time (The time from the start until the current)
+    */
    private void setTotalTime(float totalTime) {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("H:mm:ss");
       simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
       tvTotalTime.setText(simpleDateFormat.format(totalTime));
    }
 
-   //This method is used to set the total pace speed into the TextView of the total pace
+   /**
+    * Sets the total pace into the TextView of the total pace
+    * @param totalPace double Total pace (The average pace from the start until the current)
+    */
    private void setTotalPace(double totalPace) {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("m:ss");
       simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
