@@ -365,7 +365,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
                getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
                //notify the user with a notification
-               NotificationHelper.createWokrkoutNotification(getActivity());
+               NotificationHelper.createWorkoutNotification(getActivity());
 
                mWorkoutRunning = true;
             }

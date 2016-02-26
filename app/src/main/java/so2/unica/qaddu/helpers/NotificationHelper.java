@@ -19,7 +19,7 @@ public class NotificationHelper {
    /**
     * Creates a permanent notification to inform the user that a workout is running
     */
-   public static void createWokrkoutNotification(Activity activity) {
+   public static void createWorkoutNotification(Activity activity) {
       NotificationCompat.Builder mBuilder =
             new NotificationCompat.Builder(activity)
                   .setSmallIcon(R.drawable.qaddu_notification)
