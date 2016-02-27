@@ -34,9 +34,9 @@
     <string name="workout_date">WORKOUT DATE</string>
 
     <string-array name="y_array">
-        <item>Altitude</item>
-        <item>Pace</item>
         <item>Speed</item>
+        <item>Pace</item>
+        <item>Altitude</item>
     </string-array>
 
     <string-array name="x_array">
