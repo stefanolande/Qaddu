@@ -181,13 +181,13 @@ public class WorkoutFragment extends Fragment implements updateUI {
       Double offset = ((instantSpeed / mTargetSpeed) - 1) * 100;
 
       //correlate the speed difference ratio to the circle position on the screen
-      if (offset <= -20) {
+      if (offset <= -22.5) {
          offset = -30.0;
       } else if (offset <= -7.5) {
          offset = -15.0;
       } else if (offset <= 7.5) {
          offset = 0.0;
-      } else if (offset <= 20) {
+      } else if (offset <= 22.5) {
          offset = 15.0;
       } else {
          offset = 30.0;
