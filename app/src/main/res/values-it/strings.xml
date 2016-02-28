@@ -47,9 +47,9 @@
     </string-array>
 
     <string-array name="y_array">
-        <item>Altitudine</item>
-        <item>Passo</item>
         <item>Velocità</item>
+        <item>Passo</item>
+        <item>Altitudine</item>
     </string-array>
     <string name="all_workout_deleted">Tutti gli allenamenti sono stati eliminati</string>
     <string name="delete_all_workout_confirmation">Sei sicuro di voler eliminare TUTTI gli allenamenti?</string>
