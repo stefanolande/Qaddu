@@ -102,7 +102,7 @@ public class WorkoutService extends Service {
          public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
                case AppController.BROADCAST_NEW_GPS_POSITION:
-                  GpsPoint point = intent.getParcelableExtra(GpsPoint.QUADDU_GPS_POINT);
+                  GpsPoint point = intent.getParcelableExtra(GpsPoint.QADDU_GPS_POINT);
                   onReceivePoint(point);
                   break;
                case AppController.GPS_TURNED_OFF:
@@ -189,9 +189,9 @@ public class WorkoutService extends Service {
          //save workout into the db if it has at least one pint
          if (mPoints.size() > 0) {
 
-            DatabaseHelper.getIstance().addData(mItem, WorkoutItem.class);
+            DatabaseHelper.getInstance().addData(mItem, WorkoutItem.class);
             mItem.setPoints(mPoints);
-            DatabaseHelper.getIstance().getDao().update(mItem);
+            DatabaseHelper.getInstance().getDao().update(mItem);
 
             //notify the user
             Toast toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_workout_saved, mItem.getName()), Toast.LENGTH_SHORT);

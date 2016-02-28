@@ -78,7 +78,7 @@ public class HistoryFragment extends Fragment {
 
       ArrayAdapter<WorkoutItem> listAdapter;
 
-      final List<WorkoutItem> workouts = DatabaseHelper.getIstance().GetData(WorkoutItem.class);
+      final List<WorkoutItem> workouts = DatabaseHelper.getInstance().GetData(WorkoutItem.class);
 
       if (workouts != null) {
          listAdapter = new ArrayAdapter<WorkoutItem>(getActivity(), R.layout.item_workout_list, workouts) {

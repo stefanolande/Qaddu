@@ -140,7 +140,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          //The user is opening a workout from the history
          //get the id and fetch it from the database
          int id = bundle.getInt(HistoryFragment.WORKOUT_ID);
-         mItem = (WorkoutItem) DatabaseHelper.getIstance().getItemById(id, WorkoutItem.class);
+         mItem = (WorkoutItem) DatabaseHelper.getInstance().getItemById(id, WorkoutItem.class);
          mImportedWorkout = false;
       }
 
@@ -282,10 +282,10 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
                //remove each workout point associated with the workout item
                for (WorkoutPoint point : mItem.getPoints()) {
-                  DatabaseHelper.getIstance().removeData(point, WorkoutPoint.class);
+                  DatabaseHelper.getInstance().removeData(point, WorkoutPoint.class);
                }
                //remove the workout item
-               DatabaseHelper.getIstance().removeData(mItem, WorkoutItem.class);
+               DatabaseHelper.getInstance().removeData(mItem, WorkoutItem.class);
             }
          });
          builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {

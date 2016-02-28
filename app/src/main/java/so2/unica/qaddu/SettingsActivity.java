@@ -91,8 +91,8 @@ public class SettingsActivity extends PreferenceActivity {
                builder.setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
                   public void onClick(DialogInterface dialog, int id) {
                      //delete all the workoutItem and workoutPoints from the db
-                     DatabaseHelper.getIstance().deleteAll(WorkoutItem.class);
-                     DatabaseHelper.getIstance().deleteAll(WorkoutPoint.class);
+                     DatabaseHelper.getInstance().deleteAll(WorkoutItem.class);
+                     DatabaseHelper.getInstance().deleteAll(WorkoutPoint.class);
 
                      Toast.makeText(getApplicationContext(), R.string.all_workout_deleted, Toast.LENGTH_SHORT).show();
                   }

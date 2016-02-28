@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
-/*
+/**
 * This is the initial activity and shows the application logo
  */
 public class SplashActivity extends AppCompatActivity {

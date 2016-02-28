@@ -17,7 +17,7 @@ import so2.unica.qaddu.models.WorkoutPoint;
 
 
 /**
- * Created by Stefano
+ * Helper, implemented as a singleton, that provides read, write, delete and update method for the database via object-relational mapping.
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
@@ -37,7 +37,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
       }
    }
 
-   public static DatabaseHelper getIstance() {
+   public static DatabaseHelper getInstance() {
       return mDatabaseHelper;
    }
 
@@ -65,6 +65,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
       onCreate(sqLiteDatabase, connectionSource);
    }
 
+   /**
+    * Adds an object to the database
+    *
+    * @param object the object to save
+    * @param name   the class name of the object
+    * @param <K>    the class of the object
+    */
    public <K> void addData(K object, Class<K> name) {
       try {
          Dao dao = getDao(name);
@@ -75,6 +82,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
    }
 
+   /**
+    * Removes an object to the database
+    * @param object the object to save
+    * @param name the class name of the object
+    * @param <K> the class of the object
+    */
    public <K> void removeData(K object, Class<K> name) {
       try {
          Dao dao = getDao(name);
@@ -85,6 +98,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
    }
 
+   /**
+    * Removes all objects of a class from the db
+    * @param name objects class' name to delete
+    * @param <K> class of the objects
+    */
    public <K> void deleteAll(Class<K> name) {
       try {
          TableUtils.clearTable(getConnectionSource(), name);
@@ -93,6 +111,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
       }
    }
 
+   /**
+    * Returns a list of the objects in the db of a given class
+    * @param name objects class' name
+    * @param <K> class of the objects
+    * @return List
+    */
    public <K> List<K> GetData(Class<K> name) {
       List<K> list = null;
       try {
@@ -104,7 +128,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
       return list;
    }
 
-
+   /**
+    * Return a object of the given class with the id passed as parameter
+    * @param id id of the object you want to retrieve
+    * @param name object class' name
+    * @param <K> class of the object
+    * @return the object retrieved from the db
+    */
    public <K> Object getItemById(int id, Class<K> name) {
       Object item = null;
       try {
@@ -116,6 +146,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
       return item;
    }
 
+   /**
+    * Returns the data access object
+    * @return the dao
+    */
    public Dao<WorkoutItem, Integer> getDao() {
       try {
          return getDao(WorkoutItem.class);

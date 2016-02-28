@@ -4,10 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by Stefano on 14/02/2016.
+ * Class used to pass data between the GPSService and the WorkoutService. Models a point received from the gps.
  */
 public class GpsPoint implements Parcelable{
-    public static final String QUADDU_GPS_POINT = "QuadduGpsPoint";
+    public static final String QADDU_GPS_POINT = "QuadduGpsPoint";
     public static final Creator<GpsPoint> CREATOR = new Creator<GpsPoint>() {
         @Override
         public GpsPoint createFromParcel(Parcel in) {

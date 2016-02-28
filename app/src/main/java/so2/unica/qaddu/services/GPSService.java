@@ -75,7 +75,7 @@ public class GPSService extends Service
 
       Intent intent = new Intent();
       intent.setAction(AppController.BROADCAST_NEW_GPS_POSITION);
-      intent.putExtra(GpsPoint.QUADDU_GPS_POINT, new GpsPoint(location.getLatitude(), location.getLongitude(), location.getSpeed() * 3.6, location.getAltitude(), isSpeedCalculated));
+      intent.putExtra(GpsPoint.QADDU_GPS_POINT, new GpsPoint(location.getLatitude(), location.getLongitude(), location.getSpeed() * 3.6, location.getAltitude(), isSpeedCalculated));
       sendBroadcast(intent);
    }
 

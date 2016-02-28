@@ -13,7 +13,7 @@ import java.util.List;
 import so2.unica.qaddu.helpers.DatabaseHelper;
 
 /**
- * Created by Sergio
+ * Models a single workout done by the user. Contains basic informations and a list of WorkoutPoints.
  */
 
 @DatabaseTable(tableName = "workouts")
@@ -73,7 +73,13 @@ public class WorkoutItem {
       return id;
    }
 
+   /**
+    * Returns the current list of WorkoutPoint
+    *
+    * @return List of workout point
+    */
    public List<WorkoutPoint> getPoints() {
+      //convert the Collection<WorkoutPoint> (needed by ORMLite for the 1-N relation) in a List<WorkoutPoint>
       List<WorkoutPoint> notesArray = new ArrayList<>();
       for (WorkoutPoint note : points) {
          notesArray.add(note);
@@ -81,13 +87,20 @@ public class WorkoutItem {
       return notesArray;
    }
 
+   /**
+    * Set the list passed as the current list of workoutPoints
+    * @param points List of workout points
+    * @throws java.sql.SQLException
+    */
    public void setPoints(List<WorkoutPoint> points) throws java.sql.SQLException {
       if (this.points == null) {
-         Dao<WorkoutItem, Integer> dao = DatabaseHelper.getIstance().getDao();
+         //Initialize the collection using the dao
+         Dao<WorkoutItem, Integer> dao = DatabaseHelper.getInstance().getDao();
          this.points = dao.getEmptyForeignCollection("points");
       }
       this.points.addAll(points);
    }
+
 
    public double getAverageSpeed() {
       double speed = 0;
