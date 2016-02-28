@@ -89,6 +89,7 @@ public class WorkoutItem {
 
    /**
     * Set the list passed as the current list of workoutPoints
+    *
     * @param points List of workout points
     * @throws java.sql.SQLException
     */

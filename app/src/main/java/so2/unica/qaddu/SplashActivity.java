@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 /**
-* This is the initial activity and shows the application logo
+ * This is the initial activity and shows the application logo
  */
 public class SplashActivity extends AppCompatActivity {
    int time = 2000;

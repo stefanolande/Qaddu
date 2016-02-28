@@ -84,9 +84,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
    /**
     * Removes an object to the database
+    *
     * @param object the object to save
-    * @param name the class name of the object
-    * @param <K> the class of the object
+    * @param name   the class name of the object
+    * @param <K>    the class of the object
     */
    public <K> void removeData(K object, Class<K> name) {
       try {
@@ -100,8 +101,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
    /**
     * Removes all objects of a class from the db
+    *
     * @param name objects class' name to delete
-    * @param <K> class of the objects
+    * @param <K>  class of the objects
     */
    public <K> void deleteAll(Class<K> name) {
       try {
@@ -113,8 +115,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
    /**
     * Returns a list of the objects in the db of a given class
+    *
     * @param name objects class' name
-    * @param <K> class of the objects
+    * @param <K>  class of the objects
     * @return List
     */
    public <K> List<K> GetData(Class<K> name) {
@@ -130,9 +133,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
    /**
     * Return a object of the given class with the id passed as parameter
-    * @param id id of the object you want to retrieve
+    *
+    * @param id   id of the object you want to retrieve
     * @param name object class' name
-    * @param <K> class of the object
+    * @param <K>  class of the object
     * @return the object retrieved from the db
     */
    public <K> Object getItemById(int id, Class<K> name) {
@@ -148,6 +152,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
    /**
     * Returns the data access object
+    *
     * @return the dao
     */
    public Dao<WorkoutItem, Integer> getDao() {

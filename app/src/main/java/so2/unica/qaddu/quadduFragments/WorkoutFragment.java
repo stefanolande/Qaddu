@@ -170,6 +170,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
    /**
     * Sets the speed into TextView of the instant speed, calculating the offset and calling the setCircleOffset method
+    *
     * @param instantSpeed double Instant speed
     */
    private void setInstantSpeed(double instantSpeed) {
@@ -197,6 +198,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
    /**
     * Sets the target speed into TextView of the target speed
+    *
     * @param targetSpeed double Target Speed
     */
    private void setTargetSpeed(double targetSpeed) {
@@ -207,6 +209,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
    /**
     * Sets the total km traveled into the TextView of the total km
+    *
     * @param totalMeters double Total meters
     */
    private void setTotalKm(double totalMeters) {
@@ -217,6 +220,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
    /**
     * Sets the total speed into the TextView of the total speed
+    *
     * @param totalKmH double Total speed (The average speed from the start until the current)
     */
    private void setTotalSpeed(double totalKmH) {
@@ -226,6 +230,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
    /**
     * Sets the total time into the TextView of the total time
+    *
     * @param totalTime double Total time (The time from the start until the current)
     */
    private void setTotalTime(float totalTime) {
@@ -236,6 +241,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
    /**
     * Sets the total pace into the TextView of the total pace
+    *
     * @param totalPace double Total pace (The average pace from the start until the current)
     */
    private void setTotalPace(double totalPace) {
@@ -260,6 +266,7 @@ public class WorkoutFragment extends Fragment implements updateUI {
 
    /**
     * Sets the last X meter pace into the TextView of the last X meter pace
+    *
     * @param lastPace double Pace calculating by the last X meters
     */
    private void setIntervalPace(double lastPace) {

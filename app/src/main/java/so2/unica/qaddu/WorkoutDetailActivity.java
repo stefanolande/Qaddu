@@ -89,7 +89,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    private Boolean mImportedWorkout;
 
 
-
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
@@ -135,7 +134,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          }
 
 
-
       } else {
          //The user is opening a workout from the history
          //get the id and fetch it from the database
@@ -176,7 +174,9 @@ public class WorkoutDetailActivity extends AppCompatActivity {
          }
 
          @Override
-         public void onNothingSelected(AdapterView<?> parent) { mYAxis = yAxisType.SPEED; }
+         public void onNothingSelected(AdapterView<?> parent) {
+            mYAxis = yAxisType.SPEED;
+         }
       });
 
 
@@ -305,7 +305,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    }
 
    /**
-    *The addFloatingButtonAction method manages the send of the workout
+    * The addFloatingButtonAction method manages the send of the workout
     */
    private void addFloatingButtonAction() {
       //share a workout

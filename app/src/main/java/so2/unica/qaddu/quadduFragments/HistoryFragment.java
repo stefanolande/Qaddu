@@ -74,7 +74,7 @@ public class HistoryFragment extends Fragment {
    /**
     * Populate the list of workouts
     */
-   private void populateList(){
+   private void populateList() {
 
       ArrayAdapter<WorkoutItem> listAdapter;
 
