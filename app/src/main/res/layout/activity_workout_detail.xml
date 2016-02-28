@@ -50,7 +50,7 @@
         android:weightSum="1">
 
         <Spinner
-            android:id="@+id/spinnerX"
+            android:id="@+id/spinnerY"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -59,7 +59,7 @@
             android:textAlignment="center" />
 
         <Spinner
-            android:id="@+id/spinnerY"
+            android:id="@+id/spinnerX"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

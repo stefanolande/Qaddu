@@ -71,9 +71,9 @@ public class WorkoutDetailActivity extends AppCompatActivity {
    TextView mTvWorkoutAvgPace;
    @Bind(R.id.tvWorkoutDate)
    TextView mTvWorkoutDate;
-   @Bind(R.id.spinnerX)
-   Spinner mSpinnerY;
    @Bind(R.id.spinnerY)
+   Spinner mSpinnerY;
+   @Bind(R.id.spinnerX)
    Spinner mSpinnerX;
    @Bind(R.id.fab)
    FloatingActionButton mFloatingActionButton;
